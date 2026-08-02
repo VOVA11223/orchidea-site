@@ -93,7 +93,7 @@ export default function ProductPage() {
             onTouchEnd={handleTouchEnd}
           >
             <div
-              className="w-full h-[460px] rounded-2xl bg-cover bg-center"
+              className="w-full h-[320px] md:h-[460px] rounded-2xl bg-cover bg-center"
               style={{ backgroundImage: `url(${product.img})` }}
             />
             <button
@@ -143,7 +143,7 @@ export default function ProductPage() {
             )}
           </div>
 
-          <h1 className="font-brand text-3xl font-bold text-primary-900 mb-4 leading-tight">{product.name}</h1>
+          <h1 className="font-brand text-2xl md:text-3xl font-bold text-primary-900 mb-4 leading-tight">{product.name}</h1>
 
           <div className="text-xl text-neutral-400 mb-1">
             {product.inStock ? "Наличие: в наличии" : "Наличие: нет"}
