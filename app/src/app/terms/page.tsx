@@ -7,7 +7,7 @@ export default function TermsPage() {
 
   return (
     <div className="max-w-[1320px] mx-auto px-6 py-16">
-      <h1 className="font-brand text-4xl font-bold text-primary-900 mb-8">Условия работы</h1>
+      <h1 className="font-brand text-3xl md:text-4xl font-bold text-primary-900 mb-8 break-words">Условия работы</h1>
 
       <div className="prose prose-sm max-w-none space-y-6 text-neutral-700">
         <p>

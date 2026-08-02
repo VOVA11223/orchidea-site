@@ -86,7 +86,7 @@ export default function ProductPage() {
       <div className="max-w-[1320px] mx-auto px-6 py-10">
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* Image */}
-        <div className="space-y-3">
+        <div className="min-w-0 space-y-3">
           <div
             className="relative group touch-pan-y"
             onTouchStart={handleTouchStart}
@@ -132,7 +132,7 @@ export default function ProductPage() {
         </div>
 
         {/* Info */}
-        <div>
+        <div className="min-w-0">
           <div className="flex items-center gap-2 mb-3">
             <span className="px-3 py-1 bg-neutral-100 text-neutral-500 text-sm font-medium rounded-full">Артикул {product.article}</span>
             {product.isNew && (

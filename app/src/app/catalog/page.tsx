@@ -260,7 +260,7 @@ function CatalogInner() {
             Главная <span className="mx-1">›</span> Каталог
             {cat && <> <span className="mx-1">›</span> {pageTitle}</>}
           </div>
-          <h1 className="font-brand text-4xl font-bold text-white">{pageTitle}</h1>
+          <h1 className="font-brand text-3xl md:text-4xl font-bold text-white break-words">{pageTitle}</h1>
         </div>
       </section>
 
