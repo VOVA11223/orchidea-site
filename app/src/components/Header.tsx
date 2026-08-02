@@ -21,6 +21,13 @@ function navClass(active: boolean) {
     : `${base} text-foreground hover:text-sage-700 hover:bg-neutral-100`;
 }
 
+function mobileNavClass(active: boolean) {
+  const base = "px-4 py-3 rounded-xl text-base font-medium text-center transition-colors";
+  return active
+    ? `${base} bg-sage-500/10 text-sage-700`
+    : `${base} bg-neutral-100 text-foreground active:bg-neutral-200`;
+}
+
 export default function Header() {
   const pathname = usePathname();
   const { count, total } = useCart();
@@ -39,7 +46,7 @@ export default function Header() {
     <>
       {/* Top bar: logo + contacts */}
       <div className="bg-card border-b-2 border-dashed border-neutral-400">
-        <div className="max-w-[1320px] mx-auto px-6 py-3 flex items-center justify-between gap-6">
+        <div className="max-w-[1320px] mx-auto px-6 py-3 flex items-center justify-center lg:justify-between gap-6">
           <Link href="/" className="flex-shrink-0">
             <img src="/images/logo.jpg" alt="Орхидея" className="h-16 w-auto" />
           </Link>
@@ -90,13 +97,13 @@ export default function Header() {
           </nav>
 
           {/* Search */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xs relative">
+          <form onSubmit={handleSearch} className="flex flex-1 max-w-xs relative">
             <input
               type="text"
               placeholder="Введите артикул или часть названия"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-muted text-foreground placeholder-muted-foreground rounded-xl px-4 py-2 text-sm border border-border focus:outline-none focus:border-sage-500 pr-10"
+              className="w-full h-11 bg-muted text-foreground placeholder-muted-foreground rounded-xl px-4 text-sm border border-border focus:outline-none focus:border-sage-500 pr-10"
             />
             <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2">
               <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -109,12 +116,12 @@ export default function Header() {
           {/* Actions */}
           <div className="flex items-center gap-2 ml-auto">
             {/* Cart */}
-            <Link href="/cart" className="relative flex items-center gap-2.5 px-3 py-2 rounded-xl border border-primary-200 hover:bg-muted transition-colors">
+            <Link href="/cart" className="relative flex items-center h-11 gap-2.5 px-3 rounded-xl border border-border hover:bg-muted transition-colors">
               <span className="relative">
                 <svg className="w-6 h-6 text-foreground" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
-                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                  <line x1={3} y1={6} x2={21} y2={6} />
-                  <path d="M16 10a4 4 0 0 1-8 0" />
+                  <circle cx={9} cy={21} r={1} />
+                  <circle cx={20} cy={21} r={1} />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
                 {count > 0 && (
                   <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] bg-red-600 text-white text-[11px] rounded-full flex items-center justify-center font-medium px-1">
@@ -129,7 +136,7 @@ export default function Header() {
 
             {/* Mobile menu toggle */}
             <button
-              className="lg:hidden p-2.5 rounded-xl hover:bg-muted transition-colors text-foreground"
+              className="lg:hidden h-11 w-11 flex items-center justify-center rounded-xl border border-border hover:bg-muted transition-colors text-foreground"
               onClick={() => setOpen(v => !v)}
               aria-label="Меню"
             >
@@ -153,20 +160,23 @@ export default function Header() {
 
         {/* Mobile nav dropdown */}
         {open && (
-          <div className="lg:hidden bg-card border-t border-border px-6 py-4 flex flex-col gap-1">
+          <div className="lg:hidden bg-card border-t border-border px-6 py-4 flex flex-col gap-2">
             {NAV.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={navClass(pathname === href)}
+                className={mobileNavClass(pathname === href)}
               >
                 {label}
               </Link>
             ))}
-            <div className="mt-3 pt-3 border-t border-border">
+            <div className="mt-3 pt-3 border-t border-border flex flex-col items-center gap-1 text-center">
               <a href={phoneHref} className="text-muted-foreground text-sm">
                 {settings.phone}
+              </a>
+              <a href={`mailto:${settings.email}`} className="text-muted-foreground text-sm">
+                {settings.email}
               </a>
             </div>
           </div>

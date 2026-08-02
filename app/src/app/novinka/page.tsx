@@ -19,8 +19,8 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
       </div>
       <div className="p-3 flex flex-col flex-1">
         <div className="flex items-center justify-between gap-2 mb-1">
-          <span className="text-xs text-neutral-400">{categoryLabels.get(p.category) ?? p.category}</span>
-          <span className="text-xs text-neutral-400">Арт. {p.article}</span>
+          <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
+          <span className="text-xs text-neutral-400 truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
         </div>
         <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
           {p.name}

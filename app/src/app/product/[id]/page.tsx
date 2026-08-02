@@ -11,7 +11,7 @@ import Link from "next/link";
 export default function ProductPage() {
   const params = useParams();
   const id = params.id as string;
-  const { products } = useProducts();
+  const { products, isLoaded } = useProducts();
   const { categories } = useCategories();
 
   const categoryLabels = useMemo(() => {
@@ -29,11 +29,30 @@ export default function ProductPage() {
   useEffect(() => { setActiveImage(0); }, [id]);
   const GALLERY_SIZE = 4;
 
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const SWIPE_THRESHOLD = 40;
+
+  function handleTouchStart(e: React.TouchEvent) {
+    setTouchStartX(e.touches[0].clientX);
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    if (deltaX > SWIPE_THRESHOLD) {
+      setActiveImage(i => (i - 1 + GALLERY_SIZE) % GALLERY_SIZE);
+    } else if (deltaX < -SWIPE_THRESHOLD) {
+      setActiveImage(i => (i + 1) % GALLERY_SIZE);
+    }
+    setTouchStartX(null);
+  }
+
   const related = product
     ? products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
     : [];
 
   if (!product) {
+    if (!isLoaded) return null;
     return (
       <div className="max-w-[1320px] mx-auto px-6 py-24 text-center">
         <div className="text-4xl mb-4">🌸</div>
@@ -68,7 +87,11 @@ export default function ProductPage() {
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* Image */}
         <div className="space-y-3">
-          <div className="relative group">
+          <div
+            className="relative group touch-pan-y"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <div
               className="w-full h-[460px] rounded-2xl bg-cover bg-center"
               style={{ backgroundImage: `url(${product.img})` }}
@@ -111,7 +134,7 @@ export default function ProductPage() {
         {/* Info */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <span className="px-3 py-1 bg-neutral-100 text-neutral-500 text-xs font-medium rounded-full">Артикул {product.article}</span>
+            <span className="px-3 py-1 bg-neutral-100 text-neutral-500 text-sm font-medium rounded-full">Артикул {product.article}</span>
             {product.isNew && (
               <span className="px-2.5 py-0.5 bg-emerald-400 text-primary-900 text-xs font-bold rounded-full">NEW</span>
             )}
@@ -129,15 +152,15 @@ export default function ProductPage() {
 
           {/* Price block */}
           <div className="bg-primary-50 rounded-2xl p-6 mb-5">
-            <div className="flex items-baseline justify-center gap-3 mb-1">
+            <div className="text-center mb-1">
               <span className="text-3xl font-bold text-primary-700">{product.price} ₽</span>
               {oldPrice && (
-                <span className="text-xl text-neutral-400 line-through">{oldPrice} ₽</span>
+                <span className="text-xl text-neutral-400 line-through ml-2">{oldPrice} ₽</span>
               )}
-              <span className="text-neutral-500">/шт</span>
+              <span className="text-lg text-neutral-500 ml-1">/шт</span>
             </div>
-            <div className="text-sm text-neutral-600 text-center">
-              Минимум {product.minQty} шт · упаковка {(product.price * product.minQty).toLocaleString("ru")} ₽
+            <div className="text-base text-neutral-600 text-center">
+              Упаковка {product.minQty} шт · {(product.price * product.minQty).toLocaleString("ru")} ₽
             </div>
             {product.isSale && oldPrice && (
               <div className="mt-2 text-sm text-red-600 font-medium text-center">
@@ -159,26 +182,26 @@ export default function ProductPage() {
 
           {/* Specs */}
           <div>
-            <h3 className="font-semibold text-neutral-900 mb-3">Характеристики</h3>
+            <h3 className="font-semibold text-neutral-900 text-lg md:text-base mb-4 md:mb-3">Характеристики</h3>
             <div className="divide-y divide-neutral-100">
               {[
                 ["Артикул", product.article],
                 ["Категория", categoryLabels.get(product.category) ?? product.category],
                 ["Мин. упаковка", `${product.minQty} шт`],
               ].map(([k, v]) => (
-                <div key={k} className="flex py-2.5 text-sm">
-                  <span className="w-40 text-neutral-500 flex-shrink-0">{k}</span>
+                <div key={k} className="flex py-3.5 md:py-2.5 text-base md:text-sm">
+                  <span className="w-36 md:w-40 text-neutral-500 flex-shrink-0">{k}</span>
                   <span className="text-neutral-900 font-medium">{v}</span>
                 </div>
               ))}
               {product.colors.length > 0 && (
-                <div className="flex items-center py-2.5 text-sm">
-                  <span className="w-40 text-neutral-500 flex-shrink-0">Цвет</span>
+                <div className="flex items-center py-3.5 md:py-2.5 text-base md:text-sm">
+                  <span className="w-36 md:w-40 text-neutral-500 flex-shrink-0">Цвета в упаковке</span>
                   <span className="flex items-center gap-1.5">
                     {product.colors.map((hex, i) => (
                       <span
                         key={i}
-                        className="w-4 h-4 rounded-full border-2 border-neutral-300"
+                        className="w-5 h-5 md:w-4 md:h-4 rounded-full border-2 border-neutral-300"
                         style={{ backgroundColor: hex }}
                       />
                     ))}

@@ -14,34 +14,16 @@ export interface Category {
 
 interface CategoriesContextType {
   categories: Category[];
-  addCategory: (label: string) => void;
-  updateCategory: (id: string, label: string) => void;
-  deleteCategory: (id: string) => void;
-  addSubcategory: (categoryId: string, label: string) => void;
-  updateSubcategory: (categoryId: string, subcategoryId: string, label: string) => void;
-  deleteSubcategory: (categoryId: string, subcategoryId: string) => void;
+  isLoaded: boolean;
+  addCategory: (label: string) => Promise<void>;
+  updateCategory: (id: string, label: string) => Promise<void>;
+  deleteCategory: (id: string) => Promise<void>;
+  addSubcategory: (categoryId: string, label: string) => Promise<void>;
+  updateSubcategory: (categoryId: string, subcategoryId: string, label: string) => Promise<void>;
+  deleteSubcategory: (categoryId: string, subcategoryId: string) => Promise<void>;
 }
 
 const CategoriesContext = createContext<CategoriesContextType | undefined>(undefined);
-
-const DEFAULT_CATEGORIES: Category[] = [
-  {
-    id: "buketi",
-    label: "Букеты",
-    subcategories: [
-      { id: "astry", label: "Астры" },
-      { id: "gvozdiki", label: "Гвоздики" },
-      { id: "delfinium", label: "Дельфиниум" },
-      { id: "romashki", label: "Ромашки" },
-    ],
-  },
-  { id: "branches", label: "Ветки и зелень", subcategories: [] },
-  { id: "orchids", label: "Орхидеи", subcategories: [] },
-  { id: "peonies", label: "Пионы", subcategories: [] },
-  { id: "roses", label: "Розы", subcategories: [] },
-  { id: "tulips", label: "Тюльпаны", subcategories: [] },
-  { id: "chrysanthemums", label: "Хризантемы", subcategories: [] },
-];
 
 const TRANSLIT: Record<string, string> = {
   а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z", и: "i",
@@ -69,77 +51,89 @@ function uniqueId(label: string, taken: string[]): string {
   return `${base}-${n}`;
 }
 
+async function readJsonOrThrow(res: Response) {
+  const body = await res.json().catch(() => null);
+  if (!res.ok || !body?.ok) {
+    throw new Error(body?.error || `Запрос не выполнен (${res.status})`);
+  }
+  return body;
+}
+
 export function CategoriesProvider({ children }: { children: ReactNode }) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("orchidea_categories");
-    if (stored) {
-      try {
-        setCategories(JSON.parse(stored));
-      } catch {
-        setCategories(DEFAULT_CATEGORIES);
-      }
-    } else {
-      setCategories(DEFAULT_CATEGORIES);
-    }
-    setIsLoaded(true);
+    fetch("/api/categories")
+      .then(res => res.json())
+      .then(body => setCategories(body.ok ? body.categories : []))
+      .catch(() => setCategories([]))
+      .finally(() => setIsLoaded(true));
   }, []);
 
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("orchidea_categories", JSON.stringify(categories));
-    }
-  }, [categories, isLoaded]);
-
-  const addCategory = (label: string) => {
-    setCategories(prev => {
-      const id = uniqueId(label, prev.map(c => c.id));
-      return [...prev, { id, label, subcategories: [] }];
+  const addCategory = async (label: string) => {
+    const id = uniqueId(label, categories.map(c => c.id));
+    const category: Category = { id, label, subcategories: [] };
+    const res = await fetch("/api/admin/categories", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(category),
     });
+    const body = await readJsonOrThrow(res);
+    setCategories(prev => [...prev, body.category]);
   };
 
-  const updateCategory = (id: string, label: string) => {
-    setCategories(prev => prev.map(c => (c.id === id ? { ...c, label } : c)));
+  const putCategory = async (updated: Category) => {
+    const res = await fetch(`/api/admin/categories/${encodeURIComponent(updated.id)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    });
+    const body = await readJsonOrThrow(res);
+    setCategories(prev => prev.map(c => (c.id === updated.id ? body.category : c)));
   };
 
-  const deleteCategory = (id: string) => {
+  const updateCategory = async (id: string, label: string) => {
+    const current = categories.find(c => c.id === id);
+    if (!current) return;
+    await putCategory({ ...current, label });
+  };
+
+  const deleteCategory = async (id: string) => {
+    const res = await fetch(`/api/admin/categories/${encodeURIComponent(id)}`, { method: "DELETE" });
+    await readJsonOrThrow(res);
     setCategories(prev => prev.filter(c => c.id !== id));
   };
 
-  const addSubcategory = (categoryId: string, label: string) => {
-    setCategories(prev =>
-      prev.map(c => {
-        if (c.id !== categoryId) return c;
-        const taken = [...prev.map(p => p.id), ...c.subcategories.map(s => s.id)];
-        const id = uniqueId(label, taken);
-        return { ...c, subcategories: [...c.subcategories, { id, label }] };
-      })
-    );
+  const addSubcategory = async (categoryId: string, label: string) => {
+    const current = categories.find(c => c.id === categoryId);
+    if (!current) return;
+    const taken = [...categories.map(c => c.id), ...current.subcategories.map(s => s.id)];
+    const id = uniqueId(label, taken);
+    await putCategory({ ...current, subcategories: [...current.subcategories, { id, label }] });
   };
 
-  const updateSubcategory = (categoryId: string, subcategoryId: string, label: string) => {
-    setCategories(prev =>
-      prev.map(c =>
-        c.id !== categoryId
-          ? c
-          : { ...c, subcategories: c.subcategories.map(s => (s.id === subcategoryId ? { ...s, label } : s)) }
-      )
-    );
+  const updateSubcategory = async (categoryId: string, subcategoryId: string, label: string) => {
+    const current = categories.find(c => c.id === categoryId);
+    if (!current) return;
+    await putCategory({
+      ...current,
+      subcategories: current.subcategories.map(s => (s.id === subcategoryId ? { ...s, label } : s)),
+    });
   };
 
-  const deleteSubcategory = (categoryId: string, subcategoryId: string) => {
-    setCategories(prev =>
-      prev.map(c =>
-        c.id !== categoryId ? c : { ...c, subcategories: c.subcategories.filter(s => s.id !== subcategoryId) }
-      )
-    );
+  const deleteSubcategory = async (categoryId: string, subcategoryId: string) => {
+    const current = categories.find(c => c.id === categoryId);
+    if (!current) return;
+    await putCategory({
+      ...current,
+      subcategories: current.subcategories.filter(s => s.id !== subcategoryId),
+    });
   };
 
   return (
     <CategoriesContext.Provider
-      value={{ categories, addCategory, updateCategory, deleteCategory, addSubcategory, updateSubcategory, deleteSubcategory }}
+      value={{ categories, isLoaded, addCategory, updateCategory, deleteCategory, addSubcategory, updateSubcategory, deleteSubcategory }}
     >
       {children}
     </CategoriesContext.Provider>

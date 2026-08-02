@@ -29,8 +29,8 @@ export default function AddToCartButton({ id, name, article, price, image, minQt
   if (!cartItem) {
     return (
       <button
-        onClick={() => add({ id, name, article, price, image, qty: qty ?? minQty })}
-        className="w-full py-2 rounded-xl text-sm font-medium transition-colors bg-primary-600 hover:bg-primary-500 text-white"
+        onClick={() => add({ id, name, article, price, image, minQty, qty: qty ?? minQty })}
+        className="w-full min-h-[44px] py-2 rounded-xl text-sm font-medium transition-colors bg-primary-600 hover:bg-primary-500 text-white"
       >
         В корзину
       </button>
@@ -41,7 +41,7 @@ export default function AddToCartButton({ id, name, article, price, image, minQt
     <div className="flex items-center gap-1.5">
       <button
         onClick={() => update(id, cartItem.qty - minQty)}
-        className="w-8 h-8 flex-shrink-0 rounded-lg bg-muted hover:bg-border transition-colors text-foreground"
+        className="w-10 h-10 flex-shrink-0 rounded-lg bg-muted hover:bg-border transition-colors text-foreground"
         aria-label="Уменьшить количество"
       >
         −
@@ -52,11 +52,11 @@ export default function AddToCartButton({ id, name, article, price, image, minQt
         onChange={e => setInputValue(e.target.value)}
         onBlur={e => commitQty(e.target.value)}
         onKeyDown={e => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
-        className="w-full min-w-0 text-center text-sm font-medium bg-input text-foreground border border-border rounded-lg py-1.5 focus:outline-none focus:border-primary-400"
+        className="w-full min-w-0 h-10 text-center text-sm font-medium bg-input text-foreground border border-border rounded-lg focus:outline-none focus:border-primary-400"
       />
       <button
         onClick={() => update(id, cartItem.qty + minQty)}
-        className="w-8 h-8 flex-shrink-0 rounded-lg bg-muted hover:bg-border transition-colors text-foreground"
+        className="w-10 h-10 flex-shrink-0 rounded-lg bg-muted hover:bg-border transition-colors text-foreground"
         aria-label="Увеличить количество"
       >
         +

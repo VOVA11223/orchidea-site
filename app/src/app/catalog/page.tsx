@@ -114,10 +114,12 @@ function CatalogInner() {
       {/* Category */}
       <div>
         <div className="font-semibold text-foreground text-lg mb-3">Категория</div>
-        <div className="space-y-1">
+        <div className="space-y-2">
           <button
             onClick={() => setCat("")}
-            className={`w-full text-left px-1 py-1.5 rounded-lg text-base transition-colors ${!cat ? "text-primary-600 font-semibold" : "text-foreground hover:text-primary-600 hover:bg-neutral-100"}`}
+            className={`w-full text-left px-3 py-2.5 rounded-xl text-base border transition-colors ${
+              !cat ? "bg-primary-600 text-white border-primary-600 font-semibold" : "bg-card text-foreground border-border hover:border-primary-400"
+            }`}
           >
             Все категории
           </button>
@@ -131,7 +133,9 @@ function CatalogInner() {
                     setCat(c.id);
                     setExpandedCat(prev => prev === c.id ? null : c.id);
                   }}
-                  className={`w-full flex items-center justify-between gap-2 text-left px-1 py-1.5 rounded-lg text-base transition-colors ${cat === c.id ? "text-primary-600 font-semibold" : "text-foreground hover:text-primary-600 hover:bg-neutral-100"}`}
+                  className={`w-full flex items-center justify-between gap-2 text-left px-3 py-2.5 rounded-xl text-base border transition-colors ${
+                    cat === c.id ? "bg-primary-600 text-white border-primary-600 font-semibold" : "bg-card text-foreground border-border hover:border-primary-400"
+                  }`}
                 >
                   {c.label}
                   {hasSubcategories && (
@@ -144,12 +148,14 @@ function CatalogInner() {
                   )}
                 </button>
                 {hasSubcategories && isExpanded && (
-                  <div className="ml-3 space-y-1 border-l border-border pl-3">
+                  <div className="mt-2 ml-3 flex flex-wrap gap-2">
                     {c.subcategories.map(sc => (
                       <button
                         key={sc.id}
                         onClick={() => setCat(sc.id)}
-                        className={`w-full text-left px-1 py-1 rounded-lg text-sm transition-colors ${cat === sc.id ? "text-primary-600 font-semibold" : "text-muted-foreground hover:text-primary-600 hover:bg-neutral-100"}`}
+                        className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                          cat === sc.id ? "bg-primary-600 text-white border-primary-600 font-medium" : "bg-card text-muted-foreground border-border hover:border-primary-400"
+                        }`}
                       >
                         {sc.label}
                       </button>
@@ -163,7 +169,9 @@ function CatalogInner() {
             <button
               key={c.id}
               onClick={() => setCat(c.id)}
-              className={`w-full text-left px-1 py-1.5 rounded-lg text-base transition-colors ${cat === c.id ? "text-primary-600 font-semibold" : "text-foreground hover:text-primary-600 hover:bg-neutral-100"}`}
+              className={`w-full text-left px-3 py-2.5 rounded-xl text-base border transition-colors ${
+                cat === c.id ? "bg-primary-600 text-white border-primary-600 font-semibold" : "bg-card text-foreground border-border hover:border-primary-400"
+              }`}
             >
               {c.label}
             </button>
@@ -172,25 +180,25 @@ function CatalogInner() {
       </div>
 
       {/* Toggles */}
-      <div className="space-y-3">
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={inStockOnly}
-            onChange={e => setInStockOnly(e.target.checked)}
-            className="w-4 h-4 accent-primary-600 rounded"
-          />
-          <span className="text-sm text-foreground">Только в наличии</span>
-        </label>
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={saleOnly}
-            onChange={e => setSaleOnly(e.target.checked)}
-            className="w-4 h-4 accent-primary-600 rounded"
-          />
-          <span className="text-sm text-foreground">Только акции</span>
-        </label>
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => setInStockOnly(v => !v)}
+          className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+            inStockOnly ? "bg-primary-600 text-white border-primary-600" : "bg-card text-foreground border-border hover:border-primary-400"
+          }`}
+        >
+          В наличии
+        </button>
+        <button
+          type="button"
+          onClick={() => setSaleOnly(v => !v)}
+          className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+            saleOnly ? "bg-red-500 text-white border-red-500" : "bg-card text-foreground border-border hover:border-primary-400"
+          }`}
+        >
+          Только акции
+        </button>
       </div>
 
       {/* Price slider */}
@@ -258,7 +266,7 @@ function CatalogInner() {
 
     <div className="max-w-[1320px] mx-auto px-6 py-8">
       {/* Top bar */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
         <div className="flex-1">
           <p className="text-sm text-muted-foreground">{filtered.length} товаров</p>
         </div>
@@ -357,8 +365,8 @@ function CatalogInner() {
                   </div>
                   <div className="p-3 flex flex-col flex-1">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-xs text-muted-foreground">{categoryLabels.get(p.category) ?? p.category}</span>
-                      <span className="text-xs text-muted-foreground">Арт. {p.article}</span>
+                      <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
+                      <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                     </div>
                     <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                       {p.name}
@@ -394,7 +402,16 @@ function CatalogInner() {
 
           {/* Пагинация */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-10">
+            <div className="flex justify-center mt-10">
+            <div className="flex items-center justify-center gap-2.5 sm:gap-2 flex-wrap border border-border rounded-full px-3 py-2 bg-card">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
+                aria-label="Предыдущая страница"
+              >
+                «
+              </button>
               {pageNumbers.map((n, i) =>
                 n === "..." ? (
                   <span key={`dots-${i}`} className="px-2 text-muted-foreground">...</span>
@@ -402,7 +419,7 @@ function CatalogInner() {
                   <button
                     key={n}
                     onClick={() => setPage(n as number)}
-                    className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${
+                    className={`w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm font-medium transition-colors ${
                       currentPage === n
                         ? "bg-primary-600 text-white"
                         : "text-muted-foreground hover:bg-neutral-100"
@@ -415,11 +432,12 @@ function CatalogInner() {
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="w-9 h-9 rounded-full text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
+                className="w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
                 aria-label="Следующая страница"
               >
                 »
               </button>
+            </div>
             </div>
           )}
         </div>
@@ -432,8 +450,8 @@ function CatalogInner() {
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-multiply pointer-events-none"
           style={{ backgroundImage: "url(/images/paper-texture.jpg)" }}
         />
-        <div className="max-w-[1320px] mx-auto px-6 py-14 text-muted-foreground leading-relaxed space-y-4 relative">
-          <p>
+        <div className="max-w-[1320px] mx-auto px-6 py-8 md:py-14 text-muted-foreground leading-relaxed space-y-4 relative">
+          <p className="hidden md:block">
             Предлагаем Вам искусственные цветы оптом.
             Искусственные цветы не нужно поливать, удобрять, пересаживать, прятать от сквозняков
             и носить по квартире в поисках идеального освещения. Они стойко переносят взаимодействие с детьми
@@ -441,11 +459,11 @@ function CatalogInner() {
             Такие растения станут настоящим спасением для аллергиков и порадуют тех,
             кто мечтает о зелени в квартире, но никак не освоит тонкости ботаники.
           </p>
-          <p>
+          <p className="hidden md:block">
             Кроме всего прочего современные материалы, которые используют для изготовления
             искусственных растений совсем не токсичны и никак не вредят окружающей среде.
           </p>
-          <p className="text-lg font-medium text-primary-900">
+          <p className="text-base md:text-lg font-medium text-primary-900">
             Мы предлагаем широкий выбор искусственных цветов различных размеров,
             форм и оттенков, которые будут уместны в самых разных жизненных ситуациях.
           </p>

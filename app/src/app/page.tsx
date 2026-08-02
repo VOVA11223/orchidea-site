@@ -31,12 +31,12 @@ export default function HomePage() {
       {/* Hero */}
       <section className="bg-sage-500 relative overflow-hidden border-t border-dashed border-white/40">
         <div
-          className="absolute inset-0 pointer-events-none bg-cover bg-center"
+          className="absolute inset-0 pointer-events-none bg-cover bg-[position:15%_center] md:bg-center"
           style={{ backgroundImage: "url(/images/hero-bg.png)" }}
         />
 
         <div className="max-w-[1320px] mx-auto px-6 pt-16 pb-20 md:pt-28 md:pb-32 relative z-10">
-          <div className="max-w-xl bg-white/70 backdrop-blur-sm rounded-3xl p-6 -m-6 md:bg-transparent md:backdrop-blur-none md:rounded-none md:p-0 md:m-0">
+          <div className="max-w-xl mx-auto text-center md:mx-0 md:text-left">
             <h1 className="font-brand text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-navy-900">
               Искусственные<br />цветы оптом
             </h1>
@@ -46,10 +46,10 @@ export default function HomePage() {
             <p className="text-navy-800/80 text-base md:text-lg leading-relaxed mb-10">
               Большой выбор ассортимента цветов и композиционных букетов.
             </p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:justify-start">
               <Link
                 href="/catalog"
-                className="block px-10 py-8 bg-white hover:bg-neutral-50 transition-colors rounded-full font-semibold text-navy-900 shadow-sm"
+                className="inline-flex items-center justify-center h-14 px-8 bg-white hover:bg-neutral-50 transition-colors rounded-full font-semibold text-navy-900 shadow-sm"
               >
                 Смотреть каталог
               </Link>
@@ -106,15 +106,15 @@ export default function HomePage() {
         </svg>
 
       {/* О нас */}
-      <section id="o-nas" className="max-w-[1320px] mx-auto px-6 py-14 scroll-mt-24 relative">
-        <div className="bg-white rounded-3xl border border-neutral-200 shadow-sm p-8 md:p-14">
-          <div className="flex justify-center mb-8">
+      <section id="o-nas" className="max-w-[1320px] mx-auto px-6 py-10 md:py-14 scroll-mt-24 relative">
+        <div className="bg-white rounded-3xl border border-neutral-200 shadow-sm p-6 md:p-14">
+          <div className="flex justify-center mb-5 md:mb-8">
             <span className="px-4 py-1.5 bg-neutral-100 text-neutral-500 text-xs font-semibold tracking-wide rounded-full">О НАС</span>
           </div>
           <div className="flex flex-col md:flex-row gap-10 md:items-center justify-center">
-            <div className="max-w-xl">
-              <h2 className="font-brand text-4xl font-bold text-primary-900 mb-4">Несколько слов о нас</h2>
-              <p className="text-neutral-600 text-lg leading-relaxed mb-8">
+            <div className="max-w-xl text-center md:text-left">
+              <h2 className="font-brand text-3xl md:text-4xl font-bold text-primary-900 mb-3 md:mb-4">Несколько слов о нас</h2>
+              <p className="text-neutral-600 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
                 Наша компания работает с 2011 года и активно развивается, постоянно расширяя и поддерживая ассортимент товаров.
                 Мы рады приветствовать Вас на нашем сайте и надеемся на долгое и взаимовыгодное сотрудничество!
               </p>
@@ -125,7 +125,7 @@ export default function HomePage() {
                 Заказать звонок
               </button>
             </div>
-            <div className="flex flex-row md:flex-col gap-4 flex-shrink-0">
+            <div className="hidden md:flex md:flex-col gap-4 flex-shrink-0 self-center">
               <div className="w-44 md:w-52 bg-neutral-50 rounded-2xl p-6 text-center">
                 <svg className="w-9 h-9 text-gold-500 mx-auto" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                   <circle cx={12} cy={8} r={5} />
@@ -149,13 +149,13 @@ export default function HomePage() {
       </section>
 
       {/* Каталог товаров */}
-      <section className="max-w-[1320px] mx-auto px-6 pb-14 relative">
-        <h2 className="font-brand text-4xl font-bold text-primary-900 text-center mb-10">Каталог товаров</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+      <section className="max-w-[1320px] mx-auto px-6 pb-10 md:pb-14 relative">
+        <h2 className="font-brand text-3xl md:text-4xl font-bold text-primary-900 text-center mb-6 md:mb-10">Каталог товаров</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-10">
           {catalogPreview.map(p => (
             <div key={p.id} className="bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
               <div className="relative">
-                <ProductCardImage img={p.img} category={p.category} className="h-44" />
+                <ProductCardImage img={p.img} category={p.category} className="h-32 md:h-44" />
                 <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                   {p.isNew && <span className="px-2 py-0.5 bg-emerald-400 text-primary-900 text-xs font-bold rounded-full">NEW</span>}
                   {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
@@ -164,8 +164,8 @@ export default function HomePage() {
               </div>
               <div className="p-3 flex flex-col flex-1">
                 <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="text-xs text-muted-foreground">{categoryLabels.get(p.category) ?? p.category}</span>
-                  <span className="text-xs text-muted-foreground">Арт. {p.article}</span>
+                  <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
+                  <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                 </div>
                 <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                   {p.name}
@@ -212,20 +212,32 @@ export default function HomePage() {
             backgroundImage: "url(/images/paper-texture.jpg)",
           }}
         />
-        <div className="max-w-[1320px] mx-auto px-6 py-16 relative">
-          <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-center mb-10">
-            <div className="-rotate-[1.4deg]">
+        <div className="max-w-[1320px] mx-auto px-6 py-10 md:py-16 relative">
+          <div className="hidden md:grid md:grid-cols-[1fr_2fr] gap-6 md:gap-10 items-center mb-6 md:mb-10">
+            <div className="-rotate-[1.4deg] text-center md:text-left">
               <div className="text-primary-500 text-sm font-medium mb-2">Очень просто и доступно каждому</div>
-              <h2 className="font-brand text-4xl font-bold text-primary-900">Этапы нашей работы</h2>
+              <h2 className="font-brand text-3xl md:text-4xl font-bold text-primary-900">Этапы нашей работы</h2>
             </div>
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
               {STEPS.map(s => (
-                <div key={s.n} className="border-2 border-dashed border-neutral-500 rounded-2xl p-6 bg-white/55 backdrop-blur-sm">
-                  <div className="text-primary-500 text-4xl font-bold mb-3">{s.n}.</div>
-                  <div className="font-semibold text-primary-900 text-lg mb-1.5">{s.title}</div>
+                <div key={s.n} className="border-2 border-dashed border-neutral-500 rounded-2xl p-5 md:p-6 bg-white/55 backdrop-blur-sm text-center md:text-left">
+                  <div className="text-primary-500 text-3xl md:text-4xl font-bold mb-2 md:mb-3">{s.n}.</div>
+                  <div className="font-semibold text-primary-900 text-base md:text-lg mb-1.5">{s.title}</div>
                   <div className="text-neutral-600 text-sm leading-relaxed">{s.desc}</div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Mobile: приглашение приехать на склад вместо этапов работы */}
+          <div className="md:hidden mb-6">
+            <div className="border-2 border-dashed border-neutral-500 rounded-2xl p-5 bg-white/55 backdrop-blur-sm text-center">
+              <div className="font-semibold text-primary-900 text-lg mb-2">
+                Наш склад находится по адресу {settings.address.replace("\n", " ")}
+              </div>
+              <div className="text-neutral-600 text-sm leading-relaxed">
+                Вы можете приехать к нам самостоятельно, предварительно связавшись с нами.
+              </div>
             </div>
           </div>
           <div className="text-center">
@@ -252,7 +264,7 @@ export default function HomePage() {
             title="Орхидея на карте — ул. имени Менделеева, 72, Волгоград"
           />
         </div>
-        <div className="relative h-[560px] flex items-end justify-center pb-8 pointer-events-none">
+        <div className="relative h-[380px] md:h-[560px] flex items-end justify-center pb-16 md:pb-10 pointer-events-none">
           <a
             href="https://yandex.ru/maps/?text=Волгоград%2C%20улица%20имени%20Менделеева%2C%2072"
             target="_blank"

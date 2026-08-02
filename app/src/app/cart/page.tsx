@@ -4,7 +4,7 @@ import { useCart } from "@/lib/cart-context";
 import { useSettings } from "@/lib/settings-context";
 import Link from "next/link";
 
-function CartQtyInput({ id, qty }: { id: string; qty: number }) {
+function CartQtyInput({ id, qty, minQty }: { id: string; qty: number; minQty: number }) {
   const { update } = useCart();
   const [value, setValue] = useState(String(qty));
 
@@ -20,7 +20,8 @@ function CartQtyInput({ id, qty }: { id: string; qty: number }) {
   return (
     <input
       type="number"
-      min={1}
+      min={minQty}
+      step={minQty}
       value={value}
       onChange={e => setValue(e.target.value)}
       onBlur={e => commit(e.target.value)}
@@ -100,12 +101,12 @@ export default function CartPage() {
                   <div className="flex items-center justify-between mt-3">
                     <div className="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
                       <button
-                        onClick={() => update(item.id, item.qty - 1)}
+                        onClick={() => update(item.id, item.qty - item.minQty)}
                         className="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold"
                       >−</button>
-                      <CartQtyInput id={item.id} qty={item.qty} />
+                      <CartQtyInput id={item.id} qty={item.qty} minQty={item.minQty} />
                       <button
-                        onClick={() => update(item.id, item.qty + 1)}
+                        onClick={() => update(item.id, item.qty + item.minQty)}
                         className="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold"
                       >+</button>
                     </div>

@@ -43,6 +43,9 @@ export default function AdminProductsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const toggleColor = (hex: string) => {
     setFormData(prev => ({
@@ -71,42 +74,61 @@ export default function AdminProductsPage() {
     }));
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({
-          ...prev,
-          img: reader.result as string
-        }));
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    setUploading(true);
+    setFormError(null);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "Не удалось загрузить фото");
+      setFormData(prev => ({ ...prev, img: data.url }));
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Не удалось загрузить фото");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      updateProduct(editingId, { ...formData, id: editingId, article: editingId });
-      setEditingId(null);
-    } else {
-      if (products.some(p => p.id === formData.id)) {
-        alert(`Товар с артикулом "${formData.id}" уже существует. Укажите другой артикул.`);
-        return;
-      }
-      addProduct({ ...formData, id: formData.id, article: formData.id });
+    if (!editingId && products.some(p => p.id === formData.id)) {
+      setFormError(`Товар с артикулом "${formData.id}" уже существует. Укажите другой артикул.`);
+      return;
     }
-    setFormData(EMPTY_PRODUCT);
+    setSubmitting(true);
+    setFormError(null);
+    try {
+      if (editingId) {
+        await updateProduct(editingId, { ...formData, id: editingId, article: editingId });
+        setEditingId(null);
+      } else {
+        await addProduct({ ...formData, id: formData.id, article: formData.id });
+      }
+      setFormData(EMPTY_PRODUCT);
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Не удалось сохранить товар");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleEdit = (product: Product) => {
     setFormData(product);
     setEditingId(product.id);
+    setFormError(null);
   };
 
-  const handleDelete = (id: string) => {
-    deleteProduct(id);
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteProduct(id);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Не удалось удалить товар");
+    }
   };
 
   const inputClass = "w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400";
@@ -128,7 +150,7 @@ export default function AdminProductsPage() {
       <div className="max-w-[1320px] mx-auto px-6 py-14">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Form */}
-          <div className="lg:col-span-1">
+          <div className="min-w-0 lg:col-span-1">
             <div className="bg-white rounded-2xl p-8 border border-neutral-200 sticky top-6">
               <h2 className="text-xl font-semibold text-primary-900 mb-6">
                 {editingId ? "Редактировать товар" : "Добавить новый товар"}
@@ -290,8 +312,10 @@ export default function AdminProductsPage() {
                     type="file"
                     onChange={handleImageUpload}
                     accept="image/*"
-                    className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-500 focus:outline-none focus:border-primary-400 file:bg-primary-600 file:border-0 file:rounded-full file:px-3 file:py-1 file:text-white file:cursor-pointer file:mr-2"
+                    disabled={uploading}
+                    className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-500 focus:outline-none focus:border-primary-400 file:bg-primary-600 file:border-0 file:rounded-full file:px-3 file:py-1 file:text-white file:cursor-pointer file:mr-2 disabled:opacity-60"
                   />
+                  {uploading && <p className="mt-2 text-xs text-neutral-400">Загрузка фото...</p>}
                   {formData.img && (
                     <div className="mt-3 rounded-lg overflow-hidden border border-neutral-200">
                       <img
@@ -351,12 +375,17 @@ export default function AdminProductsPage() {
                   </label>
                 </div>
 
+                {formError && (
+                  <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{formError}</p>
+                )}
+
                 <div className="flex gap-2 pt-4">
                   <button
                     type="submit"
-                    className="flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-500 transition-colors rounded-full text-white font-medium"
+                    disabled={submitting || uploading}
+                    className="flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-500 transition-colors rounded-full text-white font-medium disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {editingId ? "Сохранить" : "Добавить"}
+                    {submitting ? "Сохранение..." : editingId ? "Сохранить" : "Добавить"}
                   </button>
                   {editingId && (
                     <button
@@ -364,6 +393,7 @@ export default function AdminProductsPage() {
                       onClick={() => {
                         setEditingId(null);
                         setFormData(EMPTY_PRODUCT);
+                        setFormError(null);
                       }}
                       className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 transition-colors rounded-full text-neutral-600"
                     >
@@ -376,7 +406,7 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Products list */}
-          <div className="lg:col-span-2">
+          <div className="min-w-0 lg:col-span-2">
             <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
               <div className="bg-neutral-50 px-8 py-4 border-b border-neutral-200">
                 <h2 className="text-lg font-semibold text-primary-900">Товары в каталоге ({products.length})</h2>

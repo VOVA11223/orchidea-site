@@ -16,12 +16,20 @@ export default function AdminCategoriesPage() {
 
   const inputClass = "w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400";
 
-  const handleAddCategory = (e: React.FormEvent) => {
+  function reportError(err: unknown) {
+    alert(err instanceof Error ? err.message : "Не удалось выполнить действие");
+  }
+
+  const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     const label = newCategory.trim();
     if (!label) return;
-    addCategory(label);
-    setNewCategory("");
+    try {
+      await addCategory(label);
+      setNewCategory("");
+    } catch (err) {
+      reportError(err);
+    }
   };
 
   const startEditCategory = (id: string, label: string) => {
@@ -29,25 +37,37 @@ export default function AdminCategoriesPage() {
     setEditingCategoryLabel(label);
   };
 
-  const saveEditCategory = () => {
+  const saveEditCategory = async () => {
     if (editingCategoryId && editingCategoryLabel.trim()) {
-      updateCategory(editingCategoryId, editingCategoryLabel.trim());
+      try {
+        await updateCategory(editingCategoryId, editingCategoryLabel.trim());
+      } catch (err) {
+        reportError(err);
+      }
     }
     setEditingCategoryId(null);
     setEditingCategoryLabel("");
   };
 
-  const handleDeleteCategory = (id: string, label: string) => {
+  const handleDeleteCategory = async (id: string, label: string) => {
     if (confirm(`Удалить категорию «${label}» вместе со всеми подкатегориями?`)) {
-      deleteCategory(id);
+      try {
+        await deleteCategory(id);
+      } catch (err) {
+        reportError(err);
+      }
     }
   };
 
-  const handleAddSubcategory = (categoryId: string) => {
+  const handleAddSubcategory = async (categoryId: string) => {
     const label = (subInputs[categoryId] ?? "").trim();
     if (!label) return;
-    addSubcategory(categoryId, label);
-    setSubInputs(prev => ({ ...prev, [categoryId]: "" }));
+    try {
+      await addSubcategory(categoryId, label);
+      setSubInputs(prev => ({ ...prev, [categoryId]: "" }));
+    } catch (err) {
+      reportError(err);
+    }
   };
 
   const startEditSub = (categoryId: string, subcategoryId: string, label: string) => {
@@ -55,17 +75,25 @@ export default function AdminCategoriesPage() {
     setEditingSubLabel(label);
   };
 
-  const saveEditSub = () => {
+  const saveEditSub = async () => {
     if (editingSub && editingSubLabel.trim()) {
-      updateSubcategory(editingSub.categoryId, editingSub.subcategoryId, editingSubLabel.trim());
+      try {
+        await updateSubcategory(editingSub.categoryId, editingSub.subcategoryId, editingSubLabel.trim());
+      } catch (err) {
+        reportError(err);
+      }
     }
     setEditingSub(null);
     setEditingSubLabel("");
   };
 
-  const handleDeleteSubcategory = (categoryId: string, subcategoryId: string, label: string) => {
+  const handleDeleteSubcategory = async (categoryId: string, subcategoryId: string, label: string) => {
     if (confirm(`Удалить подкатегорию «${label}»?`)) {
-      deleteSubcategory(categoryId, subcategoryId);
+      try {
+        await deleteSubcategory(categoryId, subcategoryId);
+      } catch (err) {
+        reportError(err);
+      }
     }
   };
 
@@ -85,7 +113,7 @@ export default function AdminCategoriesPage() {
       <div className="max-w-[1320px] mx-auto px-6 py-14">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Add category form */}
-          <div className="lg:col-span-1">
+          <div className="min-w-0 lg:col-span-1">
             <div className="bg-white rounded-2xl p-8 border border-neutral-200 sticky top-6">
               <h2 className="text-xl font-semibold text-primary-900 mb-6">Добавить категорию</h2>
               <form onSubmit={handleAddCategory} className="space-y-4">
@@ -111,7 +139,7 @@ export default function AdminCategoriesPage() {
           </div>
 
           {/* Categories list */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="min-w-0 lg:col-span-2 space-y-4">
             <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
               <div className="bg-neutral-50 px-8 py-4 border-b border-neutral-200">
                 <h2 className="text-lg font-semibold text-primary-900">Категории ({categories.length})</h2>

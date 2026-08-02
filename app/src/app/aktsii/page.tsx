@@ -102,8 +102,8 @@ export default function AktsiiPage() {
                 </div>
                 <div className="p-3 flex flex-col flex-1">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-xs text-muted-foreground">{categoryLabels.get(p.category) ?? p.category}</span>
-                    <span className="text-xs text-muted-foreground">Арт. {p.article}</span>
+                    <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
+                    <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                   </div>
                   <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                     {p.name}

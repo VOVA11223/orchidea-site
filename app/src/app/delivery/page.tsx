@@ -3,11 +3,11 @@ export default function DeliveryPage() {
     <div>
       {/* Hero */}
       <section className="bg-sage-500 bg-cover bg-center" style={{ backgroundImage: "linear-gradient(rgba(26,36,32,0.45), rgba(26,36,32,0.45)), url(/images/hero-bg.png)" }}>
-        <div className="max-w-[1320px] mx-auto px-6 py-10">
+        <div className="max-w-[1320px] mx-auto px-6 py-8 md:py-10">
           <div className="text-white/60 text-sm mb-2">
             Главная <span className="mx-1">›</span> Доставка
           </div>
-          <h1 className="font-brand text-4xl font-bold text-white mb-2">Доставка и логистика</h1>
+          <h1 className="font-brand text-3xl md:text-4xl font-bold text-white mb-2">Доставка и логистика</h1>
           <p className="text-white/80 max-w-2xl">
             Быстрая и надежная доставка товаров по Волгоградской области. Отгрузка от 1 дня.
           </p>
@@ -15,23 +15,23 @@ export default function DeliveryPage() {
       </section>
 
       {/* Delivery info */}
-      <section className="max-w-[1320px] mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-primary-50 rounded-2xl p-8 border-2 border-dashed border-neutral-500">
+      <section className="max-w-[1320px] mx-auto px-6 py-10 md:py-16">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-8 mb-10 md:mb-16">
+          <div className="bg-primary-50 rounded-2xl p-6 md:p-8 border-2 border-dashed border-neutral-500">
             <div className="text-4xl text-primary-500 mb-4">⚡</div>
             <h3 className="font-semibold text-lg text-primary-900 mb-3">Быстрая отгрузка</h3>
             <p className="text-neutral-600 text-sm">
               Отгрузим ваш заказ от 1 дня с момента поступления. Срочные заказы возможны по согласованию.
             </p>
           </div>
-          <div className="bg-primary-50 rounded-2xl p-8 border-2 border-dashed border-neutral-500">
+          <div className="bg-primary-50 rounded-2xl p-6 md:p-8 border-2 border-dashed border-neutral-500">
             <div className="text-4xl text-primary-500 mb-4">🚚</div>
             <h3 className="font-semibold text-lg text-primary-900 mb-3">Доставка</h3>
             <p className="text-neutral-600 text-sm">
               Доставляем по Волгоградской области. Возможна самовывоз со склада в Волгограде.
             </p>
           </div>
-          <div className="bg-primary-50 rounded-2xl p-8 border-2 border-dashed border-neutral-500">
+          <div className="bg-primary-50 rounded-2xl p-6 md:p-8 border-2 border-dashed border-neutral-500">
             <div className="text-4xl text-primary-500 mb-4">📦</div>
             <h3 className="font-semibold text-lg text-primary-900 mb-3">Упаковка</h3>
             <p className="text-neutral-600 text-sm">
@@ -40,9 +40,9 @@ export default function DeliveryPage() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div>
-            <h2 className="font-brand text-3xl font-bold text-primary-900 mb-6">Зона доставки</h2>
+            <h2 className="font-brand text-2xl md:text-3xl font-bold text-primary-900 mb-4 md:mb-6">Зона доставки</h2>
             <div className="space-y-4">
               <div className="flex gap-3">
                 <span className="text-primary-500 font-bold text-xl">✓</span>
@@ -69,7 +69,7 @@ export default function DeliveryPage() {
           </div>
 
           <div>
-            <h2 className="font-brand text-3xl font-bold text-primary-900 mb-6">Стоимость доставки</h2>
+            <h2 className="font-brand text-2xl md:text-3xl font-bold text-primary-900 mb-4 md:mb-6">Стоимость доставки</h2>
             <div className="space-y-4">
               <div className="bg-neutral-50 rounded-xl p-4 border-2 border-dashed border-neutral-500">
                 <div className="flex justify-between items-start mb-2">
@@ -105,9 +105,9 @@ export default function DeliveryPage() {
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-multiply pointer-events-none"
           style={{ backgroundImage: "url(/images/paper-texture.jpg)" }}
         />
-        <div className="max-w-[1320px] mx-auto px-6 py-16 relative">
-          <h2 className="font-brand text-3xl font-bold text-primary-900 mb-12 text-center">Процесс заказа и доставки</h2>
-          <div className="grid md:grid-cols-4 gap-6">
+        <div className="max-w-[1320px] mx-auto px-6 py-10 md:py-16 relative">
+          <h2 className="font-brand text-2xl md:text-3xl font-bold text-primary-900 mb-8 md:mb-12 text-center">Процесс заказа и доставки</h2>
+          <div className="grid md:grid-cols-4 gap-4 md:gap-6">
             <div className="bg-white rounded-2xl p-6 border-2 border-dashed border-neutral-500">
               <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-lg mb-4">1</div>
               <h3 className="font-semibold text-primary-900 mb-3">Оформление заказа</h3>
