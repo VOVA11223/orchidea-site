@@ -6,8 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatPhoneDigits, parsePhoneInput } from "@/lib/phone";
 
-const DELIVERY_PRICE = 500;
-
 export default function CheckoutPage() {
   const { items, total, clear } = useCart();
   const { addOrder } = useOrders();
@@ -33,8 +31,6 @@ export default function CheckoutPage() {
       </div>
     );
   }
-
-  const finalTotal = total + DELIVERY_PRICE;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -215,15 +211,11 @@ export default function CheckoutPage() {
                 <span className="text-neutral-600">Товары</span>
                 <span className="font-medium">{total.toLocaleString("ru")} ₽</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-neutral-600">Доставка</span>
-                <span className="font-medium">{DELIVERY_PRICE.toLocaleString("ru")} ₽</span>
-              </div>
             </div>
 
             <div className="border-t border-neutral-200 pt-4 flex justify-between text-lg font-bold">
               <span>Итого</span>
-              <span className="text-primary-600">{finalTotal.toLocaleString("ru")} ₽</span>
+              <span className="text-primary-600">{total.toLocaleString("ru")} ₽</span>
             </div>
           </div>
         </div>

@@ -67,7 +67,7 @@ export default function CartPage() {
           <h1 className="font-brand text-2xl font-bold text-primary-900">Корзина</h1>
           <p className="text-sm text-neutral-500 mt-0.5">{items.length} позиций</p>
         </div>
-        <button onClick={clear} className="text-sm text-red-500 hover:text-red-700 transition-colors flex items-center gap-1.5">
+        <button onClick={clear} className="px-4 py-2 border border-red-200 rounded-full text-sm text-red-500 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-1.5">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <polyline points="3 6 5 6 21 6" />
             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />

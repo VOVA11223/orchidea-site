@@ -46,6 +46,13 @@ export default function AdminProductsPage() {
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filteredProducts = products.filter(p => {
+    const q = search.trim().toLowerCase();
+    if (!q) return true;
+    return p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q);
+  });
 
   const toggleColor = (hex: string) => {
     setFormData(prev => ({
@@ -408,8 +415,23 @@ export default function AdminProductsPage() {
           {/* Products list */}
           <div className="min-w-0 lg:col-span-2">
             <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
-              <div className="bg-neutral-50 px-8 py-4 border-b border-neutral-200">
-                <h2 className="text-lg font-semibold text-primary-900">Товары в каталоге ({products.length})</h2>
+              <div className="bg-neutral-50 px-8 py-4 border-b border-neutral-200 flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-lg font-semibold text-primary-900">
+                  Товары в каталоге ({filteredProducts.length}{search.trim() ? ` из ${products.length}` : ""})
+                </h2>
+                <div className="relative w-full sm:w-64">
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    placeholder="Поиск по названию или артикулу"
+                    className="w-full pl-9 pr-3 py-2 bg-white border border-neutral-200 rounded-lg text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400"
+                  />
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <circle cx={11} cy={11} r={8} />
+                    <path d="m21 21-4.35-4.35" />
+                  </svg>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -427,7 +449,7 @@ export default function AdminProductsPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-neutral-100">
-                    {products.map(product => (
+                    {filteredProducts.map(product => (
                       <tr key={product.id} className="hover:bg-neutral-50 transition-colors">
                         <td className="px-6 py-3">
                           <img
@@ -449,7 +471,9 @@ export default function AdminProductsPage() {
                         </td>
                         <td className="px-6 py-3 text-sm">
                           <div className="flex gap-1 flex-wrap">
-                            {product.inStock && <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">В наличии</span>}
+                            {product.inStock
+                              ? <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">В наличии</span>
+                              : <span className="px-2 py-1 bg-neutral-200 text-neutral-500 rounded text-xs">Не в наличии</span>}
                             {product.isNew && <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">NEW</span>}
                             {product.isSale && <span className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Акция</span>}
                           </div>

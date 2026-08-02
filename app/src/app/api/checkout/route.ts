@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "orchidea_opt@mail.ru";
-const DELIVERY_PRICE = 500;
 
 function escapeHtml(value: string): string {
   return value
@@ -51,13 +50,12 @@ export async function POST(req: NextRequest) {
     deliveryAddress: deliveryAddress.trim(),
     deliveryDateTime,
     deliveryType: "courier" as const,
-    deliveryPrice: DELIVERY_PRICE,
+    deliveryPrice: 0,
     paymentStatus: "pending" as const,
     orderStatus: "new" as const,
     notes,
   };
 
-  const grandTotal = order.totalPrice + order.deliveryPrice;
   const createdAtText = new Date(order.createdAt).toLocaleString("ru-RU");
 
   const itemsText = orderItems
@@ -74,9 +72,7 @@ ${order.deliveryDateTime ? `Желаемое время доставки: ${orde
 Товары:
 ${itemsText}
 
-Сумма товаров: ${order.totalPrice.toLocaleString("ru")} ₽
-Доставка: ${order.deliveryPrice.toLocaleString("ru")} ₽
-Итого: ${grandTotal.toLocaleString("ru")} ₽`;
+Итого: ${order.totalPrice.toLocaleString("ru")} ₽`;
 
   const itemsHtml = orderItems
     .map(
@@ -115,9 +111,7 @@ ${itemsText}
     </table>
 
     <table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:14px;">
-      <tr><td style="padding:2px 0;color:#7A8B80;">Сумма товаров</td><td style="padding:2px 0;text-align:right;">${order.totalPrice.toLocaleString("ru")} ₽</td></tr>
-      <tr><td style="padding:2px 0;color:#7A8B80;">Доставка</td><td style="padding:2px 0;text-align:right;">${order.deliveryPrice.toLocaleString("ru")} ₽</td></tr>
-      <tr><td style="padding:8px 0 0;font-weight:700;font-size:16px;">Итого</td><td style="padding:8px 0 0;text-align:right;font-weight:700;font-size:16px;color:#2F7231;">${grandTotal.toLocaleString("ru")} ₽</td></tr>
+      <tr><td style="padding:8px 0 0;font-weight:700;font-size:16px;">Итого</td><td style="padding:8px 0 0;text-align:right;font-weight:700;font-size:16px;color:#2F7231;">${order.totalPrice.toLocaleString("ru")} ₽</td></tr>
     </table>
   </div>`;
 

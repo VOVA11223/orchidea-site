@@ -79,7 +79,7 @@ function OrderSuccessInner() {
             <div className="flex justify-between items-center">
               <span className="text-lg font-semibold text-neutral-900">Сумма к оплате:</span>
               <span className="text-3xl font-bold text-primary-600">
-                {(order.totalPrice + order.deliveryPrice).toLocaleString("ru")} ₽
+                {order.totalPrice.toLocaleString("ru")} ₽
               </span>
             </div>
           </div>
