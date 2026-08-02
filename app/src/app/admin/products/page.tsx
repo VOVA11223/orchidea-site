@@ -1,0 +1,452 @@
+"use client";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { useProducts } from "@/lib/products-context";
+import type { Product } from "@/lib/products-context";
+import { useCategories } from "@/lib/categories-context";
+
+const COLOR_PALETTE = [
+  { hex: "#e53e3e", name: "Красный" },
+  { hex: "#fc8181", name: "Розовый" },
+  { hex: "#ed64a6", name: "Малиновый" },
+  { hex: "#d69fb0", name: "Пудровый" },
+  { hex: "#f97316", name: "Оранжевый" },
+  { hex: "#f6e05e", name: "Жёлтый" },
+  { hex: "#faf089", name: "Светло-жёлтый" },
+  { hex: "#fdf6e3", name: "Кремовый" },
+  { hex: "#f7fafc", name: "Белый" },
+  { hex: "#48bb78", name: "Зелёный" },
+  { hex: "#a0aec0", name: "Серебристый" },
+  { hex: "#b794f4", name: "Лиловый" },
+];
+
+const EMPTY_PRODUCT: Product = {
+  id: "",
+  name: "",
+  article: "",
+  category: "roses",
+  price: 0,
+  minQty: 0,
+  height: "",
+  colors: [],
+  img: "/images/roses.jpg",
+  inStock: true,
+  isNew: false,
+  isSale: false,
+  oldPrice: "",
+};
+
+export default function AdminProductsPage() {
+  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { categories } = useCategories();
+  const [formData, setFormData] = useState<Product>(EMPTY_PRODUCT);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+
+  const toggleColor = (hex: string) => {
+    setFormData(prev => ({
+      ...prev,
+      colors: prev.colors.includes(hex) ? prev.colors.filter(c => c !== hex) : [...prev.colors, hex]
+    }));
+  };
+
+  useEffect(() => {
+    if (!colorPickerOpen) return;
+    function onClickOutside(e: MouseEvent) {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(e.target as Node)) {
+        setColorPickerOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [colorPickerOpen]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : (name === "price" || name === "minQty" || name === "height" || name === "oldPrice" ? parseFloat(value) || "" : value)
+    }));
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          img: reader.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingId) {
+      updateProduct(editingId, { ...formData, id: editingId, article: editingId });
+      setEditingId(null);
+    } else {
+      if (products.some(p => p.id === formData.id)) {
+        alert(`Товар с артикулом "${formData.id}" уже существует. Укажите другой артикул.`);
+        return;
+      }
+      addProduct({ ...formData, id: formData.id, article: formData.id });
+    }
+    setFormData(EMPTY_PRODUCT);
+  };
+
+  const handleEdit = (product: Product) => {
+    setFormData(product);
+    setEditingId(product.id);
+  };
+
+  const handleDelete = (id: string) => {
+    deleteProduct(id);
+  };
+
+  const inputClass = "w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400";
+  const labelClass = "block text-sm font-medium text-neutral-600 mb-1";
+
+  return (
+    <div className="min-h-screen bg-neutral-50">
+      {/* Hero */}
+      <section className="bg-sage-500 bg-cover bg-center" style={{ backgroundImage: "linear-gradient(rgba(26,36,32,0.45), rgba(26,36,32,0.45)), url(/images/hero-bg.png)" }}>
+        <div className="max-w-[1320px] mx-auto px-6 py-10">
+          <div className="text-white/60 text-sm mb-2">
+            <Link href="/admin" className="hover:text-white transition-colors">Админ-панель</Link> <span className="mx-1">›</span> Товары
+          </div>
+          <h1 className="font-brand text-4xl font-bold text-white">Управление товарами</h1>
+          <p className="text-white/80 mt-1">Добавление и редактирование цветов</p>
+        </div>
+      </section>
+
+      <div className="max-w-[1320px] mx-auto px-6 py-14">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Form */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl p-8 border border-neutral-200 sticky top-6">
+              <h2 className="text-xl font-semibold text-primary-900 mb-6">
+                {editingId ? "Редактировать товар" : "Добавить новый товар"}
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className={labelClass}>Артикул *</label>
+                  <input
+                    type="text"
+                    name="id"
+                    value={formData.id}
+                    onChange={handleChange}
+                    placeholder="or-3291"
+                    className={inputClass}
+                    required
+                    disabled={editingId !== null}
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>Название *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Орхидея Фаленопсис лиловая 80 см"
+                    className={inputClass}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>Категория</label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className={inputClass}
+                  >
+                    {categories.map(c =>
+                      c.subcategories.length > 0 ? (
+                        <optgroup key={c.id} label={c.label}>
+                          <option value={c.id}>{c.label}</option>
+                          {c.subcategories.map(sc => (
+                            <option key={sc.id} value={sc.id}>— {sc.label}</option>
+                          ))}
+                        </optgroup>
+                      ) : (
+                        <option key={c.id} value={c.id}>{c.label}</option>
+                      )
+                    )}
+                  </select>
+                </div>
+
+                <div>
+                  <label className={labelClass}>Цена ₽ *</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    placeholder="110"
+                    step="0.01"
+                    className={inputClass}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>Мин. кол-во *</label>
+                  <input
+                    type="number"
+                    name="minQty"
+                    value={formData.minQty}
+                    onChange={handleChange}
+                    placeholder="5"
+                    className={inputClass}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>Высота см</label>
+                  <input
+                    type="number"
+                    name="height"
+                    value={formData.height}
+                    onChange={handleChange}
+                    placeholder="80"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>Цвета в упаковке</label>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {formData.colors.map(hex => (
+                      <button
+                        key={hex}
+                        type="button"
+                        onClick={() => toggleColor(hex)}
+                        title={COLOR_PALETTE.find(c => c.hex === hex)?.name ?? hex}
+                        className="relative w-8 h-8 rounded-full border-2 border-neutral-300 group"
+                        style={{ backgroundColor: hex }}
+                      >
+                        <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">×</span>
+                      </button>
+                    ))}
+
+                    <div className="relative" ref={colorPickerRef}>
+                      <button
+                        type="button"
+                        onClick={() => setColorPickerOpen(o => !o)}
+                        aria-expanded={colorPickerOpen}
+                        aria-label="Добавить цвет"
+                        className="w-8 h-8 rounded-full border-2 border-dashed border-neutral-300 flex items-center justify-center text-neutral-400 hover:border-primary-400 hover:text-primary-500 transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <line x1={12} y1={5} x2={12} y2={19} /><line x1={5} y1={12} x2={19} y2={12} />
+                        </svg>
+                      </button>
+
+                      {colorPickerOpen && (
+                        <div className="absolute z-20 top-full left-0 mt-2 p-3 bg-white border border-neutral-200 rounded-xl shadow-lg grid grid-cols-6 gap-2 w-56">
+                          {COLOR_PALETTE.map(({ hex, name }) => {
+                            const selected = formData.colors.includes(hex);
+                            return (
+                              <button
+                                key={hex}
+                                type="button"
+                                onClick={() => toggleColor(hex)}
+                                title={name}
+                                aria-pressed={selected}
+                                className={`relative w-8 h-8 rounded-full border transition-transform ${
+                                  selected ? "border-primary-600 ring-2 ring-primary-600 ring-offset-2 scale-105" : "border-neutral-200 hover:scale-105"
+                                }`}
+                                style={{ backgroundColor: hex }}
+                              >
+                                {selected && (
+                                  <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary-600 border-2 border-white flex items-center justify-center">
+                                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                                      <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                  </span>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className={labelClass}>Фото цветка</label>
+                  <input
+                    type="file"
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-500 focus:outline-none focus:border-primary-400 file:bg-primary-600 file:border-0 file:rounded-full file:px-3 file:py-1 file:text-white file:cursor-pointer file:mr-2"
+                  />
+                  {formData.img && (
+                    <div className="mt-3 rounded-lg overflow-hidden border border-neutral-200">
+                      <img
+                        src={formData.img}
+                        alt="Preview"
+                        className="w-full h-32 object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className={labelClass}>Старая цена (если скидка)</label>
+                  <input
+                    type="number"
+                    name="oldPrice"
+                    value={formData.oldPrice}
+                    onChange={handleChange}
+                    placeholder="0"
+                    step="0.01"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-neutral-200">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="inStock"
+                      checked={formData.inStock}
+                      onChange={handleChange}
+                      className="w-4 h-4 accent-primary-600"
+                    />
+                    <span className="text-sm text-neutral-600">В наличии</span>
+                  </label>
+
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="isNew"
+                      checked={formData.isNew}
+                      onChange={handleChange}
+                      className="w-4 h-4 accent-primary-600"
+                    />
+                    <span className="text-sm text-neutral-600">Новинка</span>
+                  </label>
+
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="isSale"
+                      checked={formData.isSale}
+                      onChange={handleChange}
+                      className="w-4 h-4 accent-primary-600"
+                    />
+                    <span className="text-sm text-neutral-600">Акция</span>
+                  </label>
+                </div>
+
+                <div className="flex gap-2 pt-4">
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-500 transition-colors rounded-full text-white font-medium"
+                  >
+                    {editingId ? "Сохранить" : "Добавить"}
+                  </button>
+                  {editingId && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingId(null);
+                        setFormData(EMPTY_PRODUCT);
+                      }}
+                      className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 transition-colors rounded-full text-neutral-600"
+                    >
+                      Отмена
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* Products list */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+              <div className="bg-neutral-50 px-8 py-4 border-b border-neutral-200">
+                <h2 className="text-lg font-semibold text-primary-900">Товары в каталоге ({products.length})</h2>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-neutral-50 border-b border-neutral-200">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Фото</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Артикул</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Название</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Цена</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Кол-во</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Цвета</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Статус</th>
+                      <th className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase">Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-neutral-100">
+                    {products.map(product => (
+                      <tr key={product.id} className="hover:bg-neutral-50 transition-colors">
+                        <td className="px-6 py-3">
+                          <img
+                            src={product.img}
+                            alt={product.name}
+                            className="w-12 h-12 object-cover rounded"
+                          />
+                        </td>
+                        <td className="px-6 py-3 text-sm text-neutral-500 font-mono">{product.id}</td>
+                        <td className="px-6 py-3 text-sm text-neutral-900">{product.name.substring(0, 40)}...</td>
+                        <td className="px-6 py-3 text-sm text-primary-700 font-semibold">{product.price} ₽</td>
+                        <td className="px-6 py-3 text-sm text-neutral-500">от {product.minQty} шт</td>
+                        <td className="px-6 py-3">
+                          <div className="flex gap-1 flex-wrap">
+                            {product.colors.map(hex => (
+                              <span key={hex} className="w-4 h-4 rounded-full border-2 border-neutral-300" style={{ backgroundColor: hex }} />
+                            ))}
+                          </div>
+                        </td>
+                        <td className="px-6 py-3 text-sm">
+                          <div className="flex gap-1 flex-wrap">
+                            {product.inStock && <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">В наличии</span>}
+                            {product.isNew && <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">NEW</span>}
+                            {product.isSale && <span className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Акция</span>}
+                          </div>
+                        </td>
+                        <td className="px-6 py-3 text-sm text-right space-x-2">
+                          <button
+                            onClick={() => handleEdit(product)}
+                            className="px-3 py-1 bg-primary-50 hover:bg-primary-100 transition-colors rounded text-primary-700 text-xs font-medium"
+                          >
+                            Изменить
+                          </button>
+                          <button
+                            onClick={() => handleDelete(product.id)}
+                            className="px-3 py-1 bg-red-50 hover:bg-red-100 transition-colors rounded text-red-600 text-xs font-medium"
+                          >
+                            Удалить
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

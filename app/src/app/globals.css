@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  /* === Orchidea palette (зелёный откалиброван по кнопке из макета — #388E3B на шаге 600) === */
+  --color-primary-50:  #EEF9EF;
+  --color-primary-100: #D5EED6;
+  --color-primary-200: #A9DAAB;
+  --color-primary-300: #7BC67E;
+  --color-primary-400: #4DB250;
+  --color-primary-500: #419F44;
+  --color-primary-600: #388E3B;
+  --color-primary-700: #2F7231;
+  --color-primary-800: #235725;
+  --color-primary-900: #193B1A;
+
+  --color-neutral-50:  #F5F7F5;
+  --color-neutral-100: #EAEFEB;
+  --color-neutral-200: #DDE5DF;
+  --color-neutral-300: #C4CEC6;
+  --color-neutral-400: #9BA89E;
+  --color-neutral-500: #7A8B80;
+  --color-neutral-600: #5A6B62;
+  --color-neutral-700: #3F5045;
+  --color-neutral-800: #2D3B32;
+  --color-neutral-900: #1A2420;
+
+  /* === Reference-design accents (header/hero) === */
+  --color-sage-500: #A5AF7C;
+  --color-sage-600: #8D9968;
+  --color-sage-700: #737E52;
+
+  --color-gold-400: #F0C443;
+  --color-gold-500: #DDA824;
+
+  --color-navy-800: #1E2A3D;
+  --color-navy-900: #15202F;
+
+  /* === Typography === */
+  --font-brand: "Manrope", sans-serif;
+  --font-ui:    "Inter", sans-serif;
+  --font-script: "Marck Script", cursive;
+
+  /* === Layout === */
+  --width-content: 1320px;
+
+  /* === Semantic surface tokens (see :root below for values) === */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+}
+
+:root {
+  --background: #F8FAF8;
+  --foreground: #1A2420;
+  --card: #FFFFFF;
+  --card-foreground: #1A2420;
+  --border: #DDE5DF;
+  --input: #FFFFFF;
+  --muted: #F5F7F5;
+  --muted-foreground: #7A8B80;
+}
+
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-ui);
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

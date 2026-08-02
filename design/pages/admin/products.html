@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Товары — Orchidea Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 200: '#A3CEB0', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21', 800: '#112419', 900: '#0C1A12' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 700: '#3F5045', 800: '#2D3B32', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F5F7F5; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .sidebar { background: #111C16; }
+    .nav-item:hover { background: rgba(74,140,92,0.15); }
+    .nav-item.active { background: rgba(74,140,92,0.2); color: #6AAF7E; }
+    .img-ph-rose { background: url('../../images/roses.jpg') center/cover; }
+    .img-ph-white { background: url('../../images/chrysanthemums.jpg') center/cover; }
+    .img-ph-peony { background: url('../../images/peonies.jpg') center/cover; }
+    .img-ph-branch { background: url('../../images/branches.webp') center/cover; }
+    .img-ph-ritual { background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 100%); }
+    .img-ph-tulip { background: url('../../images/tulips.jpg') center/cover; }
+    input:focus, select:focus { outline: none; border-color: #1C3829; }
+    tr:hover td { background: #F5F7F5; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- SIDEBAR -->
+<aside class="sidebar w-60 flex-shrink-0 flex flex-col h-full">
+  <div class="px-5 py-5 border-b border-white/5">
+    <a href="../home.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-primary-400 flex items-center justify-center">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/></svg>
+      </div>
+      <div>
+        <div class="font-brand text-white font-bold text-base leading-none">Orchidea</div>
+        <div class="text-primary-400 text-xs mt-0.5">Admin</div>
+      </div>
+    </a>
+  </div>
+  <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+    <div class="px-3 py-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Основное</div>
+    <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Дашборд
+    </a>
+    <a href="orders.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+      Заказы
+    </a>
+    <a href="products.html" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-primary-300">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+      Товары
+    </a>
+    <a href="customers.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Покупатели
+    </a>
+    <div class="px-3 py-2 mt-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Каталог</div>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h18"/><path d="M3 9h18"/></svg>
+      Категории
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20.59 13.41 15 7.83 8.59 13.41"/><line x1="15" y1="7.83" x2="15" y2="21"/></svg>
+      Импорт / экспорт
+    </a>
+    <div class="px-3 py-2 mt-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Финансы</div>
+    <a href="pricing.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Цены и скидки
+    </a>
+  </nav>
+  <div class="px-4 py-4 border-t border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-primary-400 flex items-center justify-center">
+        <span class="text-white text-xs font-bold">АД</span>
+      </div>
+      <div>
+        <div class="text-white text-sm font-medium">Администратор</div>
+        <div class="text-neutral-500 text-xs">admin@orchidea.ru</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+  <!-- TOP BAR -->
+  <header class="bg-white border-b border-neutral-200 px-8 py-4 flex items-center justify-between flex-shrink-0">
+    <h1 class="font-semibold text-neutral-900 text-lg">Товары</h1>
+    <div class="flex items-center gap-3">
+      <button class="flex items-center gap-2 text-sm border border-neutral-200 text-neutral-600 rounded-xl px-4 py-2 hover:bg-neutral-50 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20.59 13.41 15 7.83 8.59 13.41"/><line x1="15" y1="7.83" x2="15" y2="21"/><path d="M3.77 13.77A9.95 9.95 0 0 1 3 10a9 9 0 0 1 9-9 9.95 9.95 0 0 1 6.99 2.86"/></svg>
+        Импорт CSV
+      </button>
+      <button class="flex items-center gap-2 text-sm border border-neutral-200 text-neutral-600 rounded-xl px-4 py-2 hover:bg-neutral-50 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Экспорт
+      </button>
+      <button class="flex items-center gap-2 text-sm bg-primary-600 text-white rounded-xl px-4 py-2 hover:bg-primary-500 transition-colors font-semibold">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Добавить товар
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="flex-1 overflow-y-auto px-8 py-6">
+
+    <!-- Toolbar -->
+    <div class="flex flex-wrap items-center gap-3 mb-5">
+      <!-- Search -->
+      <div class="relative flex-1 min-w-64">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Поиск по названию, артикулу..." class="w-full bg-white border border-neutral-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:border-primary-600 focus:outline-none" />
+      </div>
+      <!-- Category filter -->
+      <select class="bg-white border border-neutral-200 rounded-xl px-3 py-2.5 text-sm text-neutral-600 focus:outline-none focus:border-primary-600">
+        <option>Все категории</option>
+        <option>Розы</option>
+        <option>Хризантемы</option>
+        <option>Ритуальная</option>
+      </select>
+      <!-- Status filter -->
+      <select class="bg-white border border-neutral-200 rounded-xl px-3 py-2.5 text-sm text-neutral-600 focus:outline-none focus:border-primary-600">
+        <option>Все статусы</option>
+        <option>В наличии</option>
+        <option>Нет в наличии</option>
+        <option>Скрытые</option>
+      </select>
+    </div>
+
+    <!-- Bulk actions bar (shown when items selected) -->
+    <div class="bg-primary-50 border border-primary-200 rounded-xl px-4 py-3 flex items-center gap-3 mb-4">
+      <span class="text-sm font-medium text-primary-700">Выбрано: <strong>3 товара</strong></span>
+      <div class="flex-1"></div>
+      <button class="flex items-center gap-1.5 text-sm text-neutral-600 border border-neutral-200 bg-white rounded-lg px-3 py-1.5 hover:bg-neutral-50 transition-colors">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Редактировать
+      </button>
+      <button class="flex items-center gap-1.5 text-sm text-neutral-600 border border-neutral-200 bg-white rounded-lg px-3 py-1.5 hover:bg-neutral-50 transition-colors">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/></svg>
+        Изменить цену
+      </button>
+      <button class="flex items-center gap-1.5 text-sm text-neutral-600 border border-neutral-200 bg-white rounded-lg px-3 py-1.5 hover:bg-neutral-50 transition-colors">
+        Скрыть
+      </button>
+      <button class="flex items-center gap-1.5 text-sm text-red-600 border border-red-200 bg-red-50 rounded-lg px-3 py-1.5 hover:bg-red-100 transition-colors">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Удалить
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-neutral-100 bg-neutral-50/50">
+            <th class="px-5 py-3.5 text-left w-10">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+            </th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Товар</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Артикул</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Категория</th>
+            <th class="px-4 py-3.5 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Цена</th>
+            <th class="px-4 py-3.5 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Остаток</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Статус</th>
+            <th class="px-4 py-3.5 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Действия</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100">
+
+          <!-- Row 1 (selected) -->
+          <tr class="bg-primary-50/30">
+            <td class="px-5 py-4">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="img-ph-rose w-10 h-10 rounded-lg flex-shrink-0"></div>
+                <div>
+                  <div class="font-medium text-neutral-800 text-sm">Роза кустовая бархатная 65 см красная</div>
+                  <div class="text-xs text-neutral-400 mt-0.5">Spring 2025</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-neutral-500">OR-2847</td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Розы</span>
+            </td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">44 ₽</td>
+            <td class="px-4 py-4 text-right">
+              <span class="text-green-600 font-medium">240</span>
+            </td>
+            <td class="px-4 py-4">
+              <span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">Активен</span>
+            </td>
+            <td class="px-4 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="text-primary-600 hover:text-primary-500 text-xs font-medium">Изменить</button>
+                <button class="text-neutral-400 hover:text-red-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 2 (selected) -->
+          <tr class="bg-primary-50/30">
+            <td class="px-5 py-4">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="img-ph-white w-10 h-10 rounded-lg flex-shrink-0"></div>
+                <div>
+                  <div class="font-medium text-neutral-800 text-sm">Хризантема одноголовая белая 60 см</div>
+                  <div class="text-xs text-neutral-400 mt-0.5">Базовая линейка</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-neutral-500">CH-1192</td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Хризантемы</span>
+            </td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">38 ₽</td>
+            <td class="px-4 py-4 text-right">
+              <span class="text-green-600 font-medium">180</span>
+            </td>
+            <td class="px-4 py-4">
+              <span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">Активен</span>
+            </td>
+            <td class="px-4 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="text-primary-600 hover:text-primary-500 text-xs font-medium">Изменить</button>
+                <button class="text-neutral-400 hover:text-red-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 3 (selected) -->
+          <tr class="bg-primary-50/30">
+            <td class="px-5 py-4">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="img-ph-peony w-10 h-10 rounded-lg flex-shrink-0"></div>
+                <div>
+                  <div class="font-medium text-neutral-800 text-sm">Пион раскрытый сиреневый 50 см</div>
+                  <div class="text-xs text-neutral-400 mt-0.5">Premium Line</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-neutral-500">PI-3341</td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Пионы</span>
+            </td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">62 ₽</td>
+            <td class="px-4 py-4 text-right">
+              <span class="text-amber-600 font-medium">12</span>
+            </td>
+            <td class="px-4 py-4">
+              <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full">Мало</span>
+            </td>
+            <td class="px-4 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="text-primary-600 hover:text-primary-500 text-xs font-medium">Изменить</button>
+                <button class="text-neutral-400 hover:text-red-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 4 -->
+          <tr>
+            <td class="px-5 py-4">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="img-ph-tulip w-10 h-10 rounded-lg flex-shrink-0"></div>
+                <div>
+                  <div class="font-medium text-neutral-800 text-sm">Тюльпан бахромчатый жёлтый 50 см</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-neutral-500">TU-0441</td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Тюльпаны</span>
+            </td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">41 ₽</td>
+            <td class="px-4 py-4 text-right">
+              <span class="text-red-600 font-medium">0</span>
+            </td>
+            <td class="px-4 py-4">
+              <span class="bg-red-100 text-red-600 text-xs font-medium px-2.5 py-1 rounded-full">Нет</span>
+            </td>
+            <td class="px-4 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="text-primary-600 hover:text-primary-500 text-xs font-medium">Изменить</button>
+                <button class="text-neutral-400 hover:text-red-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 5 -->
+          <tr>
+            <td class="px-5 py-4">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="img-ph-branch w-10 h-10 rounded-lg flex-shrink-0"></div>
+                <div>
+                  <div class="font-medium text-neutral-800 text-sm">Ветка ивы декоративная зелёная 90 см</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-neutral-500">VE-2201</td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Ветки</span>
+            </td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">29 ₽</td>
+            <td class="px-4 py-4 text-right">
+              <span class="text-green-600 font-medium">350</span>
+            </td>
+            <td class="px-4 py-4">
+              <span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">Активен</span>
+            </td>
+            <td class="px-4 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="text-primary-600 hover:text-primary-500 text-xs font-medium">Изменить</button>
+                <button class="text-neutral-400 hover:text-red-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 6 — Hidden -->
+          <tr class="opacity-60">
+            <td class="px-5 py-4">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <div class="img-ph-ritual w-10 h-10 rounded-lg flex-shrink-0"></div>
+                <div>
+                  <div class="font-medium text-neutral-600 text-sm">Лилия ритуальная жёлтая с тычинками 65 см</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 font-mono text-xs text-neutral-400">RI-0890</td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-500 text-xs px-2 py-0.5 rounded-full">Ритуальная</span>
+            </td>
+            <td class="px-4 py-4 text-right text-neutral-500">55 ₽</td>
+            <td class="px-4 py-4 text-right">
+              <span class="text-neutral-400 font-medium">48</span>
+            </td>
+            <td class="px-4 py-4">
+              <span class="bg-neutral-100 text-neutral-500 text-xs font-medium px-2.5 py-1 rounded-full">Скрыт</span>
+            </td>
+            <td class="px-4 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="text-primary-600 hover:text-primary-500 text-xs font-medium">Изменить</button>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="px-5 py-4 border-t border-neutral-100 flex items-center justify-between">
+        <div class="text-xs text-neutral-500">Показано 6 из 5 284 товаров</div>
+        <div class="flex items-center gap-2">
+          <select class="text-xs border border-neutral-200 rounded-lg px-2 py-1.5 focus:outline-none text-neutral-600">
+            <option>25 на странице</option>
+            <option>50 на странице</option>
+            <option>100 на странице</option>
+          </select>
+          <button disabled class="w-8 h-8 rounded-lg border border-neutral-200 flex items-center justify-center text-neutral-300">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="w-8 h-8 rounded-lg bg-primary-600 text-white text-xs font-bold">1</button>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs hover:border-primary-400 hover:text-primary-600">2</button>
+          <span class="text-neutral-400 text-xs">...</span>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs hover:border-primary-400 hover:text-primary-600">212</button>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 flex items-center justify-center text-neutral-600 hover:border-primary-400">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

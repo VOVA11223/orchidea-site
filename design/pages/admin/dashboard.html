@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дашборд — Orchidea Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 200: '#A3CEB0', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21', 800: '#112419', 900: '#0C1A12' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 300: '#C4CEC6', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 700: '#3F5045', 800: '#2D3B32', 900: '#1A2420' },
+            sidebar: '#111C16',
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'], ui: ['Inter', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F5F7F5; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .sidebar { background: #111C16; }
+    .nav-item { transition: all 0.15s ease; }
+    .nav-item:hover { background: rgba(74,140,92,0.15); }
+    .nav-item.active { background: rgba(74,140,92,0.2); color: #6AAF7E; }
+    .nav-item.active svg { color: #6AAF7E; }
+    .mini-chart-bar { background: #4A8C5C; border-radius: 2px; }
+    .stat-up { color: #15803D; }
+    .stat-down { color: #DC2626; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- SIDEBAR -->
+<aside class="sidebar w-60 flex-shrink-0 flex flex-col h-full">
+  <!-- Logo -->
+  <div class="px-5 py-5 border-b border-white/5">
+    <a href="../home.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-primary-400 flex items-center justify-center">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/><path d="M12 8c-2.209 0-4 1.791-4 4s1.791 4 4 4 4-1.791 4-4-1.791-4-4-4z"/></svg>
+      </div>
+      <div>
+        <div class="font-brand text-white font-bold text-base leading-none">Orchidea</div>
+        <div class="text-primary-400 text-xs mt-0.5">Admin</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+    <div class="px-3 py-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Основное</div>
+    <a href="dashboard.html" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-primary-300">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Дашборд
+    </a>
+    <a href="orders.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+      Заказы
+      <span class="ml-auto bg-primary-500/30 text-primary-300 text-xs font-semibold px-1.5 py-0.5 rounded-full">7</span>
+    </a>
+    <a href="products.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+      Товары
+    </a>
+    <a href="customers.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Покупатели
+      <span class="ml-auto bg-amber-500/20 text-amber-400 text-xs font-semibold px-1.5 py-0.5 rounded-full">3</span>
+    </a>
+
+    <div class="px-3 py-2 mt-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Каталог</div>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h18"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M3 21h18"/></svg>
+      Категории
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20.59 13.41 15 7.83 8.59 13.41"/><line x1="15" y1="7.83" x2="15" y2="21"/><path d="M3.77 13.77A9.95 9.95 0 0 1 3 10a9 9 0 0 1 9-9 9.95 9.95 0 0 1 6.99 2.86"/></svg>
+      Импорт / экспорт
+    </a>
+
+    <div class="px-3 py-2 mt-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Финансы</div>
+    <a href="pricing.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Цены и скидки
+    </a>
+
+    <div class="px-3 py-2 mt-2 text-xs font-semibold text-neutral-600 uppercase tracking-widest">Настройки</div>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Настройки
+    </a>
+  </nav>
+
+  <!-- User -->
+  <div class="px-4 py-4 border-t border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-primary-400 flex items-center justify-center flex-shrink-0">
+        <span class="text-white text-xs font-bold">АД</span>
+      </div>
+      <div class="min-w-0">
+        <div class="text-white text-sm font-medium truncate">Администратор</div>
+        <div class="text-neutral-500 text-xs">admin@orchidea.ru</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+  <!-- TOP BAR -->
+  <header class="bg-white border-b border-neutral-200 px-8 py-4 flex items-center justify-between flex-shrink-0">
+    <div>
+      <h1 class="font-semibold text-neutral-900 text-lg">Дашборд</h1>
+      <p class="text-xs text-neutral-400 mt-0.5">Сегодня, 11 июня 2025</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- Notifications -->
+      <button class="relative p-2 rounded-xl hover:bg-neutral-100 transition-colors text-neutral-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+      </button>
+      <a href="../home.html" target="_blank" class="flex items-center gap-2 text-sm text-neutral-600 border border-neutral-200 rounded-xl px-3 py-2 hover:bg-neutral-50 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Открыть сайт
+      </a>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="flex-1 overflow-y-auto px-8 py-6">
+
+    <!-- ALERTS -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex items-center gap-3 mb-6">
+      <svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p class="text-sm text-amber-700 flex-1">
+        <strong>3 новых регистрации</strong> ожидают подтверждения.
+        <a href="customers.html" class="underline font-semibold hover:no-underline ml-1">Рассмотреть →</a>
+      </p>
+      <button class="text-amber-400 hover:text-amber-600">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+      <!-- Stat 1 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+          </div>
+          <span class="stat-up text-xs font-semibold flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
+            +12%
+          </span>
+        </div>
+        <div class="text-2xl font-bold text-neutral-900 mb-0.5">247</div>
+        <div class="text-sm text-neutral-500">Заказов за месяц</div>
+      </div>
+
+      <!-- Stat 2 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <span class="stat-up text-xs font-semibold flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
+            +8.4%
+          </span>
+        </div>
+        <div class="text-2xl font-bold text-neutral-900 mb-0.5">1 284 500 ₽</div>
+        <div class="text-sm text-neutral-500">Оборот за месяц</div>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <span class="stat-up text-xs font-semibold flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
+            +23
+          </span>
+        </div>
+        <div class="text-2xl font-bold text-neutral-900 mb-0.5">2 847</div>
+        <div class="text-sm text-neutral-500">Активных клиентов</div>
+      </div>
+
+      <!-- Stat 4 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <span class="text-amber-600 text-xs font-semibold">3 новых</span>
+        </div>
+        <div class="text-2xl font-bold text-neutral-900 mb-0.5">3</div>
+        <div class="text-sm text-neutral-500">Ожидают одобрения</div>
+      </div>
+    </div>
+
+    <!-- MINI CHART + ORDERS -->
+    <div class="grid lg:grid-cols-3 gap-6 mb-8">
+
+      <!-- Revenue chart (simplified) -->
+      <div class="lg:col-span-2 bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h3 class="font-semibold text-neutral-800">Оборот</h3>
+            <p class="text-xs text-neutral-400 mt-0.5">Последние 14 дней</p>
+          </div>
+          <select class="text-xs border border-neutral-200 rounded-lg px-2.5 py-1.5 text-neutral-600 focus:outline-none">
+            <option>14 дней</option>
+            <option>30 дней</option>
+            <option>3 месяца</option>
+          </select>
+        </div>
+        <!-- Simple bar chart -->
+        <div class="flex items-end gap-2 h-32">
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-40" style="height: 45%"></div>
+            <span class="text-xs text-neutral-400">29</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-50" style="height: 65%"></div>
+            <span class="text-xs text-neutral-400">30</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-60" style="height: 55%"></div>
+            <span class="text-xs text-neutral-400">1</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-70" style="height: 80%"></div>
+            <span class="text-xs text-neutral-400">2</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-60" style="height: 70%"></div>
+            <span class="text-xs text-neutral-400">3</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-80" style="height: 90%"></div>
+            <span class="text-xs text-neutral-400">4</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full" style="height: 100%"></div>
+            <span class="text-xs text-neutral-400">5</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-85" style="height: 92%"></div>
+            <span class="text-xs text-neutral-400">6</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-75" style="height: 75%"></div>
+            <span class="text-xs text-neutral-400">7</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-65" style="height: 68%"></div>
+            <span class="text-xs text-neutral-400">8</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-85" style="height: 88%"></div>
+            <span class="text-xs text-neutral-400">9</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-70" style="height: 72%"></div>
+            <span class="text-xs text-neutral-400">10</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full" style="height: 95%"></div>
+            <span class="text-xs text-neutral-400">11</span>
+          </div>
+          <div class="flex-1 flex flex-col justify-end gap-1 items-center">
+            <div class="mini-chart-bar w-full opacity-30" style="height: 20%"></div>
+            <span class="text-xs text-neutral-900 font-semibold">сег</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top products -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <h3 class="font-semibold text-neutral-800 mb-4">Топ товаров</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-5 h-5 rounded-full bg-primary-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+              <span class="text-xs text-neutral-600 truncate">Роза кустовая 65 см красная</span>
+            </div>
+            <span class="text-xs font-semibold text-neutral-800 flex-shrink-0">842 шт</span>
+          </div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-5 h-5 rounded-full bg-primary-500 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+              <span class="text-xs text-neutral-600 truncate">Лилия ритуальная белая</span>
+            </div>
+            <span class="text-xs font-semibold text-neutral-800 flex-shrink-0">631 шт</span>
+          </div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-5 h-5 rounded-full bg-primary-400 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+              <span class="text-xs text-neutral-600 truncate">Хризантема белая 60 см</span>
+            </div>
+            <span class="text-xs font-semibold text-neutral-800 flex-shrink-0">554 шт</span>
+          </div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-5 h-5 rounded-full bg-neutral-300 text-neutral-600 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+              <span class="text-xs text-neutral-600 truncate">Ветка ивы зелёная 90 см</span>
+            </div>
+            <span class="text-xs font-semibold text-neutral-800 flex-shrink-0">487 шт</span>
+          </div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-5 h-5 rounded-full bg-neutral-300 text-neutral-600 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+              <span class="text-xs text-neutral-600 truncate">Пион сиреневый 50 см</span>
+            </div>
+            <span class="text-xs font-semibold text-neutral-800 flex-shrink-0">421 шт</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT ORDERS -->
+    <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden mb-6">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+        <h3 class="font-semibold text-neutral-900">Последние заказы</h3>
+        <a href="orders.html" class="text-sm text-primary-600 hover:text-primary-500 font-medium">Все заказы →</a>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-neutral-100 bg-neutral-50/50">
+              <th class="text-left px-5 py-3 text-xs font-medium text-neutral-400 uppercase tracking-wide">№</th>
+              <th class="text-left px-5 py-3 text-xs font-medium text-neutral-400 uppercase tracking-wide">Клиент</th>
+              <th class="text-left px-5 py-3 text-xs font-medium text-neutral-400 uppercase tracking-wide">Дата</th>
+              <th class="text-left px-5 py-3 text-xs font-medium text-neutral-400 uppercase tracking-wide">Сумма</th>
+              <th class="text-left px-5 py-3 text-xs font-medium text-neutral-400 uppercase tracking-wide">Статус</th>
+              <th class="px-5 py-3"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-100">
+            <tr class="hover:bg-neutral-50 transition-colors">
+              <td class="px-5 py-3.5 font-mono text-xs text-neutral-400">#2847</td>
+              <td class="px-5 py-3.5">
+                <div class="text-sm font-medium text-neutral-800">ООО "Цветочный мир"</div>
+                <div class="text-xs text-neutral-400">5 позиций</div>
+              </td>
+              <td class="px-5 py-3.5 text-sm text-neutral-500">10 июня, 14:32</td>
+              <td class="px-5 py-3.5 font-semibold text-neutral-800">15 860 ₽</td>
+              <td class="px-5 py-3.5">
+                <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full">В обработке</span>
+              </td>
+              <td class="px-5 py-3.5 text-right">
+                <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+              </td>
+            </tr>
+            <tr class="hover:bg-neutral-50 transition-colors">
+              <td class="px-5 py-3.5 font-mono text-xs text-neutral-400">#2846</td>
+              <td class="px-5 py-3.5">
+                <div class="text-sm font-medium text-neutral-800">ИП Кузнецова</div>
+                <div class="text-xs text-neutral-400">8 позиций</div>
+              </td>
+              <td class="px-5 py-3.5 text-sm text-neutral-500">10 июня, 11:15</td>
+              <td class="px-5 py-3.5 font-semibold text-neutral-800">28 400 ₽</td>
+              <td class="px-5 py-3.5">
+                <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">Собирается</span>
+              </td>
+              <td class="px-5 py-3.5 text-right">
+                <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+              </td>
+            </tr>
+            <tr class="hover:bg-neutral-50 transition-colors">
+              <td class="px-5 py-3.5 font-mono text-xs text-neutral-400">#2845</td>
+              <td class="px-5 py-3.5">
+                <div class="text-sm font-medium text-neutral-800">ООО "Флора Декор"</div>
+                <div class="text-xs text-neutral-400">15 позиций</div>
+              </td>
+              <td class="px-5 py-3.5 text-sm text-neutral-500">9 июня, 16:47</td>
+              <td class="px-5 py-3.5 font-semibold text-neutral-800">64 200 ₽</td>
+              <td class="px-5 py-3.5">
+                <span class="bg-purple-100 text-purple-700 text-xs font-medium px-2.5 py-1 rounded-full">Отправлен</span>
+              </td>
+              <td class="px-5 py-3.5 text-right">
+                <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NEW REGISTRATIONS -->
+    <div class="bg-white rounded-2xl border border-amber-200 overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-amber-100 bg-amber-50">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+          <h3 class="font-semibold text-amber-900">Новые регистрации — требуют одобрения</h3>
+        </div>
+        <a href="customers.html" class="text-sm text-amber-700 font-medium hover:underline">Смотреть все →</a>
+      </div>
+      <div class="divide-y divide-amber-50">
+        <div class="px-5 py-4 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
+              <span class="text-amber-700 font-semibold text-sm">РА</span>
+            </div>
+            <div>
+              <div class="text-sm font-medium text-neutral-800">ООО "Ромашка Арт"</div>
+              <div class="text-xs text-neutral-400">ИНН: 7732104822 · Цветочный магазин · 10 июня 2025</div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="bg-primary-600 hover:bg-primary-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">Одобрить</button>
+            <button class="border border-neutral-200 text-neutral-600 text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-neutral-50 transition-colors">Отклонить</button>
+          </div>
+        </div>
+        <div class="px-5 py-4 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
+              <span class="text-amber-700 font-semibold text-sm">НС</span>
+            </div>
+            <div>
+              <div class="text-sm font-medium text-neutral-800">ИП Новикова С.А.</div>
+              <div class="text-xs text-neutral-400">ИНН: 773512890231 · Ритуальное агентство · 9 июня 2025</div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="bg-primary-600 hover:bg-primary-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">Одобрить</button>
+            <button class="border border-neutral-200 text-neutral-600 text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-neutral-50 transition-colors">Отклонить</button>
+          </div>
+        </div>
+        <div class="px-5 py-4 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
+              <span class="text-amber-700 font-semibold text-sm">ВД</span>
+            </div>
+            <div>
+              <div class="text-sm font-medium text-neutral-800">ООО "Вечный Декор"</div>
+              <div class="text-xs text-neutral-400">ИНН: 5001093847 · Декоратор · 8 июня 2025</div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="bg-primary-600 hover:bg-primary-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">Одобрить</button>
+            <button class="border border-neutral-200 text-neutral-600 text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-neutral-50 transition-colors">Отклонить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

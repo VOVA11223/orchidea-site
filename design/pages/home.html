@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orchidea — Оптовые искусственные цветы</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 200: '#A3CEB0', 300: '#6AAF7E', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21', 800: '#112419', 900: '#0C1A12' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 300: '#C4CEC6', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 700: '#3F5045', 800: '#2D3B32', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'], ui: ['Inter', 'sans-serif'] },
+          maxWidth: { content: '1320px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F8FAF8; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .img-placeholder { background: linear-gradient(135deg, #1C3829 0%, #2D5A40 50%, #4A8C5C 100%); }
+    .img-ph-rose { background: url('../images/roses.jpg') center/cover; }
+    .img-ph-white { background: url('../images/chrysanthemums.jpg') center/cover; }
+    .img-ph-peony { background: url('../images/peonies.jpg') center/cover; }
+    .img-ph-branch { background: url('../images/branches.webp') center/cover; }
+    .img-ph-ritual { background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 100%); }
+    .img-ph-wedding { background: linear-gradient(135deg, #F0E6D0 0%, #D4B896 100%); }
+    .img-ph-tulip { background: url('../images/tulips.jpg') center/cover; }
+    .img-ph-orchid { background: url('../images/orchids.jpg') center/cover; }
+    .category-card:hover .category-overlay { opacity: 1; }
+    .product-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .product-card { transition: all 0.25s ease; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="bg-primary-700 text-primary-200 text-sm py-2 hidden md:block">
+  <div class="max-w-content mx-auto px-6 flex items-center justify-between">
+    <span>Минимальный заказ: <strong class="text-white">15 000 ₽</strong> · Отгрузка от 1 дня · Доставка по всей России из Волгограда</span>
+    <div class="flex items-center gap-6">
+      <a href="tel:+79033743137" class="hover:text-white transition-colors">+7 903 374-31-37</a>
+      <span class="text-primary-500">|</span>
+      <a href="#" class="hover:text-white transition-colors flex items-center gap-1">
+        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/></svg>
+        Telegram
+      </a>
+      <a href="#" class="hover:text-white transition-colors flex items-center gap-1">
+        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-primary-600">
+  <div class="max-w-content mx-auto px-6 py-3 flex items-center gap-6">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 flex-shrink-0">
+      <div class="w-10 h-10 rounded-xl bg-primary-400 flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/><path d="M12 8c-2.209 0-4 1.791-4 4s1.791 4 4 4 4-1.791 4-4-1.791-4-4-4z"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+      </div>
+      <span class="font-brand text-2xl font-bold text-white tracking-tight">Orchidea</span>
+    </a>
+
+    <!-- Nav -->
+    <nav class="hidden lg:flex items-center gap-1 flex-1">
+      <a href="catalog.html" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-white whitespace-nowrap">Каталог</a>
+      <a href="novinka.html" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">Новинки</a>
+      <a href="aktsii.html" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">Акции</a>
+      <a href="#" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">О нас</a>
+      <a href="#" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">Доставка</a>
+    </nav>
+
+    <!-- Search -->
+    <div class="hidden md:flex flex-1 max-w-xs relative">
+      <input type="text" placeholder="Поиск по каталогу, артикулу..." class="w-full bg-primary-500 text-white placeholder-primary-300 rounded-xl px-4 py-2 text-sm border border-primary-400 focus:outline-none focus:border-primary-300 focus:bg-primary-500 pr-10">
+      <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-2 ml-auto">
+      <!-- Admin -->
+      <a href="admin/dashboard.html" class="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-primary-400 hover:text-white hover:bg-primary-500 transition-colors border border-primary-500/40 hover:border-primary-400">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Админ
+      </a>
+      <!-- Wishlist -->
+      <button class="p-2.5 rounded-xl hover:bg-primary-500 transition-colors text-primary-200 hover:text-white relative">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary-400 text-white text-xs rounded-full flex items-center justify-center font-medium">3</span>
+      </button>
+      <!-- Cart -->
+      <a href="cart.html" class="p-2.5 rounded-xl hover:bg-primary-500 transition-colors text-primary-200 hover:text-white relative">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary-400 text-white text-xs rounded-full flex items-center justify-center font-medium">12</span>
+      </a>
+      <!-- Login -->
+      <a href="login.html" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 hover:bg-primary-400 transition-colors text-sm font-medium text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Войти
+      </a>
+      <a href="register.html" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-primary-600 hover:bg-primary-50 transition-colors text-sm font-semibold">
+        Регистрация
+      </a>
+      <!-- Mobile menu -->
+      <button class="lg:hidden p-2.5 rounded-xl hover:bg-primary-500 transition-colors text-primary-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="bg-primary-600 relative overflow-hidden">
+  <!-- Background texture -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute top-0 right-0 w-2/3 h-full" style="background: radial-gradient(ellipse at top right, #6AAF7E 0%, transparent 60%)"></div>
+    <div class="absolute bottom-0 left-0 w-1/2 h-2/3" style="background: radial-gradient(ellipse at bottom left, #4A8C5C 0%, transparent 60%)"></div>
+  </div>
+  <div class="max-w-content mx-auto px-6 py-20 lg:py-32 relative">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-primary-500 text-primary-100 rounded-full px-4 py-1.5 text-xs font-medium mb-6 uppercase tracking-widest">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary-300"></span>
+          Оптовые поставки из Волгограда по всей Волгоградской области  
+        </div>
+        <h1 class="font-brand text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+          Профессиональная<br>
+          <span class="text-primary-300">искусственная</span><br>
+          флористика
+        </h1>
+        <p class="text-primary-200 text-lg leading-relaxed mb-8 max-w-md">
+          Более 5 000 артикулов для цветочных магазинов, ритуальных агентств,
+          декораторов и оптовых закупщиков.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="register.html" class="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-xl font-semibold hover:bg-primary-50 transition-colors">
+            Открыть оптовый аккаунт
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <a href="catalog.html" class="inline-flex items-center gap-2 text-primary-200 border border-primary-400 px-6 py-3 rounded-xl font-medium hover:bg-primary-500 hover:text-white transition-colors">
+            Смотреть каталог
+          </a>
+        </div>
+      </div>
+      <!-- Hero image grid -->
+      <div class="hidden lg:grid grid-cols-3 gap-3">
+        <div class="col-span-2 row-span-2 img-ph-rose rounded-2xl h-72 flex items-end p-4 relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <span class="relative text-white text-sm font-medium">Розы · 285 артикулов</span>
+        </div>
+        <div class="img-ph-white rounded-2xl h-[138px] flex items-end p-3 overflow-hidden relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <span class="relative text-white text-xs">Хризантемы</span>
+        </div>
+        <div class="img-ph-peony rounded-2xl h-[138px] flex items-end p-3 overflow-hidden relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <span class="relative text-white text-xs">Пионы</span>
+        </div>
+        <div class="img-ph-branch rounded-2xl h-28 flex items-end p-3 overflow-hidden relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <span class="relative text-white text-xs">Ветки</span>
+        </div>
+        <div class="img-ph-tulip rounded-2xl h-28 flex items-end p-3 overflow-hidden relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <span class="relative text-white text-xs">Тюльпаны</span>
+        </div>
+        <div class="img-ph-orchid rounded-2xl h-28 flex items-end p-3 overflow-hidden relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <span class="relative text-white text-xs">Орхидеи</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<section class="bg-primary-700 border-b border-primary-800">
+  <div class="max-w-content mx-auto px-6 py-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <div class="text-2xl font-bold text-white font-brand">5 000+</div>
+        <div class="text-primary-300 text-sm mt-0.5">артикулов в каталоге</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-white font-brand">2 000+</div>
+        <div class="text-primary-300 text-sm mt-0.5">активных клиентов</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-white font-brand">от 1 дня</div>
+        <div class="text-primary-300 text-sm mt-0.5">сборка и отгрузка</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-white font-brand">12 лет</div>
+        <div class="text-primary-300 text-sm mt-0.5">на оптовом рынке</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES SECTION -->
+<section class="py-16 lg:py-24">
+  <div class="max-w-content mx-auto px-6">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h2 class="font-brand text-3xl font-bold text-primary-900 mb-2">Категории</h2>
+        <p class="text-neutral-600">Полный ассортимент для любых потребностей</p>
+      </div>
+      <a href="catalog.html" class="hidden sm:flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-500 transition-colors">
+        Все категории
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Category 1 -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer">
+        <div class="img-ph-rose h-48 md:h-56"></div>
+        <div class="category-overlay absolute inset-0 bg-primary-600/20 opacity-0 transition-opacity duration-250"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold">Розы</div>
+          <div class="text-white/70 text-xs mt-0.5">285 артикулов</div>
+        </div>
+        <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div class="bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1 text-white text-xs font-medium">Смотреть →</div>
+        </div>
+      </a>
+      <!-- Category 2 -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer">
+        <div class="img-ph-white h-48 md:h-56"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold">Хризантемы</div>
+          <div class="text-white/70 text-xs mt-0.5">194 артикула</div>
+        </div>
+      </a>
+      <!-- Category 3 -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer">
+        <div class="img-ph-peony h-48 md:h-56"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold">Пионы</div>
+          <div class="text-white/70 text-xs mt-0.5">147 артикулов</div>
+        </div>
+      </a>
+      <!-- Category 4 -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer">
+        <div class="img-ph-tulip h-48 md:h-56"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold">Тюльпаны</div>
+          <div class="text-white/70 text-xs mt-0.5">98 артикулов</div>
+        </div>
+      </a>
+      <!-- Category 5 — wide -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer md:col-span-2">
+        <div class="img-ph-ritual h-48"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold text-lg">Ритуальная флористика</div>
+          <div class="text-white/70 text-sm mt-0.5">Венки, букеты, композиции · 312 артикулов</div>
+        </div>
+      </a>
+      <!-- Category 6 — wide -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer md:col-span-2">
+        <div class="img-ph-wedding h-48"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold text-lg">Свадебная флористика</div>
+          <div class="text-white/70 text-sm mt-0.5">Букеты невесты, декор · 228 артикулов</div>
+        </div>
+      </a>
+      <!-- Category 7 -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer">
+        <div class="img-ph-branch h-48 md:h-56"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold">Ветки и зелень</div>
+          <div class="text-white/70 text-xs mt-0.5">256 артикулов</div>
+        </div>
+      </a>
+      <!-- Category 8 -->
+      <a href="catalog.html" class="category-card group relative rounded-2xl overflow-hidden cursor-pointer">
+        <div class="img-ph-orchid h-48 md:h-56"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <div class="text-white font-semibold">Орхидеи</div>
+          <div class="text-white/70 text-xs mt-0.5">73 артикула</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NEW ARRIVALS -->
+<section class="py-16 bg-neutral-50 border-y border-neutral-200">
+  <div class="max-w-content mx-auto px-6">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <div class="text-xs font-semibold text-primary-500 uppercase tracking-widest mb-2">Новые поступления</div>
+        <h2 class="font-brand text-3xl font-bold text-primary-900">Новинки каталога</h2>
+      </div>
+      <a href="#" class="hidden sm:flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-500 transition-colors">
+        Все новинки
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+
+    <!-- Price hidden notice -->
+    <div class="bg-primary-50 border border-primary-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
+        <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <p class="text-sm text-primary-700">Цены доступны только для зарегистрированных оптовых покупателей.
+        <a href="login.html" class="font-semibold underline hover:no-underline">Войдите</a> или
+        <a href="register.html" class="font-semibold underline hover:no-underline">создайте аккаунт</a> для просмотра оптовых цен.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <!-- Product Card (guest view) -->
+      <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+        <div class="relative">
+          <div class="img-ph-rose h-48 lg:h-52"></div>
+          <div class="absolute top-3 left-3">
+            <span class="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">Новинка</span>
+          </div>
+          <button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+            <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <div class="text-xs text-neutral-500 mb-1">Арт. OR-2847</div>
+          <div class="font-medium text-neutral-900 text-sm leading-snug mb-3">Роза кустовая бархатная 65 см красная</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500 mb-3">
+            <span class="w-3 h-3 rounded-full bg-red-600 border border-neutral-200"></span>
+            <span>Красный</span>
+            <span>·</span>
+            <span>В наличии: 240 шт</span>
+          </div>
+          <div class="bg-neutral-100 rounded-lg px-3 py-2 text-xs text-neutral-600 text-center">
+            Войдите для просмотра цен
+          </div>
+        </div>
+      </a>
+      <!-- Product 2 -->
+      <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+        <div class="relative">
+          <div class="img-ph-white h-48 lg:h-52"></div>
+          <div class="absolute top-3 left-3">
+            <span class="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">Новинка</span>
+          </div>
+          <button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+            <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <div class="text-xs text-neutral-500 mb-1">Арт. CH-1192</div>
+          <div class="font-medium text-neutral-900 text-sm leading-snug mb-3">Хризантема одноголовая белая 60 см</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500 mb-3">
+            <span class="w-3 h-3 rounded-full bg-white border border-neutral-300"></span>
+            <span>Белый</span>
+            <span>·</span>
+            <span>В наличии: 180 шт</span>
+          </div>
+          <div class="bg-neutral-100 rounded-lg px-3 py-2 text-xs text-neutral-600 text-center">
+            Войдите для просмотра цен
+          </div>
+        </div>
+      </a>
+      <!-- Product 3 -->
+      <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+        <div class="relative">
+          <div class="img-ph-peony h-48 lg:h-52"></div>
+          <div class="absolute top-3 left-3">
+            <span class="bg-orange-500 text-white text-xs font-medium px-2 py-1 rounded-full">Хит</span>
+          </div>
+          <button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+            <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <div class="text-xs text-neutral-500 mb-1">Арт. PI-3341</div>
+          <div class="font-medium text-neutral-900 text-sm leading-snug mb-3">Пион раскрытый сиреневый 50 см</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500 mb-3">
+            <span class="w-3 h-3 rounded-full bg-purple-400 border border-neutral-200"></span>
+            <span>Сиреневый</span>
+            <span>·</span>
+            <span>В наличии: 95 шт</span>
+          </div>
+          <div class="bg-neutral-100 rounded-lg px-3 py-2 text-xs text-neutral-600 text-center">
+            Войдите для просмотра цен
+          </div>
+        </div>
+      </a>
+      <!-- Product 4 (logged in view) -->
+      <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+        <div class="relative">
+          <div class="img-ph-tulip h-48 lg:h-52"></div>
+          <div class="absolute top-3 left-3">
+            <span class="bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-full">−15%</span>
+          </div>
+          <button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+            <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <div class="text-xs text-neutral-500 mb-1">Арт. TU-0882</div>
+          <div class="font-medium text-neutral-900 text-sm leading-snug mb-3">Тюльпан двойной красный 45 см</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500 mb-2">
+            <span class="w-3 h-3 rounded-full bg-red-600 border border-neutral-200"></span>
+            <span>Красный</span>
+            <span>·</span>
+            <span>В наличии: 432 шт</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs text-neutral-400 line-through">47 ₽/шт</div>
+              <div class="text-base font-bold text-primary-600">40 ₽/шт</div>
+            </div>
+            <button class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+          </div>
+        </div>
+      </a>
+      <!-- Product 5 -->
+      <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+        <div class="relative">
+          <div class="img-ph-orchid h-48 lg:h-52"></div>
+          <div class="absolute top-3 left-3">
+            <span class="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">Новинка</span>
+          </div>
+          <button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+            <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <div class="text-xs text-neutral-500 mb-1">Арт. OR-5512</div>
+          <div class="font-medium text-neutral-900 text-sm leading-snug mb-3">Орхидея фаленопсис ветка 70 см белая</div>
+          <div class="flex items-center gap-2 text-xs text-neutral-500 mb-3">
+            <span class="w-3 h-3 rounded-full bg-white border border-neutral-300"></span>
+            <span>Белый</span>
+            <span>·</span>
+            <span>В наличии: 67 шт</span>
+          </div>
+          <div class="bg-neutral-100 rounded-lg px-3 py-2 text-xs text-neutral-600 text-center">
+            Войдите для просмотра цен
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPOSITION -->
+<section class="py-16 lg:py-24 bg-white">
+  <div class="max-w-content mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="font-brand text-3xl font-bold text-primary-900 mb-3">Почему выбирают Orchidea</h2>
+      <p class="text-neutral-600 max-w-xl mx-auto">Мы работаем напрямую с производителями и обеспечиваем стабильные поставки для вашего бизнеса</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="flex gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-primary-900 mb-1">Прямые поставки</div>
+          <div class="text-sm text-neutral-600">Работаем напрямую с фабриками Китая и Европы без посредников. Лучшие цены на рынке.</div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-primary-900 mb-1">Гарантия качества</div>
+          <div class="text-sm text-neutral-600">Каждая партия проходит контроль качества. Работаем только с проверенными поставщиками.</div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-primary-900 mb-1">Быстрая сборка</div>
+          <div class="text-sm text-neutral-600">Сборка заказов от 1 дня. Отправляем из Волгограда транспортными компаниями по всей России.</div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-primary-900 mb-1">Персональный менеджер</div>
+          <div class="text-sm text-neutral-600">Каждому клиенту — персональный менеджер. Помогаем с выбором и формированием ассортимента.</div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-primary-900 mb-1">Удобный кабинет</div>
+          <div class="text-sm text-neutral-600">Личный кабинет с историей заказов, повтором заказа, шаблонами и документами.</div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-primary-900 mb-1">Документы и отчёты</div>
+          <div class="text-sm text-neutral-600">Счета, УПД, накладные — все документы в личном кабинете сразу после заказа.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="bg-primary-600 py-16">
+  <div class="max-w-content mx-auto px-6 text-center">
+    <h2 class="font-brand text-3xl font-bold text-white mb-4">Готовы начать работу?</h2>
+    <p class="text-primary-200 mb-8 max-w-lg mx-auto">Зарегистрируйтесь как оптовый покупатель и получите доступ к ценам, персональному менеджеру и полному каталогу</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="register.html" class="bg-white text-primary-600 px-8 py-3 rounded-xl font-semibold hover:bg-primary-50 transition-colors">
+        Открыть оптовый аккаунт
+      </a>
+      <a href="login.html" class="text-white border border-primary-400 px-8 py-3 rounded-xl font-medium hover:bg-primary-500 transition-colors">
+        Уже есть аккаунт
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-primary-900 text-primary-200 pt-16 pb-8">
+  <div class="max-w-content mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+      <div class="col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-primary-400 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/><path d="M12 8c-2.209 0-4 1.791-4 4s1.791 4 4 4 4-1.791 4-4-1.791-4-4-4z"/></svg>
+          </div>
+          <span class="font-brand text-2xl font-bold text-white">Orchidea</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-4 text-primary-300">Оптовый поставщик искусственных цветов и флористических материалов. Работаем в Волгограде, отправляем по всей России.</p>
+        <div class="text-sm text-primary-400">+7 903 374-31-37<br>michenkoolga@mail.ru</div>
+      </div>
+      <div>
+        <div class="font-semibold text-white text-sm mb-4">Каталог</div>
+        <div class="flex flex-col gap-2 text-sm">
+          <a href="#" class="hover:text-white transition-colors">Розы</a>
+          <a href="#" class="hover:text-white transition-colors">Хризантемы</a>
+          <a href="#" class="hover:text-white transition-colors">Ритуальная</a>
+          <a href="#" class="hover:text-white transition-colors">Свадебная</a>
+          <a href="#" class="hover:text-white transition-colors">Новинки</a>
+          <a href="#" class="hover:text-white transition-colors">Акции</a>
+        </div>
+      </div>
+      <div>
+        <div class="font-semibold text-white text-sm mb-4">Компания</div>
+        <div class="flex flex-col gap-2 text-sm">
+          <a href="#" class="hover:text-white transition-colors">О нас</a>
+          <a href="#" class="hover:text-white transition-colors">Доставка</a>
+          <a href="#" class="hover:text-white transition-colors">Оплата</a>
+          <a href="#" class="hover:text-white transition-colors">Документы</a>
+          <a href="#" class="hover:text-white transition-colors">Контакты</a>
+        </div>
+      </div>
+      <div>
+        <div class="font-semibold text-white text-sm mb-4">Аккаунт</div>
+        <div class="flex flex-col gap-2 text-sm">
+          <a href="login.html" class="hover:text-white transition-colors">Войти</a>
+          <a href="register.html" class="hover:text-white transition-colors">Регистрация</a>
+          <a href="account.html" class="hover:text-white transition-colors">Личный кабинет</a>
+          <a href="cart.html" class="hover:text-white transition-colors">Корзина</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-primary-700 pt-8 flex flex-col sm:flex-row justify-between gap-4 text-xs text-primary-500">
+      <span>© 2025 Orchidea. Все права защищены.</span>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-primary-300 transition-colors">Политика конфиденциальности</a>
+        <a href="#" class="hover:text-primary-300 transition-colors">Условия работы</a>
+        <a href="#" class="hover:text-primary-300 transition-colors">Реквизиты</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

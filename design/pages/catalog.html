@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог — Orchidea</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 200: '#A3CEB0', 300: '#6AAF7E', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21', 800: '#112419', 900: '#0C1A12' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 300: '#C4CEC6', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 700: '#3F5045', 800: '#2D3B32', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'], ui: ['Inter', 'sans-serif'] },
+          maxWidth: { content: '1320px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F8FAF8; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .img-ph-rose { background: url('../images/roses.jpg') center/cover; }
+    .img-ph-white { background: url('../images/chrysanthemums.jpg') center/cover; }
+    .img-ph-peony { background: url('../images/peonies.jpg') center/cover; }
+    .img-ph-branch { background: url('../images/branches.webp') center/cover; }
+    .img-ph-ritual { background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 100%); }
+    .img-ph-tulip { background: url('../images/tulips.jpg') center/cover; }
+    .img-ph-orchid { background: url('../images/orchids.jpg') center/cover; }
+    .img-ph-green { background: url('../images/branches.webp') center/cover; }
+    .img-ph-yellow { background: url('../images/tulips.jpg') center/cover; }
+    .product-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .product-card { transition: all 0.25s ease; }
+    .filter-chip.active { background: #1C3829; color: white; }
+    input[type=checkbox]:checked + label { color: #1C3829; }
+    .range-thumb { accent-color: #1C3829; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER (compact version) -->
+<div class="bg-primary-700 text-primary-200 text-sm py-2 hidden md:block">
+  <div class="max-w-content mx-auto px-6 flex items-center justify-between">
+    <span>Минимальный заказ: <strong class="text-white">15 000 ₽</strong> · Отгрузка от 1 дня</span>
+    <a href="tel:+79033743137" class="hover:text-white">+7 903 374-31-37</a>
+  </div>
+</div>
+<header class="sticky top-0 z-50 bg-primary-600">
+  <div class="max-w-content mx-auto px-6 py-3 flex items-center gap-6">
+    <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+      <div class="w-10 h-10 rounded-xl bg-primary-400 flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/><path d="M12 8c-2.209 0-4 1.791-4 4s1.791 4 4 4 4-1.791 4-4-1.791-4-4-4z"/></svg>
+      </div>
+      <span class="font-brand text-2xl font-bold text-white">Orchidea</span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 flex-1">
+      <a href="catalog.html" class="px-3 py-2 rounded-lg bg-primary-500 transition-colors text-base font-medium text-white whitespace-nowrap">Каталог</a>
+      <a href="novinka.html" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">Новинки</a>
+      <a href="aktsii.html" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">Акции</a>
+      <a href="#" class="px-3 py-2 rounded-lg hover:bg-primary-500 transition-colors text-base font-medium text-primary-200 hover:text-white whitespace-nowrap">О нас</a>
+    </nav>
+    <div class="hidden md:flex flex-1 max-w-sm relative">
+      <input type="text" placeholder="Поиск по каталогу, артикулу..." value="Роза" class="w-full bg-primary-500 text-white placeholder-primary-300 rounded-xl px-4 py-2 text-sm border border-primary-400 focus:outline-none pr-10">
+      <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+    <div class="flex items-center gap-2 ml-auto">
+      <!-- Admin -->
+      <a href="admin/dashboard.html" class="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-primary-400 hover:text-white hover:bg-primary-500 transition-colors border border-primary-500/40 hover:border-primary-400">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Админ
+      </a>
+      <a href="cart.html" class="p-2.5 rounded-xl hover:bg-primary-500 text-primary-200 hover:text-white relative">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary-400 text-white text-xs rounded-full flex items-center justify-center">12</span>
+      </a>
+      <a href="account.html" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 text-sm font-medium text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Мой кабинет
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMBS -->
+<div class="bg-white border-b border-neutral-200">
+  <div class="max-w-content mx-auto px-6 py-3">
+    <nav class="flex items-center gap-2 text-sm">
+      <a href="home.html" class="text-neutral-500 hover:text-primary-600 transition-colors">Главная</a>
+      <svg class="w-4 h-4 text-neutral-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-900 font-medium">Каталог</span>
+    </nav>
+  </div>
+</div>
+
+<!-- CATALOG HEADER -->
+<div class="bg-white border-b border-neutral-200">
+  <div class="max-w-content mx-auto px-6 py-6">
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="font-brand text-2xl font-bold text-primary-900 mb-1">Весь каталог</h1>
+        <p class="text-sm text-neutral-500">Найдено 1 847 артикулов</p>
+      </div>
+      <div class="hidden md:flex items-center gap-3">
+        <!-- Quick filter tabs -->
+        <div class="flex items-center gap-2">
+          <button class="filter-chip active text-xs font-medium px-3 py-1.5 rounded-full border border-primary-600 bg-primary-600 text-white transition-colors">Все товары</button>
+          <button class="filter-chip text-xs font-medium px-3 py-1.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-primary-600 hover:text-primary-600 transition-colors">Новинки</button>
+          <button class="filter-chip text-xs font-medium px-3 py-1.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-primary-600 hover:text-primary-600 transition-colors">Акции</button>
+          <button class="filter-chip text-xs font-medium px-3 py-1.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-primary-600 hover:text-primary-600 transition-colors">Хиты</button>
+          <button class="filter-chip text-xs font-medium px-3 py-1.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-primary-600 hover:text-primary-600 transition-colors">В наличии</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-content mx-auto px-6 py-8">
+  <div class="flex gap-8">
+
+    <!-- LEFT SIDEBAR: FILTERS -->
+    <aside class="hidden lg:block w-60 xl:w-72 flex-shrink-0">
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5 sticky top-24">
+
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-semibold text-neutral-900 text-sm">Фильтры</span>
+          <button class="text-xs text-primary-600 hover:underline font-medium">Сбросить всё</button>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-5 pb-5 border-b border-neutral-100">
+          <div class="font-medium text-neutral-800 text-sm mb-3">Категория</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Розы <span class="text-neutral-400">(285)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Хризантемы <span class="text-neutral-400">(194)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Пионы <span class="text-neutral-400">(147)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Тюльпаны <span class="text-neutral-400">(98)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Ритуальная <span class="text-neutral-400">(312)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Свадебная <span class="text-neutral-400">(228)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600 transition-colors">Ветки и зелень <span class="text-neutral-400">(256)</span></span>
+            </label>
+            <button class="text-xs text-primary-600 hover:underline text-left mt-1">+ ещё 8 категорий</button>
+          </div>
+        </div>
+
+        <!-- Color -->
+        <div class="mb-5 pb-5 border-b border-neutral-100">
+          <div class="font-medium text-neutral-800 text-sm mb-3">Цвет</div>
+          <div class="flex flex-wrap gap-2">
+            <button title="Красный" class="w-7 h-7 rounded-full bg-red-600 ring-2 ring-offset-2 ring-red-600 transition-all hover:scale-110"></button>
+            <button title="Белый" class="w-7 h-7 rounded-full bg-white border border-neutral-300 ring-2 ring-offset-2 ring-transparent hover:ring-neutral-400 transition-all hover:scale-110"></button>
+            <button title="Розовый" class="w-7 h-7 rounded-full bg-pink-400 ring-2 ring-offset-2 ring-transparent hover:ring-pink-400 transition-all hover:scale-110"></button>
+            <button title="Жёлтый" class="w-7 h-7 rounded-full bg-yellow-400 ring-2 ring-offset-2 ring-transparent hover:ring-yellow-400 transition-all hover:scale-110"></button>
+            <button title="Сиреневый" class="w-7 h-7 rounded-full bg-purple-400 ring-2 ring-offset-2 ring-transparent hover:ring-purple-400 transition-all hover:scale-110"></button>
+            <button title="Оранжевый" class="w-7 h-7 rounded-full bg-orange-400 ring-2 ring-offset-2 ring-transparent hover:ring-orange-400 transition-all hover:scale-110"></button>
+            <button title="Зелёный" class="w-7 h-7 rounded-full bg-green-600 ring-2 ring-offset-2 ring-transparent hover:ring-green-600 transition-all hover:scale-110"></button>
+            <button title="Бордовый" class="w-7 h-7 rounded-full bg-red-900 ring-2 ring-offset-2 ring-transparent hover:ring-red-900 transition-all hover:scale-110"></button>
+            <button title="Кремовый" class="w-7 h-7 rounded-full bg-amber-100 border border-neutral-200 ring-2 ring-offset-2 ring-transparent hover:ring-amber-200 transition-all hover:scale-110"></button>
+            <button title="Микс" class="w-7 h-7 rounded-full ring-2 ring-offset-2 ring-transparent hover:ring-neutral-400 transition-all hover:scale-110" style="background: conic-gradient(red, yellow, green, blue, red)"></button>
+          </div>
+        </div>
+
+        <!-- Height -->
+        <div class="mb-5 pb-5 border-b border-neutral-100">
+          <div class="font-medium text-neutral-800 text-sm mb-3">Высота</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">до 40 см <span class="text-neutral-400">(124)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">40–60 см <span class="text-neutral-400">(387)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">60–90 см <span class="text-neutral-400">(512)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">более 90 см <span class="text-neutral-400">(96)</span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Material -->
+        <div class="mb-5 pb-5 border-b border-neutral-100">
+          <div class="font-medium text-neutral-800 text-sm mb-3">Материал</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Шёлк <span class="text-neutral-400">(840)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Латекс/ПЭ <span class="text-neutral-400">(312)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Пластик <span class="text-neutral-400">(487)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Foam <span class="text-neutral-400">(208)</span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-5 pb-5 border-b border-neutral-100">
+          <div class="font-medium text-neutral-800 text-sm mb-3">Наличие</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">В наличии</span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Под заказ</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Collection -->
+        <div>
+          <div class="font-medium text-neutral-800 text-sm mb-3">Коллекция</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Spring 2025 <span class="text-neutral-400">(127)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Premium Line <span class="text-neutral-400">(89)</span></span>
+            </label>
+            <label class="flex items-center gap-2.5 cursor-pointer group">
+              <input type="checkbox" class="w-4 h-4 accent-primary-600 rounded" />
+              <span class="text-sm text-neutral-700 group-hover:text-primary-600">Ritual Pro <span class="text-neutral-400">(74)</span></span>
+            </label>
+            <button class="text-xs text-primary-600 hover:underline text-left mt-1">+ ещё 5 коллекций</button>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 min-w-0">
+
+      <!-- Active filters + sort bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs text-neutral-500 font-medium">Активные фильтры:</span>
+          <span class="inline-flex items-center gap-1.5 bg-primary-50 border border-primary-200 text-primary-700 rounded-full text-xs px-3 py-1 font-medium">
+            Розы
+            <button class="w-3.5 h-3.5 text-primary-500 hover:text-primary-700">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-primary-50 border border-primary-200 text-primary-700 rounded-full text-xs px-3 py-1 font-medium">
+            40–90 см
+            <button class="w-3.5 h-3.5 text-primary-500 hover:text-primary-700">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-primary-50 border border-primary-200 text-primary-700 rounded-full text-xs px-3 py-1 font-medium">
+            Шёлк
+            <button class="w-3.5 h-3.5 text-primary-500 hover:text-primary-700">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-neutral-100 text-red-700 rounded-full text-xs px-3 py-1 font-medium">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path fill="white" d="M8 12h8M12 8v8"/></svg>
+            Цвет: Красный
+            <button class="w-3.5 h-3.5 text-neutral-500 hover:text-neutral-700">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </span>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Sort -->
+          <select class="text-sm bg-white border border-neutral-200 rounded-xl px-3 py-2 text-neutral-700 focus:outline-none focus:border-primary-400">
+            <option>По популярности</option>
+            <option>Сначала новые</option>
+            <option>По цене ↑</option>
+            <option>По цене ↓</option>
+            <option>По наличию</option>
+          </select>
+          <!-- View toggle -->
+          <div class="flex bg-white border border-neutral-200 rounded-xl overflow-hidden">
+            <button class="p-2 bg-primary-600 text-white">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="p-2 text-neutral-400 hover:bg-neutral-50">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- Product (with price - logged in state) -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-rose h-48"></div>
+            <div class="absolute top-3 left-3">
+              <span class="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">Новинка</span>
+            </div>
+            <button onclick="event.preventDefault()" class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. OR-2847</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Роза кустовая бархатная 65 см красная</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-red-600"></span>
+              <span>В наличии: 240 шт</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-xs text-neutral-400 line-through">52 ₽/шт</div>
+                <div class="text-base font-bold text-primary-600">44 ₽/шт</div>
+              </div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 2 -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-white h-48"></div>
+            <button onclick="event.preventDefault()" class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+              <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. CH-1192</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Хризантема одноголовая белая 60 см</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-white border border-neutral-300"></span>
+              <span>В наличии: 180 шт</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-base font-bold text-primary-600">38 ₽/шт</div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 3 -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-peony h-48"></div>
+            <div class="absolute top-3 left-3 flex gap-1">
+              <span class="bg-orange-500 text-white text-xs font-medium px-2 py-1 rounded-full">Хит</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. PI-3341</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Пион раскрытый сиреневый 50 см</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-purple-400"></span>
+              <span>В наличии: 95 шт</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-base font-bold text-primary-600">62 ₽/шт</div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 4 — Out of stock -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block opacity-75">
+          <div class="relative">
+            <div class="img-ph-tulip h-48"></div>
+            <div class="absolute top-3 left-3">
+              <span class="bg-neutral-600 text-white text-xs font-medium px-2 py-1 rounded-full">Нет в наличии</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. TU-0441</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Тюльпан бахромчатый жёлтый 50 см</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+              <span class="text-red-500">Нет в наличии</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-base font-bold text-neutral-400">41 ₽/шт</div>
+              <button onclick="event.preventDefault()" class="bg-neutral-200 text-neutral-500 rounded-lg px-3 py-1.5 text-xs font-semibold cursor-not-allowed">Нет в наличии</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 5 -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-orchid h-48"></div>
+            <div class="absolute top-3 left-3">
+              <span class="bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-full">−20%</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. OR-5512</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Орхидея фаленопсис ветка 70 см белая</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-white border border-neutral-300"></span>
+              <span>В наличии: 67 шт</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-xs text-neutral-400 line-through">85 ₽/шт</div>
+                <div class="text-base font-bold text-primary-600">68 ₽/шт</div>
+              </div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 6 -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-branch h-48"></div>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. VE-2201</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Ветка ивы декоративная зелёная 90 см</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-green-600"></span>
+              <span>В наличии: 350 шт</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-base font-bold text-primary-600">29 ₽/шт</div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 7 -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-ritual h-48"></div>
+            <div class="absolute top-3 left-3">
+              <span class="bg-primary-600 text-white text-xs font-medium px-2 py-1 rounded-full">Ритуальная</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. RI-0834</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Лилия ритуальная белая с тычинками 65 см</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-white border border-neutral-300"></span>
+              <span>В наличии: 520 шт</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-base font-bold text-primary-600">55 ₽/шт</div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 8 -->
+        <a href="product.html" class="product-card bg-white rounded-2xl overflow-hidden border border-neutral-200 block">
+          <div class="relative">
+            <div class="img-ph-yellow h-48"></div>
+            <div class="absolute top-3 left-3">
+              <span class="bg-orange-500 text-white text-xs font-medium px-2 py-1 rounded-full">Хит</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-neutral-400 mb-1">Арт. GE-1102</div>
+            <div class="font-medium text-neutral-900 text-sm leading-snug mb-2">Герберы жёлтые букет 5 шт 45 см</div>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+              <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+              <span>В наличии: 88 букетов</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="text-base font-bold text-primary-600">145 ₽/букет</div>
+              <button onclick="event.preventDefault()" class="bg-primary-600 text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-primary-500 transition-colors">В корзину</button>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex items-center justify-between mt-10 pt-6 border-t border-neutral-200">
+        <div class="text-sm text-neutral-500">Показано 8 из 285 товаров</div>
+        <div class="flex items-center gap-2">
+          <button disabled class="w-9 h-9 rounded-xl border border-neutral-200 flex items-center justify-center text-neutral-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="w-9 h-9 rounded-xl bg-primary-600 text-white text-sm font-medium">1</button>
+          <button class="w-9 h-9 rounded-xl border border-neutral-200 text-neutral-700 text-sm hover:border-primary-400 hover:text-primary-600 transition-colors">2</button>
+          <button class="w-9 h-9 rounded-xl border border-neutral-200 text-neutral-700 text-sm hover:border-primary-400 hover:text-primary-600 transition-colors">3</button>
+          <span class="text-neutral-400 px-1">...</span>
+          <button class="w-9 h-9 rounded-xl border border-neutral-200 text-neutral-700 text-sm hover:border-primary-400 hover:text-primary-600 transition-colors">36</button>
+          <button class="w-9 h-9 rounded-xl border border-neutral-200 flex items-center justify-center text-neutral-600 hover:border-primary-400 hover:text-primary-600 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER (compact) -->
+<footer class="bg-primary-900 text-primary-400 py-8 mt-12">
+  <div class="max-w-content mx-auto px-6 flex flex-col sm:flex-row justify-between gap-4 text-xs">
+    <span>© 2025 Orchidea. Все права защищены.</span>
+    <div class="flex gap-6">
+      <a href="#" class="hover:text-primary-200 transition-colors">Политика конфиденциальности</a>
+      <a href="#" class="hover:text-primary-200 transition-colors">Условия работы</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

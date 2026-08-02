@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — Orchidea</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 200: '#A3CEB0', 300: '#6AAF7E', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 400: '#9BA89E', 600: '#5A6B62', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F8FAF8; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    input:focus { outline: none; border-color: #1C3829; box-shadow: 0 0 0 3px rgba(28,56,41,0.08); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- SIMPLE HEADER -->
+<header class="bg-primary-600 py-4">
+  <div class="max-w-content mx-auto px-6 flex items-center justify-between">
+    <a href="home.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-primary-400 flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/><path d="M12 8c-2.209 0-4 1.791-4 4s1.791 4 4 4 4-1.791 4-4-1.791-4-4-4z"/></svg>
+      </div>
+      <span class="font-brand text-2xl font-bold text-white">Orchidea</span>
+    </a>
+    <a href="register.html" class="text-sm text-primary-200 hover:text-white transition-colors">
+      Ещё нет аккаунта? <span class="text-white font-medium underline">Зарегистрироваться</span>
+    </a>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="flex-1 flex items-center justify-center py-16 px-4">
+  <div class="w-full max-w-md">
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8">
+      <div class="text-center mb-8">
+        <h1 class="font-brand text-2xl font-bold text-primary-900 mb-2">Вход в личный кабинет</h1>
+        <p class="text-sm text-neutral-500">Введите номер телефона для входа</p>
+      </div>
+
+      <!-- Phone field -->
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-neutral-700 mb-1.5">Номер телефона</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 text-sm font-medium select-none">+7</span>
+            <input
+              type="tel"
+              placeholder="(900) 123-45-67"
+              value="(999) 123-45-67"
+              class="w-full border border-neutral-200 rounded-xl pl-10 pr-4 py-3 text-sm bg-white"
+            />
+          </div>
+          <p class="text-xs text-neutral-400 mt-1.5">Телефон — основной идентификатор вашего аккаунта</p>
+        </div>
+
+        <!-- Login method tabs -->
+        <div>
+          <div class="flex bg-neutral-100 rounded-xl p-1 mb-4">
+            <button type="button" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-sm font-medium text-primary-700 transition-all">
+              СМС-код
+            </button>
+            <button type="button" class="flex-1 py-2 rounded-lg text-sm font-medium text-neutral-500 hover:text-neutral-700 transition-all">
+              Пароль
+            </button>
+          </div>
+
+          <!-- SMS code state (shown after phone entered) -->
+          <div class="space-y-4">
+            <div class="bg-primary-50 border border-primary-200 rounded-xl p-4 text-sm text-primary-700">
+              <div class="flex items-center gap-2 mb-1">
+                <svg class="w-4 h-4 text-primary-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.56 16l.36.92z"/></svg>
+                <span class="font-medium">СМС-код отправлен</span>
+              </div>
+              <span class="text-primary-600">На номер +7 (999) 123-45-67 отправлен код подтверждения</span>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1.5">Код из СМС</label>
+              <!-- 4-digit code input -->
+              <div class="flex gap-3 justify-center">
+                <input type="text" maxlength="1" value="4" class="w-14 h-14 text-center text-2xl font-bold border-2 border-primary-600 rounded-xl bg-white focus:border-primary-600" />
+                <input type="text" maxlength="1" value="8" class="w-14 h-14 text-center text-2xl font-bold border-2 border-primary-600 rounded-xl bg-white focus:border-primary-600" />
+                <input type="text" maxlength="1" value="2" class="w-14 h-14 text-center text-2xl font-bold border border-neutral-200 rounded-xl bg-white" />
+                <input type="text" maxlength="1" class="w-14 h-14 text-center text-2xl font-bold border border-neutral-200 rounded-xl bg-white" />
+              </div>
+              <div class="flex justify-between items-center mt-3">
+                <button type="button" class="text-xs text-neutral-400 cursor-not-allowed">Отправить повторно (54 с)</button>
+                <button type="button" class="text-xs text-primary-600 hover:underline font-medium">Изменить номер</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-500 text-white font-semibold py-3 rounded-xl transition-colors text-sm mt-2">
+          Войти в кабинет
+        </button>
+      </form>
+
+      <div class="mt-6 pt-6 border-t border-neutral-100">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="flex-1 h-px bg-neutral-200"></div>
+          <span class="text-xs text-neutral-400 flex-shrink-0">или войдите через</span>
+          <div class="flex-1 h-px bg-neutral-200"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button class="flex items-center justify-center gap-2 border border-neutral-200 rounded-xl py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:border-neutral-300 transition-colors">
+            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/></svg>
+            Telegram
+          </button>
+          <button class="flex items-center justify-center gap-2 border border-neutral-200 rounded-xl py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:border-neutral-300 transition-colors">
+            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register link -->
+    <p class="text-center text-sm text-neutral-500 mt-6">
+      Нет аккаунта?
+      <a href="register.html" class="text-primary-600 font-semibold hover:underline">Зарегистрироваться как оптовый покупатель</a>
+    </p>
+
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Покупатели — Orchidea Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F5F7F5; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .sidebar { background: #111C16; }
+    .nav-item:hover { background: rgba(74,140,92,0.15); }
+    .nav-item.active { background: rgba(74,140,92,0.2); color: #6AAF7E; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- SIDEBAR -->
+<aside class="sidebar w-60 flex-shrink-0 flex flex-col h-full">
+  <div class="px-5 py-5 border-b border-white/5">
+    <a href="../home.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-primary-400 flex items-center justify-center">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/></svg>
+      </div>
+      <div>
+        <div class="font-brand text-white font-bold text-base leading-none">Orchidea</div>
+        <div class="text-primary-400 text-xs mt-0.5">Admin</div>
+      </div>
+    </a>
+  </div>
+  <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+    <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Дашборд
+    </a>
+    <a href="orders.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+      Заказы
+    </a>
+    <a href="products.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+      Товары
+    </a>
+    <a href="customers.html" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-primary-300">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Покупатели
+    </a>
+    <a href="pricing.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Цены и скидки
+    </a>
+  </nav>
+  <div class="px-4 py-4 border-t border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-primary-400 flex items-center justify-center"><span class="text-white text-xs font-bold">АД</span></div>
+      <div><div class="text-white text-sm font-medium">Администратор</div><div class="text-neutral-500 text-xs">admin@orchidea.ru</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+  <header class="bg-white border-b border-neutral-200 px-8 py-4 flex items-center justify-between flex-shrink-0">
+    <h1 class="font-semibold text-neutral-900 text-lg">Покупатели</h1>
+    <button class="flex items-center gap-2 text-sm border border-neutral-200 text-neutral-600 rounded-xl px-4 py-2 hover:bg-neutral-50">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
+      Экспорт
+    </button>
+  </header>
+
+  <main class="flex-1 overflow-y-auto px-8 py-6">
+
+    <!-- PENDING APPROVAL SECTION -->
+    <div class="bg-white rounded-2xl border border-amber-200 overflow-hidden mb-6">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-amber-100 bg-amber-50">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+          <h2 class="font-semibold text-amber-900 text-sm">Ожидают одобрения (3)</h2>
+        </div>
+      </div>
+      <div class="divide-y divide-neutral-100">
+
+        <div class="px-5 py-4 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <span class="text-amber-700 font-semibold text-sm">РА</span>
+            </div>
+            <div class="min-w-0">
+              <div class="font-semibold text-neutral-800 text-sm">ООО "Ромашка Арт"</div>
+              <div class="text-xs text-neutral-400 flex flex-wrap gap-2 mt-0.5">
+                <span>ИНН: 7732104822</span>
+                <span>·</span>
+                <span>Цветочный магазин</span>
+                <span>·</span>
+                <span>Зарегистрирован: 10 июня 2025</span>
+                <span>·</span>
+                <span>Москва</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2 flex-shrink-0">
+            <button class="text-sm text-primary-600 hover:underline font-medium">Подробнее</button>
+            <button class="bg-primary-600 hover:bg-primary-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">Одобрить</button>
+            <button class="border border-neutral-200 text-neutral-600 text-sm font-medium px-4 py-2 rounded-xl hover:bg-neutral-50 transition-colors">Отклонить</button>
+          </div>
+        </div>
+
+        <div class="px-5 py-4 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <span class="text-amber-700 font-semibold text-sm">НС</span>
+            </div>
+            <div class="min-w-0">
+              <div class="font-semibold text-neutral-800 text-sm">ИП Новикова С.А.</div>
+              <div class="text-xs text-neutral-400 flex flex-wrap gap-2 mt-0.5">
+                <span>ИНН: 773512890231</span>
+                <span>·</span>
+                <span>Ритуальное агентство</span>
+                <span>·</span>
+                <span>Зарегистрирован: 9 июня 2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2 flex-shrink-0">
+            <button class="text-sm text-primary-600 hover:underline font-medium">Подробнее</button>
+            <button class="bg-primary-600 hover:bg-primary-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">Одобрить</button>
+            <button class="border border-neutral-200 text-neutral-600 text-sm font-medium px-4 py-2 rounded-xl hover:bg-neutral-50 transition-colors">Отклонить</button>
+          </div>
+        </div>
+
+        <div class="px-5 py-4 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <span class="text-amber-700 font-semibold text-sm">ВД</span>
+            </div>
+            <div class="min-w-0">
+              <div class="font-semibold text-neutral-800 text-sm">ООО "Вечный Декор"</div>
+              <div class="text-xs text-neutral-400 flex flex-wrap gap-2 mt-0.5">
+                <span>ИНН: 5001093847</span>
+                <span>·</span>
+                <span>Декоратор</span>
+                <span>·</span>
+                <span>Зарегистрирован: 8 июня 2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2 flex-shrink-0">
+            <button class="text-sm text-primary-600 hover:underline font-medium">Подробнее</button>
+            <button class="bg-primary-600 hover:bg-primary-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">Одобрить</button>
+            <button class="border border-neutral-200 text-neutral-600 text-sm font-medium px-4 py-2 rounded-xl hover:bg-neutral-50 transition-colors">Отклонить</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ALL CUSTOMERS -->
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <div class="relative flex-1 min-w-48">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Поиск по названию, ИНН, телефону..." class="w-full bg-white border border-neutral-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-primary-600" />
+      </div>
+      <div class="flex gap-2">
+        <button class="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-sm font-semibold">Все</button>
+        <button class="px-4 py-2.5 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400">Активные</button>
+        <button class="px-4 py-2.5 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400">Заблокированные</button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-neutral-100 bg-neutral-50/50">
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Компания</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Контакт</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Тип</th>
+            <th class="px-4 py-3.5 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Оборот</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Группа цен</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Статус</th>
+            <th class="px-4 py-3.5"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100">
+          <tr class="hover:bg-neutral-50">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-primary-600 font-semibold text-sm">ЦМ</span>
+                </div>
+                <div>
+                  <div class="font-medium text-neutral-800">ООО "Цветочный мир"</div>
+                  <div class="text-xs text-neutral-400">ИНН: 7712345678</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">+7 (999) 123-45-67</td>
+            <td class="px-4 py-4"><span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Цветочный магазин</span></td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">284 500 ₽</td>
+            <td class="px-4 py-4"><span class="bg-primary-50 text-primary-600 text-xs font-medium px-2 py-0.5 rounded-full">Стандарт</span></td>
+            <td class="px-4 py-4"><span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">Активен</span></td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Управление</button>
+            </td>
+          </tr>
+          <tr class="hover:bg-neutral-50">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-blue-600 font-semibold text-sm">КН</span>
+                </div>
+                <div>
+                  <div class="font-medium text-neutral-800">ИП Кузнецова Н.А.</div>
+                  <div class="text-xs text-neutral-400">ИНН: 771812300022</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">+7 (916) 234-56-78</td>
+            <td class="px-4 py-4"><span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Декоратор</span></td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">512 000 ₽</td>
+            <td class="px-4 py-4"><span class="bg-amber-50 text-amber-600 text-xs font-medium px-2 py-0.5 rounded-full">VIP</span></td>
+            <td class="px-4 py-4"><span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">Активен</span></td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Управление</button>
+            </td>
+          </tr>
+          <tr class="hover:bg-neutral-50">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-purple-600 font-semibold text-sm">РС</span>
+                </div>
+                <div>
+                  <div class="font-medium text-neutral-800">ООО "Ритуал Сервис"</div>
+                  <div class="text-xs text-neutral-400">ИНН: 5038093847</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">+7 (495) 345-67-89</td>
+            <td class="px-4 py-4"><span class="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full">Ритуальное агентство</span></td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">1 240 000 ₽</td>
+            <td class="px-4 py-4"><span class="bg-amber-50 text-amber-600 text-xs font-medium px-2 py-0.5 rounded-full">VIP</span></td>
+            <td class="px-4 py-4"><span class="bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">Активен</span></td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Управление</button>
+            </td>
+          </tr>
+          <tr class="hover:bg-neutral-50 opacity-60">
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-neutral-500 font-semibold text-sm">ФД</span>
+                </div>
+                <div>
+                  <div class="font-medium text-neutral-700">ООО "ФлорДекор Юг"</div>
+                  <div class="text-xs text-neutral-400">ИНН: 6162047213</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-400">+7 (863) 456-78-90</td>
+            <td class="px-4 py-4"><span class="bg-neutral-100 text-neutral-500 text-xs px-2 py-0.5 rounded-full">Оптовая база</span></td>
+            <td class="px-4 py-4 text-right text-neutral-500">48 200 ₽</td>
+            <td class="px-4 py-4"><span class="bg-neutral-100 text-neutral-500 text-xs font-medium px-2 py-0.5 rounded-full">Стандарт</span></td>
+            <td class="px-4 py-4"><span class="bg-red-100 text-red-600 text-xs font-medium px-2.5 py-1 rounded-full">Заблокирован</span></td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Управление</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="px-5 py-4 border-t border-neutral-100 flex items-center justify-between">
+        <div class="text-xs text-neutral-500">Показано 4 из 2 847 клиентов</div>
+        <div class="flex items-center gap-2">
+          <button class="w-8 h-8 rounded-lg bg-primary-600 text-white text-xs font-bold">1</button>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs">2</button>
+          <span class="text-neutral-400 text-xs">...</span>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs">114</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

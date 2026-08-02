@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Заказы — Orchidea Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 800: '#2D3B32', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F5F7F5; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .sidebar { background: #111C16; }
+    .nav-item:hover { background: rgba(74,140,92,0.15); }
+    .nav-item.active { background: rgba(74,140,92,0.2); color: #6AAF7E; }
+    tr:hover td { background: #F5F7F5; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- SIDEBAR -->
+<aside class="sidebar w-60 flex-shrink-0 flex flex-col h-full">
+  <div class="px-5 py-5 border-b border-white/5">
+    <a href="../home.html" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-primary-400 flex items-center justify-center">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/></svg>
+      </div>
+      <div>
+        <div class="font-brand text-white font-bold text-base leading-none">Orchidea</div>
+        <div class="text-primary-400 text-xs mt-0.5">Admin</div>
+      </div>
+    </a>
+  </div>
+  <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+    <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Дашборд
+    </a>
+    <a href="orders.html" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-primary-300">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+      Заказы
+      <span class="ml-auto bg-primary-500/30 text-primary-300 text-xs font-semibold px-1.5 py-0.5 rounded-full">7</span>
+    </a>
+    <a href="products.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+      Товары
+    </a>
+    <a href="customers.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Покупатели
+    </a>
+    <a href="pricing.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-neutral-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Цены и скидки
+    </a>
+  </nav>
+  <div class="px-4 py-4 border-t border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-primary-400 flex items-center justify-center">
+        <span class="text-white text-xs font-bold">АД</span>
+      </div>
+      <div>
+        <div class="text-white text-sm font-medium">Администратор</div>
+        <div class="text-neutral-500 text-xs">admin@orchidea.ru</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+  <header class="bg-white border-b border-neutral-200 px-8 py-4 flex items-center justify-between flex-shrink-0">
+    <h1 class="font-semibold text-neutral-900 text-lg">Заказы</h1>
+    <button class="flex items-center gap-2 text-sm border border-neutral-200 text-neutral-600 rounded-xl px-4 py-2 hover:bg-neutral-50 transition-colors">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Экспорт в Excel
+    </button>
+  </header>
+
+  <main class="flex-1 overflow-y-auto px-8 py-6">
+
+    <!-- Status tabs -->
+    <div class="flex items-center gap-2 mb-5 overflow-x-auto pb-1">
+      <button class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-600 text-white text-sm font-semibold flex-shrink-0">
+        Все
+        <span class="bg-primary-500 text-xs px-1.5 py-0.5 rounded-full">247</span>
+      </button>
+      <button class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400 flex-shrink-0">
+        Новые
+        <span class="bg-amber-100 text-amber-700 text-xs px-1.5 py-0.5 rounded-full">7</span>
+      </button>
+      <button class="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400 flex-shrink-0">В обработке <span class="text-neutral-400">(23)</span></button>
+      <button class="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400 flex-shrink-0">Собирается <span class="text-neutral-400">(12)</span></button>
+      <button class="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400 flex-shrink-0">Отправлен <span class="text-neutral-400">(45)</span></button>
+      <button class="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-neutral-600 hover:border-primary-400 flex-shrink-0">Доставлен <span class="text-neutral-400">(152)</span></button>
+      <button class="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-red-500 hover:border-red-300 flex-shrink-0">Отменён <span class="text-neutral-400">(8)</span></button>
+    </div>
+
+    <!-- Filters row -->
+    <div class="flex flex-wrap gap-3 mb-5">
+      <div class="relative flex-1 min-w-48">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="№ заказа или клиент..." class="w-full bg-white border border-neutral-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-primary-600" />
+      </div>
+      <select class="bg-white border border-neutral-200 rounded-xl px-3 py-2.5 text-sm text-neutral-600 focus:outline-none">
+        <option>За всё время</option>
+        <option>Сегодня</option>
+        <option>Последние 7 дней</option>
+        <option>Этот месяц</option>
+      </select>
+      <select class="bg-white border border-neutral-200 rounded-xl px-3 py-2.5 text-sm text-neutral-600 focus:outline-none">
+        <option>Все менеджеры</option>
+        <option>Анна Смирнова</option>
+        <option>Пётр Иванов</option>
+      </select>
+    </div>
+
+    <!-- Orders table -->
+    <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-neutral-100 bg-neutral-50/50">
+            <th class="px-5 py-3.5 text-left w-10"><input type="checkbox" class="w-4 h-4 accent-primary-600" /></th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">№ Заказа</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Клиент</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Дата</th>
+            <th class="px-4 py-3.5 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Сумма</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Статус</th>
+            <th class="px-4 py-3.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Менеджер</th>
+            <th class="px-4 py-3.5"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100">
+
+          <tr>
+            <td class="px-5 py-4"><input type="checkbox" class="w-4 h-4 accent-primary-600" /></td>
+            <td class="px-4 py-4 font-mono text-xs font-semibold text-neutral-600">#ORD-2847</td>
+            <td class="px-4 py-4">
+              <div class="font-medium text-neutral-800">ООО "Цветочный мир"</div>
+              <div class="text-xs text-neutral-400">5 позиций · 420 шт</div>
+            </td>
+            <td class="px-4 py-4 text-neutral-500 text-xs">10 июня 2025<br>14:32</td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">15 860 ₽</td>
+            <td class="px-4 py-4">
+              <select class="bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium rounded-lg px-2 py-1 focus:outline-none cursor-pointer">
+                <option>В обработке</option>
+                <option>Собирается</option>
+                <option>Отправлен</option>
+                <option>Доставлен</option>
+                <option>Отменён</option>
+              </select>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">Анна С.</td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px-5 py-4"><input type="checkbox" class="w-4 h-4 accent-primary-600" /></td>
+            <td class="px-4 py-4 font-mono text-xs font-semibold text-neutral-600">#ORD-2846</td>
+            <td class="px-4 py-4">
+              <div class="font-medium text-neutral-800">ИП Кузнецова</div>
+              <div class="text-xs text-neutral-400">8 позиций · 850 шт</div>
+            </td>
+            <td class="px-4 py-4 text-neutral-500 text-xs">10 июня 2025<br>11:15</td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">28 400 ₽</td>
+            <td class="px-4 py-4">
+              <select class="bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium rounded-lg px-2 py-1 focus:outline-none cursor-pointer">
+                <option>В обработке</option>
+                <option selected>Собирается</option>
+                <option>Отправлен</option>
+              </select>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">Пётр И.</td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px-5 py-4"><input type="checkbox" class="w-4 h-4 accent-primary-600" /></td>
+            <td class="px-4 py-4 font-mono text-xs font-semibold text-neutral-600">#ORD-2845</td>
+            <td class="px-4 py-4">
+              <div class="font-medium text-neutral-800">ООО "Флора Декор"</div>
+              <div class="text-xs text-neutral-400">15 позиций · 2 100 шт</div>
+            </td>
+            <td class="px-4 py-4 text-neutral-500 text-xs">9 июня 2025<br>16:47</td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">64 200 ₽</td>
+            <td class="px-4 py-4">
+              <select class="bg-purple-50 border border-purple-200 text-purple-700 text-xs font-medium rounded-lg px-2 py-1 focus:outline-none cursor-pointer">
+                <option>Собирается</option>
+                <option selected>Отправлен</option>
+                <option>Доставлен</option>
+              </select>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">Анна С.</td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px-5 py-4"><input type="checkbox" class="w-4 h-4 accent-primary-600" /></td>
+            <td class="px-4 py-4 font-mono text-xs font-semibold text-neutral-600">#ORD-2844</td>
+            <td class="px-4 py-4">
+              <div class="font-medium text-neutral-800">ООО "Ритуал Сервис"</div>
+              <div class="text-xs text-neutral-400">22 позиции · 3 400 шт</div>
+            </td>
+            <td class="px-4 py-4 text-neutral-500 text-xs">8 июня 2025<br>09:20</td>
+            <td class="px-4 py-4 text-right font-semibold text-neutral-800">112 500 ₽</td>
+            <td class="px-4 py-4">
+              <select class="bg-green-50 border border-green-200 text-green-700 text-xs font-medium rounded-lg px-2 py-1 focus:outline-none cursor-pointer">
+                <option>Отправлен</option>
+                <option selected>Доставлен</option>
+              </select>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-500">Пётр И.</td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+            </td>
+          </tr>
+
+          <tr class="opacity-60">
+            <td class="px-5 py-4"><input type="checkbox" class="w-4 h-4 accent-primary-600" /></td>
+            <td class="px-4 py-4 font-mono text-xs font-semibold text-neutral-500">#ORD-2843</td>
+            <td class="px-4 py-4">
+              <div class="font-medium text-neutral-700">ИП Соколов</div>
+              <div class="text-xs text-neutral-400">3 позиции · 120 шт</div>
+            </td>
+            <td class="px-4 py-4 text-neutral-400 text-xs">7 июня 2025<br>17:05</td>
+            <td class="px-4 py-4 text-right text-neutral-500">8 200 ₽</td>
+            <td class="px-4 py-4">
+              <span class="bg-red-50 border border-red-200 text-red-600 text-xs font-medium px-2 py-1 rounded-lg">Отменён</span>
+            </td>
+            <td class="px-4 py-4 text-xs text-neutral-400">Анна С.</td>
+            <td class="px-4 py-4 text-right">
+              <button class="text-primary-600 text-xs font-medium hover:underline">Открыть</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="px-5 py-4 border-t border-neutral-100 flex items-center justify-between">
+        <div class="text-xs text-neutral-500">Показано 5 из 247 заказов</div>
+        <div class="flex items-center gap-2">
+          <button class="w-8 h-8 rounded-lg bg-primary-600 text-white text-xs font-bold">1</button>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs">2</button>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs">3</button>
+          <span class="text-neutral-400 text-xs">...</span>
+          <button class="w-8 h-8 rounded-lg border border-neutral-200 text-neutral-600 text-xs">10</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

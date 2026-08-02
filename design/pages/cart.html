@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина — Orchidea</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1C3829', 50: '#EFF6F1', 100: '#D4EAD9', 200: '#A3CEB0', 300: '#6AAF7E', 400: '#4A8C5C', 500: '#2D5A40', 600: '#1C3829', 700: '#162D21', 900: '#0C1A12' },
+            neutral: { 50: '#F5F7F5', 100: '#EAEFEB', 200: '#DDE5DF', 300: '#C4CEC6', 400: '#9BA89E', 500: '#7A8B80', 600: '#5A6B62', 900: '#1A2420' },
+          },
+          fontFamily: { brand: ['"Playfair Display"', 'serif'] },
+          maxWidth: { content: '1320px' },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #F8FAF8; color: #1A2420; }
+    .font-brand { font-family: 'Playfair Display', serif; }
+    .img-ph-rose { background: url('../images/roses.jpg') center/cover; }
+    .img-ph-white { background: url('../images/chrysanthemums.jpg') center/cover; }
+    .img-ph-peony { background: url('../images/peonies.jpg') center/cover; }
+    .img-ph-branch { background: url('../images/branches.webp') center/cover; }
+    .img-ph-ritual { background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 100%); }
+    input:focus { outline: none; border-color: #1C3829; }
+    input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="bg-primary-700 text-primary-200 text-sm py-2 hidden md:block">
+  <div class="max-w-content mx-auto px-6 flex justify-between">
+    <span>Минимальный заказ: <strong class="text-white">15 000 ₽</strong></span>
+    <a href="tel:+79033743137" class="hover:text-white">+7 903 374-31-37</a>
+  </div>
+</div>
+<header class="sticky top-0 z-50 bg-primary-600">
+  <div class="max-w-content mx-auto px-6 py-3 flex items-center gap-6">
+    <a href="home.html" class="flex items-center gap-3 flex-shrink-0">
+      <div class="w-10 h-10 rounded-xl bg-primary-400 flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 5.477 10 10-4.477 10-10 10z"/><path d="M12 8c-2.209 0-4 1.791-4 4s1.791 4 4 4 4-1.791 4-4-1.791-4-4-4z"/></svg>
+      </div>
+      <span class="font-brand text-2xl font-bold text-white">Orchidea</span>
+    </a>
+    <div class="flex-1"></div>
+    <a href="admin/dashboard.html" class="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-primary-400 hover:text-white hover:bg-primary-500 transition-colors border border-primary-500/40 hover:border-primary-400 mr-1">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Админ
+    </a>
+    <a href="account.html" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 text-sm font-medium text-white">Мой кабинет</a>
+  </div>
+</header>
+
+<div class="max-w-content mx-auto px-6 py-8">
+  <!-- Page header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="font-brand text-2xl font-bold text-primary-900">Корзина</h1>
+      <p class="text-sm text-neutral-500 mt-0.5">12 товаров · 5 позиций</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button class="text-sm text-neutral-500 hover:text-red-600 transition-colors flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Очистить корзину
+      </button>
+      <button class="text-sm text-primary-600 hover:text-primary-500 transition-colors flex items-center gap-1.5 font-medium">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Сохранить корзину
+      </button>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+
+    <!-- CART ITEMS -->
+    <div class="lg:col-span-2 space-y-3">
+
+      <!-- SELECT ALL -->
+      <div class="bg-white rounded-xl border border-neutral-200 px-4 py-3 flex items-center justify-between">
+        <label class="flex items-center gap-3 cursor-pointer">
+          <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded" />
+          <span class="text-sm font-medium text-neutral-700">Выбрать все (5 позиций)</span>
+        </label>
+        <button class="text-xs text-red-500 hover:text-red-700 transition-colors">Удалить выбранные</button>
+      </div>
+
+      <!-- ITEM 1 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+        <div class="flex items-start gap-4">
+          <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded mt-1 flex-shrink-0" />
+          <div class="img-ph-rose w-20 h-20 rounded-xl flex-shrink-0"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-xs text-neutral-400 font-mono mb-0.5">Арт. OR-2847</div>
+                <a href="product.html" class="font-medium text-neutral-900 text-sm leading-snug hover:text-primary-600 transition-colors">Роза кустовая бархатная 65 см красная</a>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="w-3 h-3 rounded-full bg-red-600 inline-block"></span>
+                  <span class="text-xs text-neutral-400">Красный</span>
+                </div>
+              </div>
+              <button class="text-neutral-300 hover:text-red-500 transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">−</button>
+                <input type="number" value="50" class="w-14 py-1.5 text-center text-sm font-semibold border-x border-neutral-200 focus:outline-none" />
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">+</button>
+              </div>
+              <div class="text-right">
+                <div class="text-xs text-neutral-400 line-through">2 600 ₽</div>
+                <div class="font-bold text-primary-600">2 200 ₽</div>
+                <div class="text-xs text-neutral-400 mt-0.5">44 ₽/шт</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 2 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+        <div class="flex items-start gap-4">
+          <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded mt-1 flex-shrink-0" />
+          <div class="img-ph-white w-20 h-20 rounded-xl flex-shrink-0"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-xs text-neutral-400 font-mono mb-0.5">Арт. CH-1192</div>
+                <a href="product.html" class="font-medium text-neutral-900 text-sm leading-snug hover:text-primary-600 transition-colors">Хризантема одноголовая белая 60 см</a>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="w-3 h-3 rounded-full bg-white border border-neutral-300 inline-block"></span>
+                  <span class="text-xs text-neutral-400">Белый</span>
+                </div>
+              </div>
+              <button class="text-neutral-300 hover:text-red-500 transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">−</button>
+                <input type="number" value="100" class="w-14 py-1.5 text-center text-sm font-semibold border-x border-neutral-200 focus:outline-none" />
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">+</button>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-primary-600">3 800 ₽</div>
+                <div class="text-xs text-neutral-400 mt-0.5">38 ₽/шт</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 3 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+        <div class="flex items-start gap-4">
+          <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded mt-1 flex-shrink-0" />
+          <div class="img-ph-peony w-20 h-20 rounded-xl flex-shrink-0"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-xs text-neutral-400 font-mono mb-0.5">Арт. PI-3341</div>
+                <a href="product.html" class="font-medium text-neutral-900 text-sm leading-snug hover:text-primary-600 transition-colors">Пион раскрытый сиреневый 50 см</a>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="w-3 h-3 rounded-full bg-purple-400 inline-block"></span>
+                  <span class="text-xs text-neutral-400">Сиреневый</span>
+                </div>
+              </div>
+              <button class="text-neutral-300 hover:text-red-500 transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">−</button>
+                <input type="number" value="30" class="w-14 py-1.5 text-center text-sm font-semibold border-x border-neutral-200 focus:outline-none" />
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">+</button>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-primary-600">1 860 ₽</div>
+                <div class="text-xs text-neutral-400 mt-0.5">62 ₽/шт</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 4 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+        <div class="flex items-start gap-4">
+          <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded mt-1 flex-shrink-0" />
+          <div class="img-ph-branch w-20 h-20 rounded-xl flex-shrink-0"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-xs text-neutral-400 font-mono mb-0.5">Арт. VE-2201</div>
+                <a href="product.html" class="font-medium text-neutral-900 text-sm leading-snug hover:text-primary-600 transition-colors">Ветка ивы декоративная зелёная 90 см</a>
+              </div>
+              <button class="text-neutral-300 hover:text-red-500 transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">−</button>
+                <input type="number" value="200" class="w-14 py-1.5 text-center text-sm font-semibold border-x border-neutral-200 focus:outline-none" />
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">+</button>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-primary-600">5 800 ₽</div>
+                <div class="text-xs text-neutral-400 mt-0.5">29 ₽/шт</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 5 -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+        <div class="flex items-start gap-4">
+          <input type="checkbox" checked class="w-4 h-4 accent-primary-600 rounded mt-1 flex-shrink-0" />
+          <div class="img-ph-ritual w-20 h-20 rounded-xl flex-shrink-0"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-xs text-neutral-400 font-mono mb-0.5">Арт. RI-0834</div>
+                <a href="product.html" class="font-medium text-neutral-900 text-sm leading-snug hover:text-primary-600 transition-colors">Лилия ритуальная белая с тычинками 65 см</a>
+              </div>
+              <button class="text-neutral-300 hover:text-red-500 transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">−</button>
+                <input type="number" value="40" class="w-14 py-1.5 text-center text-sm font-semibold border-x border-neutral-200 focus:outline-none" />
+                <button class="px-3 py-1.5 text-neutral-600 hover:bg-neutral-50 text-sm font-bold">+</button>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-primary-600">2 200 ₽</div>
+                <div class="text-xs text-neutral-400 mt-0.5">55 ₽/шт</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add more items -->
+      <a href="catalog.html" class="flex items-center justify-center gap-2 bg-white border border-dashed border-neutral-300 rounded-2xl p-4 text-sm text-neutral-500 hover:border-primary-400 hover:text-primary-600 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Добавить товары из каталога
+      </a>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="space-y-4">
+      <!-- Minimum order progress -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-sm font-semibold text-neutral-800">Прогресс заказа</span>
+          <span class="text-xs font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">15 860 / 15 000 ₽</span>
+        </div>
+        <div class="w-full bg-neutral-100 rounded-full h-2.5 mb-3">
+          <div class="bg-primary-500 rounded-full h-2.5 w-full"></div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-green-700 bg-green-50 border border-green-200 rounded-xl px-3 py-2 font-medium">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+          Минимальный заказ выполнен!
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+        <div class="text-sm font-semibold text-neutral-800 mb-4">Итого</div>
+        <div class="space-y-2.5 text-sm mb-4">
+          <div class="flex justify-between">
+            <span class="text-neutral-500">Товаров: 420 шт</span>
+            <span class="text-neutral-700">16 840 ₽</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-neutral-500">Скидка 15%</span>
+            <span class="text-red-500">−980 ₽</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-neutral-500">Доставка</span>
+            <span class="text-neutral-400 text-xs">рассчитывается при оформлении</span>
+          </div>
+        </div>
+        <div class="border-t border-neutral-200 pt-4 mb-4">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold text-neutral-900">Итого</span>
+            <span class="text-xl font-bold text-primary-600">15 860 ₽</span>
+          </div>
+          <div class="text-xs text-neutral-400 mt-1">Без НДС</div>
+        </div>
+        <a href="checkout.html" class="block w-full bg-primary-600 hover:bg-primary-500 text-white font-semibold py-3.5 rounded-xl transition-colors text-center text-sm">
+          Оформить заказ →
+        </a>
+        <div class="mt-3 flex items-center gap-2 justify-center text-xs text-neutral-400">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Безопасная обработка данных
+        </div>
+      </div>
+
+      <!-- Manager info -->
+      <div class="bg-primary-50 border border-primary-200 rounded-2xl p-4">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-full bg-primary-200 flex items-center justify-center flex-shrink-0">
+            <span class="font-semibold text-primary-700 text-sm">АС</span>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-primary-900">Анна Смирнова</div>
+            <div class="text-xs text-primary-600">Ваш персональный менеджер в Волгограде</div>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button class="flex-1 flex items-center justify-center gap-1.5 bg-white border border-primary-300 text-primary-700 text-xs font-medium py-2 rounded-xl hover:bg-primary-50 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/></svg>
+            Написать
+          </button>
+          <button class="flex-1 flex items-center justify-center gap-1.5 bg-white border border-primary-300 text-primary-700 text-xs font-medium py-2 rounded-xl hover:bg-primary-50 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.27a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.56 16l.36.92z"/></svg>
+            Позвонить
+          </button>
+        </div>
+      </div>
+
+      <!-- Saved carts -->
+      <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+        <div class="text-sm font-semibold text-neutral-800 mb-3">Сохранённые корзины</div>
+        <div class="space-y-2">
+          <button class="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-neutral-50 transition-colors text-left">
+            <div>
+              <div class="text-xs font-medium text-neutral-700">Стандартный заказ март</div>
+              <div class="text-xs text-neutral-400">12 позиций · 18 400 ₽</div>
+            </div>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <button class="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-neutral-50 transition-colors text-left">
+            <div>
+              <div class="text-xs font-medium text-neutral-700">Ритуальные — регулярный</div>
+              <div class="text-xs text-neutral-400">7 позиций · 22 100 ₽</div>
+            </div>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="bg-primary-900 text-primary-400 py-8 mt-8">
+  <div class="max-w-content mx-auto px-6 flex flex-col sm:flex-row justify-between gap-4 text-xs">
+    <span>© 2025 Orchidea</span>
+    <div class="flex gap-6">
+      <a href="#" class="hover:text-primary-200">Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
