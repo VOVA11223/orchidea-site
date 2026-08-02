@@ -313,7 +313,7 @@ function CatalogInner() {
               Акции <button onClick={() => setSaleOnly(false)}>×</button>
             </span>
           )}
-          <button onClick={clearFilters} className="px-3 py-1 text-xs text-muted-foreground hover:text-foreground border border-transparent hover:border-border rounded-full transition-colors">
+          <button onClick={clearFilters} className="flex items-center px-3 py-1 bg-white text-foreground text-xs font-medium border border-border rounded-full hover:bg-muted transition-colors">
             Сбросить всё
           </button>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useCallbackModal } from "@/lib/callback-modal-context";
 import { formatPhoneDigits, parsePhoneInput } from "@/lib/phone";
 
@@ -9,12 +10,14 @@ export default function CallbackModal() {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [phoneDigits, setPhoneDigits] = useState("");
+  const [consent, setConsent] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
       setSubmitted(false);
       setName("");
       setPhoneDigits("");
+      setConsent(false);
     }
   }, [isOpen]);
 
@@ -96,18 +99,30 @@ export default function CallbackModal() {
                 className="w-full px-4 py-3 rounded-xl border border-neutral-200 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400 mb-6"
               />
 
+              <label className="flex items-center gap-2.5 cursor-pointer mb-6">
+                <input
+                  type="checkbox"
+                  required
+                  checked={consent}
+                  onChange={e => setConsent(e.target.checked)}
+                  className="w-4 h-4 accent-primary-600 flex-shrink-0"
+                />
+                <span className="text-xs text-neutral-500">
+                  Я соглашаюсь с{" "}
+                  <Link href="/privacy" target="_blank" className="text-primary-600 underline hover:text-primary-500 transition-colors">
+                    политикой обработки персональных данных
+                  </Link>
+                </span>
+              </label>
+
               <button
                 type="submit"
-                disabled={loading || phoneDigits.length < 10}
+                disabled={loading || phoneDigits.length < 10 || !consent}
                 className="w-full py-3.5 bg-primary-600 hover:bg-primary-500 disabled:bg-neutral-300 transition-colors rounded-full font-semibold text-white"
               >
                 {loading ? "Отправка..." : "Заказать звонок"}
               </button>
             </form>
-
-            <p className="text-xs text-neutral-400 text-center mt-4">
-              Оставляя заявку Вы соглашаетесь на обработку персональных данных
-            </p>
           </>
         )}
       </div>

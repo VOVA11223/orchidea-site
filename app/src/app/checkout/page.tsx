@@ -21,6 +21,7 @@ export default function CheckoutPage() {
     notes: "",
   });
   const [phoneDigits, setPhoneDigits] = useState("");
+  const [consent, setConsent] = useState(false);
 
   if (items.length === 0) {
     return (
@@ -169,9 +170,25 @@ export default function CheckoutPage() {
               </div>
             </div>
 
+            <label className="flex items-center gap-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                required
+                checked={consent}
+                onChange={e => setConsent(e.target.checked)}
+                className="w-4 h-4 accent-primary-600 flex-shrink-0"
+              />
+              <span className="text-xs text-neutral-500">
+                Я соглашаюсь с{" "}
+                <Link href="/privacy" target="_blank" className="text-primary-600 underline hover:text-primary-500 transition-colors">
+                  политикой обработки персональных данных
+                </Link>
+              </span>
+            </label>
+
             <button
               type="submit"
-              disabled={loading || phoneDigits.length < 10}
+              disabled={loading || phoneDigits.length < 10 || !consent}
               className="w-full py-3 bg-primary-600 hover:bg-primary-500 disabled:bg-neutral-300 text-white font-semibold rounded-xl transition-colors"
             >
               {loading ? "Оформление..." : "Подтвердить заказ"}

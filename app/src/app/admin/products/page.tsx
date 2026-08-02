@@ -221,7 +221,7 @@ export default function AdminProductsPage() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>Мин. кол-во *</label>
+                  <label className={labelClass}>Упаковка *</label>
                   <input
                     type="number"
                     name="minQty"

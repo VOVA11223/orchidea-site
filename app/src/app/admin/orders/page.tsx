@@ -53,7 +53,6 @@ export default function AdminOrdersPage() {
                   <tr className="bg-neutral-50 border-b border-neutral-200">
                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Дата</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Клиент</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Товары</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Сумма</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Оплата</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Статус</th>
@@ -62,7 +61,7 @@ export default function AdminOrdersPage() {
                 </thead>
                 <tbody className="divide-y divide-neutral-100">
                   {sorted.map(order => (
-                    <tr key={order.id} className="hover:bg-neutral-50 transition-colors align-top">
+                    <tr key={order.id} className="hover:bg-neutral-50 transition-colors align-middle">
                       <td className="px-6 py-3 text-sm text-neutral-500 whitespace-nowrap">
                         {new Date(order.createdAt).toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric" })}
                         <div className="text-xs text-neutral-400">
@@ -74,25 +73,31 @@ export default function AdminOrdersPage() {
                         <div className="text-xs text-neutral-500">{order.clientPhone}</div>
                         {order.clientCompany && <div className="text-xs text-neutral-400">{order.clientCompany}</div>}
                       </td>
-                      <td className="px-6 py-3 text-sm text-neutral-600">
-                        {order.items.length} поз. · {order.items.reduce((s, i) => s + i.quantity, 0)} шт
-                      </td>
                       <td className="px-6 py-3 text-sm text-primary-700 font-semibold whitespace-nowrap">
                         {order.totalPrice.toLocaleString("ru")} ₽
                       </td>
                       <td className="px-6 py-3 text-sm">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          order.paymentStatus === "paid" ? "bg-emerald-100 text-emerald-700"
-                          : order.paymentStatus === "cancelled" ? "bg-neutral-200 text-neutral-500"
-                          : "bg-amber-100 text-amber-700"
-                        }`}>
-                          {PAYMENT_STATUS_LABELS[order.paymentStatus]}
-                        </span>
+                        <select
+                          value={order.paymentStatus}
+                          onChange={e => updateOrder(order.id, { paymentStatus: e.target.value as Order["paymentStatus"] })}
+                          className={`border rounded-lg px-2 py-1 text-xs font-medium focus:outline-none ${
+                            order.paymentStatus === "paid" ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                            : order.paymentStatus === "cancelled" ? "bg-neutral-200 text-neutral-500 border-neutral-200"
+                            : "bg-amber-100 text-amber-700 border-amber-200"
+                          }`}
+                        >
+                          {(Object.keys(PAYMENT_STATUS_LABELS) as Order["paymentStatus"][]).map(s => (
+                            <option key={s} value={s}>{PAYMENT_STATUS_LABELS[s]}</option>
+                          ))}
+                        </select>
                       </td>
                       <td className="px-6 py-3 text-sm">
                         <select
                           value={order.orderStatus}
-                          onChange={e => updateOrder(order.id, { orderStatus: e.target.value as Order["orderStatus"] })}
+                          onChange={e => {
+                            const orderStatus = e.target.value as Order["orderStatus"];
+                            updateOrder(order.id, orderStatus === "delivered" ? { orderStatus, paymentStatus: "paid" } : { orderStatus });
+                          }}
                           className="border border-neutral-200 rounded-lg px-2 py-1 text-sm text-neutral-700 focus:outline-none focus:border-primary-400 bg-white"
                         >
                           {(Object.keys(ORDER_STATUS_LABELS) as Order["orderStatus"][]).map(s => (

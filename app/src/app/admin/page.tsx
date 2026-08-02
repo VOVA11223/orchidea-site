@@ -26,12 +26,7 @@ export default function AdminPage() {
     { icon: "📦", title: "Товары", desc: "Управление каталогом и товарами", href: "/admin/products" },
     { icon: "🗂️", title: "Категории", desc: "Категории и подкатегории каталога", href: "/admin/categories" },
     { icon: "📋", title: "Заказы", desc: "Просмотр и управление заказами", href: "/admin/orders" },
-    { icon: "📊", title: "Статистика", desc: "Аналитика по заказам и товарам", href: "/admin/statistics" },
     { icon: "⚙️", title: "Настройки", desc: "Конфигурация магазина", href: "/admin/settings" },
-  ];
-
-  const comingSoon = [
-    { icon: "📈", title: "Отчеты", desc: "Финансовые и продажные отчеты" },
   ];
 
   return (
@@ -73,17 +68,6 @@ export default function AdminPage() {
                 Открыть
               </div>
             </Link>
-          ))}
-
-          {comingSoon.map(m => (
-            <div key={m.title} className="bg-neutral-100 rounded-2xl p-8 border border-neutral-200 opacity-70">
-              <div className="text-3xl mb-3 grayscale">{m.icon}</div>
-              <h2 className="text-xl font-semibold text-neutral-500 mb-2">{m.title}</h2>
-              <p className="text-neutral-400 text-sm mb-4">{m.desc}</p>
-              <div className="px-4 py-2 bg-neutral-200 rounded-full text-neutral-500 text-sm font-medium inline-block">
-                Скоро
-              </div>
-            </div>
           ))}
         </div>
 

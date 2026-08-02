@@ -30,7 +30,7 @@ export default function AktsiiPage() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <span className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full uppercase tracking-wider">Акции</span>
-                <span className="text-white/60 text-sm">3 активных предложения</span>
+                <span className="text-white/60 text-sm">{saleProducts.length} товаров по акции</span>
               </div>
               <h1 className="font-brand text-4xl font-bold text-white mb-2">Специальные предложения</h1>
               <p className="text-white/80">Скидки для оптовых клиентов · Объёмные бонусы</p>
@@ -40,45 +40,6 @@ export default function AktsiiPage() {
       </section>
 
       <div className="max-w-[1320px] mx-auto px-6 py-10">
-
-        {/* Promo cards */}
-        <section className="mb-12">
-          <h2 className="font-brand text-2xl font-bold text-primary-900 mb-6">Активные акции</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-
-            {/* Promo 1 */}
-            <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 text-white relative overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-xl transition-all duration-200">
-              <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-white/5 -translate-y-10 translate-x-10" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-white/5 translate-y-8 -translate-x-8" />
-              <div className="relative flex flex-col flex-1">
-                <div className="text-6xl font-extrabold mb-2 tracking-tight">−15%</div>
-                <div className="font-bold text-2xl mb-2">На заказ от 30 000 ₽</div>
-                <p className="text-primary-100 text-base leading-relaxed mb-6 flex-1">Скидка применяется автоматически при оформлении заказа</p>
-                <Link href="/catalog" className="block text-center px-5 py-3.5 bg-white text-primary-700 text-base font-bold rounded-xl hover:bg-primary-50 transition-colors shadow-sm">
-                  В каталог
-                </Link>
-              </div>
-            </div>
-
-            {/* Promo 2 */}
-            <div className="bg-white rounded-2xl p-8 border-2 border-amber-300 relative flex flex-col hover:-translate-y-1 hover:shadow-xl transition-all duration-200">
-              <span className="absolute top-4 right-4 px-2.5 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">Хит</span>
-              <div className="text-3xl font-bold text-neutral-900 mb-2">Накопительная скидка</div>
-              <p className="text-neutral-500 text-base leading-relaxed mb-6">Чем больше заказываете — тем ниже цена</p>
-              <div className="space-y-3 mb-6 flex-1">
-                {[["от 50 шт", "−5%"], ["от 100 шт", "−10%"], ["от 200 шт", "−15%"]].map(([q, d]) => (
-                  <div key={q} className="flex justify-between items-center text-base border-b border-dashed border-neutral-200 pb-2 last:border-0 last:pb-0">
-                    <span className="text-neutral-600">{q}</span>
-                    <span className="font-extrabold text-primary-700 text-xl">{d}</span>
-                  </div>
-                ))}
-              </div>
-              <Link href="/catalog" className="block text-center px-5 py-3.5 bg-primary-600 text-white text-base font-bold rounded-xl hover:bg-primary-500 transition-colors shadow-sm">
-                Воспользоваться
-              </Link>
-            </div>
-          </div>
-        </section>
 
         {/* Sale products */}
         <section>

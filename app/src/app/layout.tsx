@@ -10,6 +10,7 @@ import { SettingsProvider } from "@/lib/settings-context";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CallbackModal from "@/components/CallbackModal";
+import CookieConsent from "@/components/CookieConsent";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-ui" });
 const manrope = Manrope({ subsets: ["latin", "cyrillic"], variable: "--font-brand" });
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <main className="flex-1">{children}</main>
                     <Footer />
                     <CallbackModal />
+                    <CookieConsent />
                   </CallbackModalProvider>
                 </CartProvider>
               </ProductsProvider>

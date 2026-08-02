@@ -15,10 +15,10 @@ const NAV = [
 ];
 
 function navClass(active: boolean) {
-  const base = "px-3 py-2 rounded-lg text-base font-medium whitespace-nowrap transition-colors";
+  const base = "h-11 flex items-center px-5 rounded-full text-base font-medium whitespace-nowrap transition-colors border";
   return active
-    ? `${base} text-sage-700`
-    : `${base} text-foreground hover:text-sage-700 hover:bg-neutral-100`;
+    ? `${base} bg-sage-500/10 border-sage-500/30 text-sage-700`
+    : `${base} border-transparent text-foreground hover:border-border hover:bg-muted`;
 }
 
 function mobileNavClass(active: boolean) {
