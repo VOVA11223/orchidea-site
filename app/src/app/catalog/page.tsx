@@ -352,8 +352,13 @@ function CatalogInner() {
           {filtered.length === 0 ? (
             <div className="text-center py-20 text-muted-foreground">
               <div className="text-4xl mb-4">🌸</div>
-              <div className="font-medium text-foreground mb-2">Ничего не найдено</div>
-              <button onClick={clearFilters} className="text-primary-600 text-sm hover:underline">Сбросить фильтры</button>
+              <div className="font-medium text-foreground mb-4">Ничего не найдено</div>
+              <button
+                onClick={clearFilters}
+                className="inline-block px-6 py-2.5 bg-primary-600 hover:bg-primary-500 transition-colors rounded-full font-semibold text-white text-sm"
+              >
+                Сбросить фильтры
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
