@@ -462,7 +462,7 @@ export default function AdminCategoriesPage() {
                       })}
 
                       {/* Add subcategory */}
-                      <div className="flex items-center gap-2 pt-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 pt-1">
                         <input
                           type="text"
                           value={subInputs[cat.id] ?? ""}
@@ -474,11 +474,11 @@ export default function AdminCategoriesPage() {
                             }
                           }}
                           placeholder="Новая подкатегория"
-                          className="flex-1 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400"
+                          className="w-full sm:flex-1 sm:min-w-0 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary-400"
                         />
                         <button
                           onClick={() => handleAddSubcategory(cat.id)}
-                          className="px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 transition-colors rounded-lg text-neutral-600 text-xs font-medium flex-shrink-0"
+                          className="px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 transition-colors rounded-lg text-neutral-600 text-xs font-medium sm:flex-shrink-0"
                         >
                           Добавить
                         </button>
