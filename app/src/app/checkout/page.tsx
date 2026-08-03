@@ -15,9 +15,10 @@ export default function CheckoutPage() {
   const [formData, setFormData] = useState({
     clientName: "",
     deliveryAddress: "",
-    deliveryDateTime: "",
     notes: "",
   });
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [deliveryTime, setDeliveryTime] = useState("");
   const [phoneDigits, setPhoneDigits] = useState("");
   const [consent, setConsent] = useState(false);
 
@@ -56,6 +57,7 @@ export default function CheckoutPage() {
     setLoading(true);
 
     try {
+      const deliveryDateTime = deliveryDate ? `${deliveryDate}T${deliveryTime || "00:00"}` : "";
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,7 +65,7 @@ export default function CheckoutPage() {
           clientName: formData.clientName,
           clientPhone: formatPhoneDigits(phoneDigits),
           deliveryAddress: formData.deliveryAddress,
-          deliveryDateTime: formData.deliveryDateTime,
+          deliveryDateTime,
           notes: formData.notes,
           items: items.map(item => ({
             id: item.id,
@@ -143,13 +145,20 @@ export default function CheckoutPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1">Желаемая дата и время доставки</label>
-                  <input
-                    type="datetime-local"
-                    name="deliveryDateTime"
-                    value={formData.deliveryDateTime}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500"
-                  />
+                  <div className="flex gap-3">
+                    <input
+                      type="date"
+                      value={deliveryDate}
+                      onChange={e => setDeliveryDate(e.target.value)}
+                      className="flex-1 min-w-0 px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500"
+                    />
+                    <input
+                      type="time"
+                      value={deliveryTime}
+                      onChange={e => setDeliveryTime(e.target.value)}
+                      className="flex-1 min-w-0 px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500"
+                    />
+                  </div>
                 </div>
 
                 <div>

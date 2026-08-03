@@ -41,11 +41,31 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    fetch("/api/products")
-      .then(res => res.json())
-      .then(body => setProducts(body.ok ? body.products : []))
-      .catch(() => setProducts([]))
-      .finally(() => setIsLoaded(true));
+    let cancelled = false;
+
+    async function load(attemptsLeft: number): Promise<void> {
+      try {
+        const res = await fetch("/api/products");
+        const body = await res.json();
+        if (!body.ok) throw new Error(body.error || "Запрос не выполнен");
+        if (!cancelled) {
+          setProducts(body.products);
+          setIsLoaded(true);
+        }
+      } catch {
+        if (cancelled) return;
+        if (attemptsLeft > 0) {
+          await new Promise(r => setTimeout(r, 800));
+          if (!cancelled) await load(attemptsLeft - 1);
+        } else {
+          setProducts([]);
+          setIsLoaded(true);
+        }
+      }
+    }
+
+    load(2);
+    return () => { cancelled = true; };
   }, []);
 
   const addProduct = async (product: Product) => {

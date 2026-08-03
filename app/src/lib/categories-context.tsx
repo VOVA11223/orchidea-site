@@ -18,9 +18,11 @@ interface CategoriesContextType {
   addCategory: (label: string) => Promise<void>;
   updateCategory: (id: string, label: string) => Promise<void>;
   deleteCategory: (id: string) => Promise<void>;
+  reorderCategories: (orderedIds: string[]) => Promise<void>;
   addSubcategory: (categoryId: string, label: string) => Promise<void>;
   updateSubcategory: (categoryId: string, subcategoryId: string, label: string) => Promise<void>;
   deleteSubcategory: (categoryId: string, subcategoryId: string) => Promise<void>;
+  reorderSubcategories: (categoryId: string, orderedSubIds: string[]) => Promise<void>;
 }
 
 const CategoriesContext = createContext<CategoriesContextType | undefined>(undefined);
@@ -105,6 +107,25 @@ export function CategoriesProvider({ children }: { children: ReactNode }) {
     setCategories(prev => prev.filter(c => c.id !== id));
   };
 
+  const reorderCategories = async (orderedIds: string[]) => {
+    const previous = categories;
+    const reordered = orderedIds
+      .map(id => previous.find(c => c.id === id))
+      .filter((c): c is Category => Boolean(c));
+    setCategories(reordered);
+    try {
+      const res = await fetch("/api/admin/categories/reorder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderedIds }),
+      });
+      await readJsonOrThrow(res);
+    } catch (err) {
+      setCategories(previous);
+      throw err;
+    }
+  };
+
   const addSubcategory = async (categoryId: string, label: string) => {
     const current = categories.find(c => c.id === categoryId);
     if (!current) return;
@@ -131,9 +152,29 @@ export function CategoriesProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const reorderSubcategories = async (categoryId: string, orderedSubIds: string[]) => {
+    const current = categories.find(c => c.id === categoryId);
+    if (!current) return;
+    const reordered = orderedSubIds
+      .map(id => current.subcategories.find(s => s.id === id))
+      .filter((s): s is Subcategory => Boolean(s));
+    await putCategory({ ...current, subcategories: reordered });
+  };
+
   return (
     <CategoriesContext.Provider
-      value={{ categories, isLoaded, addCategory, updateCategory, deleteCategory, addSubcategory, updateSubcategory, deleteSubcategory }}
+      value={{
+        categories,
+        isLoaded,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+        reorderCategories,
+        addSubcategory,
+        updateSubcategory,
+        deleteSubcategory,
+        reorderSubcategories,
+      }}
     >
       {children}
     </CategoriesContext.Provider>

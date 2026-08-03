@@ -19,9 +19,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Не заполнены обязательные поля" }, { status: 400 });
   }
 
-  const { data, error } = await supabaseAdmin()
+  const admin = supabaseAdmin();
+  const { data: last } = await admin
     .from("categories")
-    .insert(category)
+    .select("sort_order")
+    .order("sort_order", { ascending: false, nullsFirst: false })
+    .limit(1)
+    .maybeSingle();
+  const sortOrder = (last?.sort_order ?? -1) + 1;
+
+  const { data, error } = await admin
+    .from("categories")
+    .insert({ ...category, sort_order: sortOrder })
     .select()
     .single();
 

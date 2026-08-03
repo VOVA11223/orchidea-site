@@ -41,10 +41,11 @@ export default function HomePage() {
               Искусственные<br />цветы оптом
             </h1>
             <p className="text-navy-800 text-xl md:text-2xl font-semibold leading-relaxed mb-6">
-              Минимальный заказ от {settings.minOrder.toLocaleString("ru")} руб.
+              Минимальный заказ от{" "}
+              <span className="whitespace-nowrap">{settings.minOrder.toLocaleString("ru")} руб.</span>
             </p>
             <p className="text-navy-800/80 text-base md:text-lg leading-relaxed mb-10">
-              Большой выбор ассортимента цветов и композиционных букетов.
+              Большой выбор ассортимента цветов и<br className="hidden md:inline" /> композиционных букетов.
             </p>
             <div className="flex flex-col items-center gap-4 md:flex-row md:justify-start">
               <Link

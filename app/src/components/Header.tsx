@@ -46,12 +46,12 @@ export default function Header() {
     <>
       {/* Top bar: logo + contacts */}
       <div className="bg-card border-b-2 border-dashed border-neutral-400">
-        <div className="max-w-[1320px] mx-auto px-6 py-3 flex items-center justify-center lg:justify-between gap-6">
+        <div className="max-w-[1320px] mx-auto px-6 py-3 flex items-center justify-center xl:justify-between gap-6">
           <Link href="/" className="flex-shrink-0">
             <img src="/images/logo.jpg" alt="Орхидея" className="h-16 w-auto" />
           </Link>
 
-          <div className="hidden lg:flex flex-wrap justify-end items-start gap-x-8 gap-y-3 text-sm text-foreground">
+          <div className="hidden xl:flex flex-wrap justify-end items-start gap-x-8 gap-y-3 text-sm text-foreground">
             <div className="flex items-start gap-2 pt-0.5 whitespace-nowrap">
               <svg className="w-5 h-5 text-sage-700 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
                 <rect x={3} y={5} width={18} height={14} rx={2} />
@@ -88,7 +88,7 @@ export default function Header() {
         <div className="max-w-[1320px] mx-auto px-6 py-3.5 flex items-center gap-6">
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1 flex-1">
+          <nav className="hidden xl:flex items-center gap-1 flex-1">
             {NAV.map(({ href, label }) => (
               <Link key={href} href={href} className={navClass(pathname === href || (href !== "/" && pathname.startsWith(href + "/")))}>
                 {label}
@@ -136,7 +136,7 @@ export default function Header() {
 
             {/* Mobile menu toggle */}
             <button
-              className="lg:hidden h-11 w-11 flex items-center justify-center rounded-xl border border-border hover:bg-muted transition-colors text-foreground"
+              className="xl:hidden h-11 w-11 flex items-center justify-center rounded-xl border border-border hover:bg-muted transition-colors text-foreground"
               onClick={() => setOpen(v => !v)}
               aria-label="Меню"
             >
@@ -160,7 +160,7 @@ export default function Header() {
 
         {/* Mobile nav dropdown */}
         {open && (
-          <div className="lg:hidden bg-card border-t border-border px-6 py-4 flex flex-col gap-2">
+          <div className="xl:hidden bg-card border-t border-border px-6 py-4 flex flex-col gap-2">
             {NAV.map(({ href, label }) => (
               <Link
                 key={href}

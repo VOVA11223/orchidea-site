@@ -10,8 +10,8 @@ import { Suspense } from "react";
 
 const SORT_OPTIONS = [
   { id: "default", label: "По умолчанию" },
-  { id: "price_asc", label: "Цена ↑" },
-  { id: "price_desc", label: "Цена ↓" },
+  { id: "price_asc", label: "Цена ▲" },
+  { id: "price_desc", label: "Цена ▼" },
   { id: "new", label: "Сначала новые" },
 ];
 
@@ -332,8 +332,12 @@ function CatalogInner() {
             <div className="absolute left-0 top-0 bottom-0 w-72 bg-card p-6 overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <span className="font-semibold text-foreground">Фильтры</span>
-                <button onClick={() => setSidebarOpen(false)} className="text-muted-foreground">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  aria-label="Закрыть"
+                  className="w-9 h-9 rounded-full border border-neutral-200 flex items-center justify-center text-muted-foreground hover:bg-neutral-100 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <line x1={18} y1={6} x2={6} y2={18} /><line x1={6} y1={6} x2={18} y2={18} />
                   </svg>
                 </button>
