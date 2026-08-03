@@ -167,15 +167,15 @@ export default function HomePage() {
                   <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
                   <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                 </div>
-                <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+                <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">
                   {p.name}
                 </Link>
                 <div className="mt-auto pt-1.5">
-                  {p.color && (
-                    <div className="flex items-center gap-1 mb-2">
+                  <div className="h-3.5 mb-2 flex items-center gap-1">
+                    {p.color && (
                       <span className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300" style={{ backgroundColor: p.color }} />
-                    </div>
-                  )}
+                    )}
+                  </div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
                     {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice} ₽</span>}
@@ -203,12 +203,12 @@ export default function HomePage() {
       <section className="relative">
         <div
           className="absolute inset-0 bg-neutral-50"
-          style={{ clipPath: "polygon(0 7%, 100% 0, 100% 100%, 0 100%)" }}
+          style={{ clipPath: "polygon(0 32px, 100% 0, 100% 100%, 0 100%)" }}
         />
         <div
           className="absolute inset-0 opacity-30 bg-cover bg-center pointer-events-none mix-blend-multiply"
           style={{
-            clipPath: "polygon(0 7%, 100% 0, 100% 100%, 0 100%)",
+            clipPath: "polygon(0 32px, 100% 0, 100% 100%, 0 100%)",
             backgroundImage: "url(/images/paper-texture.jpg)",
           }}
         />
@@ -255,7 +255,7 @@ export default function HomePage() {
       <section className="relative -mt-10 overflow-hidden">
         <div
           className="absolute inset-0"
-          style={{ clipPath: "polygon(0 6%, 100% 0, 100% 100%, 0 100%)" }}
+          style={{ clipPath: "polygon(0 32px, 100% 0, 100% 100%, 0 100%)" }}
         >
           <iframe
             src="https://yandex.ru/map-widget/v1/?ll=44.532207%2C48.764271&z=16&pt=44.532207%2C48.764271%2Cpm2rdm"

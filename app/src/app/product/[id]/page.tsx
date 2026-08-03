@@ -56,8 +56,8 @@ export default function ProductPage() {
     return (
       <div className="max-w-[1320px] mx-auto px-6 py-24 text-center">
         <div className="text-4xl mb-4">🌸</div>
-        <div className="font-medium text-foreground mb-2">Товар не найден</div>
-        <Link href="/catalog" className="text-primary-600 text-sm hover:underline">Вернуться в каталог</Link>
+        <div className="font-medium text-foreground mb-5">Товар не найден</div>
+        <Link href="/catalog" className="inline-block px-7 py-3.5 bg-primary-600 hover:bg-primary-500 transition-colors rounded-full font-semibold text-white">Вернуться в каталог</Link>
       </div>
     );
   }
@@ -222,7 +222,7 @@ export default function ProductPage() {
               <div key={p.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
                 <ProductCardImage img={p.img} category={p.category} className="h-40" />
                 <div className="p-3 flex flex-col flex-1">
-                  <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">{p.name}</Link>
+                  <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">{p.name}</Link>
                   <div className="mt-auto pt-2">
                     <div className="flex items-baseline gap-1.5 mb-2">
                       <span className="font-bold text-primary-700">{p.price} ₽</span>

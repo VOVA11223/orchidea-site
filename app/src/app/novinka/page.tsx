@@ -22,21 +22,19 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
           <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
           <span className="text-xs text-neutral-400 truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
         </div>
-        <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+        <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">
           {p.name}
         </Link>
         <div className="mt-auto pt-1.5">
-          {p.colors.length > 0 && (
-            <div className="flex items-center gap-1 mb-2">
-              {p.colors.map((hex, i) => (
-                <span
-                  key={i}
-                  className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300"
-                  style={{ backgroundColor: hex }}
-                />
-              ))}
-            </div>
-          )}
+          <div className="h-3.5 mb-2 flex items-center gap-1">
+            {p.colors.map((hex, i) => (
+              <span
+                key={i}
+                className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300"
+                style={{ backgroundColor: hex }}
+              />
+            ))}
+          </div>
           <div className="flex items-baseline gap-2">
             <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
             {p.oldPrice && <span className="text-xs text-neutral-400 line-through">{p.oldPrice} ₽</span>}
