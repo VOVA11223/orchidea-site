@@ -24,7 +24,7 @@ const EMPTY_PRODUCT: Product = {
   id: "",
   name: "",
   article: "",
-  category: "roses",
+  category: "",
   price: 0,
   minQty: 0,
   height: "",
@@ -224,7 +224,9 @@ export default function AdminProductsPage() {
                     value={formData.category}
                     onChange={handleChange}
                     className={inputClass}
+                    required
                   >
+                    <option value="" disabled>Выберите категорию</option>
                     {categories.map(c =>
                       c.subcategories.length > 0 ? (
                         <optgroup key={c.id} label={c.label}>
