@@ -1,8 +1,10 @@
 "use client";
+import { useMemo } from "react";
 import Link from "next/link";
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductCardImage from "@/components/ProductCardImage";
-import { CATEGORIES, PRODUCTS } from "@/lib/products";
+import { useProducts } from "@/lib/products-context";
+import { useCategories } from "@/lib/categories-context";
 import { useCallbackModal } from "@/lib/callback-modal-context";
 import { useSettings } from "@/lib/settings-context";
 
@@ -15,16 +17,19 @@ const STEPS = [
 export default function HomePage() {
   const { open: openCallbackModal } = useCallbackModal();
   const { settings } = useSettings();
+  const { products } = useProducts();
+  const { categories } = useCategories();
 
-  // по одному товару на категорию — полный ряд из 6 карточек, как в макете.
-  // Берём из общего каталога (lib/products), а не из живого /catalog (там пока
-  // только 4 товара-заглушки) — иначе сетка не собиралась бы в 3×2.
-  const catalogPreview = CATEGORIES
-    .map(c => PRODUCTS.find(p => p.category === c.id))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p))
-    .slice(0, 6);
+  const catalogPreview = useMemo(() => products.slice(-6).reverse(), [products]);
 
-  const categoryLabels = new Map(CATEGORIES.map(c => [c.id, c.label]));
+  const categoryLabels = useMemo(() => {
+    const map = new Map<string, string>();
+    categories.forEach(c => {
+      map.set(c.id, c.label);
+      c.subcategories.forEach(sc => map.set(sc.id, sc.label));
+    });
+    return map;
+  }, [categories]);
 
   return (
     <div>
@@ -156,7 +161,7 @@ export default function HomePage() {
           {catalogPreview.map(p => (
             <div key={p.id} className="bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
               <div className="relative">
-                <ProductCardImage images={[p.img]} className="h-32 md:h-44" />
+                <ProductCardImage images={p.images} className="h-32 md:h-44" />
                 <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                   {p.isNew && <span className="px-2 py-0.5 bg-emerald-400 text-primary-900 text-xs font-bold rounded-full">NEW</span>}
                   {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
@@ -173,9 +178,13 @@ export default function HomePage() {
                 </Link>
                 <div className="mt-auto pt-1.5">
                   <div className="h-3.5 mb-2 flex items-center gap-1">
-                    {p.color && (
-                      <span className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300" style={{ backgroundColor: p.color }} />
-                    )}
+                    {p.colors.map((hex, i) => (
+                      <span
+                        key={i}
+                        className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300"
+                        style={{ backgroundColor: hex }}
+                      />
+                    ))}
                   </div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
