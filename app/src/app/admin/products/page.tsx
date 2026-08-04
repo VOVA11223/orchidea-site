@@ -49,6 +49,7 @@ export default function AdminProductsPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
 
   const filteredProducts = products.filter(p => {
     const q = search.trim().toLowerCase();
@@ -355,25 +356,45 @@ export default function AdminProductsPage() {
                       {formData.images.map((src, i) => (
                         <div
                           key={src + i}
-                          draggable
-                          onDragStart={() => setDragIndex(i)}
-                          onDragOver={e => e.preventDefault()}
-                          onDrop={() => {
-                            if (dragIndex !== null) reorderImages(dragIndex, i);
-                            setDragIndex(null);
+                          data-img-index={i}
+                          onPointerDown={e => {
+                            setDragIndex(i);
+                            (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
                           }}
-                          onDragEnd={() => setDragIndex(null)}
-                          className={`relative rounded-lg overflow-hidden border cursor-move group ${i === 0 ? "border-primary-400 ring-2 ring-primary-200" : "border-neutral-200"}`}
+                          onPointerMove={e => {
+                            if (dragIndex === null) return;
+                            const el = document.elementFromPoint(e.clientX, e.clientY);
+                            const target = el?.closest<HTMLElement>("[data-img-index]");
+                            if (target) {
+                              const idx = Number(target.dataset.imgIndex);
+                              if (!Number.isNaN(idx)) setOverIndex(idx);
+                            }
+                          }}
+                          onPointerUp={() => {
+                            if (dragIndex !== null && overIndex !== null) reorderImages(dragIndex, overIndex);
+                            setDragIndex(null);
+                            setOverIndex(null);
+                          }}
+                          onPointerCancel={() => {
+                            setDragIndex(null);
+                            setOverIndex(null);
+                          }}
+                          className={`relative rounded-lg overflow-hidden border cursor-move select-none touch-none group ${
+                            i === 0 ? "border-primary-400 ring-2 ring-primary-200" : "border-neutral-200"
+                          } ${dragIndex === i ? "opacity-50" : ""} ${
+                            overIndex === i && dragIndex !== null && dragIndex !== i ? "ring-2 ring-primary-500" : ""
+                          }`}
                         >
-                          <img src={src} alt={`Фото ${i + 1}`} className="w-full h-20 object-cover pointer-events-none" />
+                          <img src={src} alt={`Фото ${i + 1}`} className="w-full h-20 object-cover pointer-events-none" draggable={false} />
                           {i === 0 && (
                             <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-primary-600 text-white text-[10px] rounded">Обложка</span>
                           )}
                           <button
                             type="button"
+                            onPointerDown={e => e.stopPropagation()}
                             onClick={() => removeImage(i)}
                             aria-label="Удалить фото"
-                            className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs flex items-center justify-center transition-opacity"
                           >
                             ×
                           </button>
