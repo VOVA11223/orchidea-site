@@ -232,7 +232,7 @@ export default function ProductPage() {
               <div key={p.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
                 <ProductCardImage images={p.images} className="h-40" />
                 <div className="p-3 flex flex-col flex-1">
-                  <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">{p.name}</Link>
+                  <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">{p.name}</Link>
                   <div className="mt-auto pt-2">
                     <div className="flex items-baseline gap-1.5 mb-2">
                       <span className="font-bold text-primary-700">{p.price} ₽</span>
