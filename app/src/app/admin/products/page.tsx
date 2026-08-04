@@ -30,6 +30,7 @@ const EMPTY_PRODUCT: Product = {
   height: "",
   colors: [],
   img: "/images/roses.jpg",
+  images: [],
   inStock: true,
   isNew: false,
   isSale: false,
@@ -47,6 +48,7 @@ export default function AdminProductsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   const filteredProducts = products.filter(p => {
     const q = search.trim().toLowerCase();
@@ -81,24 +83,48 @@ export default function AdminProductsPage() {
     }));
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleImagesUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
     setUploading(true);
     setFormError(null);
     try {
-      const body = new FormData();
-      body.append("file", file);
-      const res = await fetch("/api/admin/upload", { method: "POST", body });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "Не удалось загрузить фото");
-      setFormData(prev => ({ ...prev, img: data.url }));
+      const uploaded: string[] = [];
+      for (const file of files) {
+        const body = new FormData();
+        body.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || "Не удалось загрузить фото");
+        uploaded.push(data.url);
+      }
+      setFormData(prev => {
+        const images = [...prev.images, ...uploaded];
+        return { ...prev, images, img: images[0] ?? prev.img };
+      });
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "Не удалось загрузить фото");
     } finally {
       setUploading(false);
       e.target.value = "";
     }
+  };
+
+  const removeImage = (index: number) => {
+    setFormData(prev => {
+      const images = prev.images.filter((_, i) => i !== index);
+      return { ...prev, images, img: images[0] ?? EMPTY_PRODUCT.img };
+    });
+  };
+
+  const reorderImages = (from: number, to: number) => {
+    if (from === to) return;
+    setFormData(prev => {
+      const images = [...prev.images];
+      const [moved] = images.splice(from, 1);
+      images.splice(to, 0, moved);
+      return { ...prev, images, img: images[0] ?? prev.img };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -314,23 +340,49 @@ export default function AdminProductsPage() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>Фото цветка</label>
+                  <label className={labelClass}>Фото товара</label>
                   <input
                     type="file"
-                    onChange={handleImageUpload}
+                    onChange={handleImagesUpload}
                     accept="image/*"
+                    multiple
                     disabled={uploading}
                     className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg text-neutral-500 focus:outline-none focus:border-primary-400 file:bg-primary-600 file:border-0 file:rounded-full file:px-3 file:py-1 file:text-white file:cursor-pointer file:mr-2 disabled:opacity-60"
                   />
                   {uploading && <p className="mt-2 text-xs text-neutral-400">Загрузка фото...</p>}
-                  {formData.img && (
-                    <div className="mt-3 rounded-lg overflow-hidden border border-neutral-200">
-                      <img
-                        src={formData.img}
-                        alt="Preview"
-                        className="w-full h-32 object-cover"
-                      />
+                  {formData.images.length > 0 && (
+                    <div className="mt-3 grid grid-cols-3 gap-2">
+                      {formData.images.map((src, i) => (
+                        <div
+                          key={src + i}
+                          draggable
+                          onDragStart={() => setDragIndex(i)}
+                          onDragOver={e => e.preventDefault()}
+                          onDrop={() => {
+                            if (dragIndex !== null) reorderImages(dragIndex, i);
+                            setDragIndex(null);
+                          }}
+                          onDragEnd={() => setDragIndex(null)}
+                          className={`relative rounded-lg overflow-hidden border cursor-move group ${i === 0 ? "border-primary-400 ring-2 ring-primary-200" : "border-neutral-200"}`}
+                        >
+                          <img src={src} alt={`Фото ${i + 1}`} className="w-full h-20 object-cover pointer-events-none" />
+                          {i === 0 && (
+                            <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-primary-600 text-white text-[10px] rounded">Обложка</span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => removeImage(i)}
+                            aria-label="Удалить фото"
+                            className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 hover:bg-black/80 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
                     </div>
+                  )}
+                  {formData.images.length > 1 && (
+                    <p className="mt-2 text-xs text-neutral-400">Перетащите фото, чтобы изменить порядок. Первое фото — обложка товара.</p>
                   )}
                 </div>
 

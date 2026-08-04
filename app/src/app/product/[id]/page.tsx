@@ -27,7 +27,7 @@ export default function ProductPage() {
 
   const [activeImage, setActiveImage] = useState(0);
   useEffect(() => { setActiveImage(0); }, [id]);
-  const GALLERY_SIZE = 4;
+  const images = product && product.images.length > 0 ? product.images : product ? [product.img] : [];
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const SWIPE_THRESHOLD = 40;
@@ -39,10 +39,14 @@ export default function ProductPage() {
   function handleTouchEnd(e: React.TouchEvent) {
     if (touchStartX === null) return;
     const deltaX = e.changedTouches[0].clientX - touchStartX;
+    if (images.length < 2) {
+      setTouchStartX(null);
+      return;
+    }
     if (deltaX > SWIPE_THRESHOLD) {
-      setActiveImage(i => (i - 1 + GALLERY_SIZE) % GALLERY_SIZE);
+      setActiveImage(i => (i - 1 + images.length) % images.length);
     } else if (deltaX < -SWIPE_THRESHOLD) {
-      setActiveImage(i => (i + 1) % GALLERY_SIZE);
+      setActiveImage(i => (i + 1) % images.length);
     }
     setTouchStartX(null);
   }
@@ -94,41 +98,47 @@ export default function ProductPage() {
           >
             <div
               className="w-full h-[320px] md:h-[460px] rounded-2xl bg-cover bg-center"
-              style={{ backgroundImage: `url(${product.img})` }}
+              style={{ backgroundImage: `url(${images[activeImage] ?? product.img})` }}
             />
-            <button
-              type="button"
-              aria-label="Предыдущее фото"
-              onClick={() => setActiveImage(i => (i - 1 + GALLERY_SIZE) % GALLERY_SIZE)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-sm flex items-center justify-center text-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path d="m15 18-6-6 6-6" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              aria-label="Следующее фото"
-              onClick={() => setActiveImage(i => (i + 1) % GALLERY_SIZE)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-sm flex items-center justify-center text-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
+            {images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  aria-label="Предыдущее фото"
+                  onClick={() => setActiveImage(i => (i - 1 + images.length) % images.length)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-sm flex items-center justify-center text-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  aria-label="Следующее фото"
+                  onClick={() => setActiveImage(i => (i + 1) % images.length)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-sm flex items-center justify-center text-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </>
+            )}
           </div>
+          {images.length > 1 && (
           <div className="flex gap-2">
-            {Array.from({ length: GALLERY_SIZE }).map((_, i) => (
+            {images.map((src, i) => (
               <button
-                key={i}
+                key={src + i}
                 type="button"
                 aria-label={`Фото ${i + 1}`}
                 onClick={() => setActiveImage(i)}
                 className={`w-20 h-20 rounded-xl bg-cover bg-center cursor-pointer transition-all ${i === activeImage ? "ring-2 ring-primary-400" : "ring-2 ring-transparent hover:ring-neutral-300"}`}
-                style={{ backgroundImage: `url(${product.img})` }}
+                style={{ backgroundImage: `url(${src})` }}
               />
             ))}
           </div>
+          )}
         </div>
 
         {/* Info */}
@@ -220,7 +230,7 @@ export default function ProductPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {related.map(p => (
               <div key={p.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
-                <ProductCardImage img={p.img} category={p.category} className="h-40" />
+                <ProductCardImage images={p.images} className="h-40" />
                 <div className="p-3 flex flex-col flex-1">
                   <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">{p.name}</Link>
                   <div className="mt-auto pt-2">

@@ -11,6 +11,7 @@ export interface Product {
   height: number | string;
   colors: string[];
   img: string;
+  images: string[];
   inStock: boolean;
   isNew: boolean;
   isSale: boolean;

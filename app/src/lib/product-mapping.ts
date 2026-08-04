@@ -10,6 +10,7 @@ export interface ProductRow {
   height: string;
   colors: string[];
   img: string;
+  images: string[] | null;
   in_stock: boolean;
   is_new: boolean;
   is_sale: boolean;
@@ -17,6 +18,7 @@ export interface ProductRow {
 }
 
 export function rowToProduct(row: ProductRow): Product {
+  const images = row.images && row.images.length > 0 ? row.images : (row.img ? [row.img] : []);
   return {
     id: row.id,
     name: row.name,
@@ -26,7 +28,8 @@ export function rowToProduct(row: ProductRow): Product {
     minQty: row.min_qty,
     height: row.height,
     colors: row.colors,
-    img: row.img,
+    img: images[0] ?? row.img,
+    images,
     inStock: row.in_stock,
     isNew: row.is_new,
     isSale: row.is_sale,
@@ -35,6 +38,7 @@ export function rowToProduct(row: ProductRow): Product {
 }
 
 export function productToRow(product: Product): ProductRow {
+  const images = product.images && product.images.length > 0 ? product.images : (product.img ? [product.img] : []);
   return {
     id: product.id,
     name: product.name,
@@ -44,7 +48,8 @@ export function productToRow(product: Product): ProductRow {
     min_qty: Number(product.minQty) || 0,
     height: String(product.height ?? ""),
     colors: product.colors,
-    img: product.img,
+    img: images[0] ?? product.img,
+    images,
     in_stock: product.inStock,
     is_new: product.isNew,
     is_sale: product.isSale,

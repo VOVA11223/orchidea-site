@@ -10,7 +10,7 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
   return (
     <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
       <div className="relative">
-        <ProductCardImage img={p.img} category={p.category} className="h-44" />
+        <ProductCardImage images={p.images} className="h-44" />
         <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
           {p.isNew && <span className="px-2 py-0.5 bg-emerald-400 text-primary-900 text-xs font-bold rounded-full">NEW</span>}
           {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
