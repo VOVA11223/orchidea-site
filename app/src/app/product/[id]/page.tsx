@@ -146,7 +146,7 @@ export default function ProductPage() {
           <div className="flex items-center gap-2 mb-3">
             <span className="px-3 py-1 bg-neutral-100 text-neutral-500 text-sm font-medium rounded-full">Артикул {product.article}</span>
             {product.isNew && (
-              <span className="px-2.5 py-0.5 bg-emerald-400 text-primary-900 text-xs font-bold rounded-full">NEW</span>
+              <span className="px-2.5 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">НОВИНКА</span>
             )}
             {product.isSale && (
               <span className="px-2.5 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>
@@ -198,6 +198,7 @@ export default function ProductPage() {
                 ["Артикул", product.article],
                 ["Категория", categoryLabels.get(product.category) ?? product.category],
                 ["Мин. упаковка", `${product.minQty} шт`],
+                ...(product.budCount ? [["Количество бутонов", `${product.budCount} шт`]] : []),
               ].map(([k, v]) => (
                 <div key={k} className="flex py-3.5 md:py-2.5 text-base md:text-sm">
                   <span className="w-36 md:w-40 text-neutral-500 flex-shrink-0">{k}</span>

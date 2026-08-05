@@ -28,6 +28,7 @@ const EMPTY_PRODUCT: Product = {
   price: 0,
   minQty: 0,
   height: "",
+  budCount: "",
   colors: [],
   img: "/images/roses.jpg",
   images: [],
@@ -80,7 +81,7 @@ export default function AdminProductsPage() {
     const checked = (e.target as HTMLInputElement).checked;
     setFormData(prev => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : (name === "price" || name === "minQty" || name === "height" || name === "oldPrice" ? parseFloat(value) || "" : value)
+      [name]: type === "checkbox" ? checked : (name === "price" || name === "minQty" || name === "height" || name === "oldPrice" || name === "budCount" ? parseFloat(value) || "" : value)
     }));
   };
 
@@ -277,6 +278,18 @@ export default function AdminProductsPage() {
                     value={formData.height}
                     onChange={handleChange}
                     placeholder="80"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div>
+                  <label className={labelClass}>Количество бутонов</label>
+                  <input
+                    type="number"
+                    name="budCount"
+                    value={formData.budCount}
+                    onChange={handleChange}
+                    placeholder="5"
                     className={inputClass}
                   />
                 </div>
@@ -549,7 +562,7 @@ export default function AdminProductsPage() {
                             {product.inStock
                               ? <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">В наличии</span>
                               : <span className="px-2 py-1 bg-neutral-200 text-neutral-500 rounded text-xs">Не в наличии</span>}
-                            {product.isNew && <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">NEW</span>}
+                            {product.isNew && <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">НОВИНКА</span>}
                             {product.isSale && <span className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Акция</span>}
                           </div>
                         </td>

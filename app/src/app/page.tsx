@@ -163,7 +163,7 @@ export default function HomePage() {
               <div className="relative">
                 <ProductCardImage images={p.images} className="h-32 md:h-44" />
                 <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
-                  {p.isNew && <span className="px-2 py-0.5 bg-emerald-400 text-primary-900 text-xs font-bold rounded-full">NEW</span>}
+                  {p.isNew && <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">НОВИНКА</span>}
                   {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
                   {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
                 </div>
@@ -211,20 +211,14 @@ export default function HomePage() {
 
       {/* Этапы нашей работы */}
       <section className="relative">
-        <div
-          className="absolute inset-0 bg-neutral-50"
-          style={{ clipPath: "polygon(0 32px, 100% 0, 100% 100%, 0 100%)" }}
-        />
+        <div className="absolute inset-0 bg-neutral-50" />
         <div
           className="absolute inset-0 opacity-30 bg-cover bg-center pointer-events-none mix-blend-multiply"
-          style={{
-            clipPath: "polygon(0 32px, 100% 0, 100% 100%, 0 100%)",
-            backgroundImage: "url(/images/paper-texture.jpg)",
-          }}
+          style={{ backgroundImage: "url(/images/paper-texture.jpg)" }}
         />
         <div className="max-w-[1320px] mx-auto px-6 py-10 md:py-16 relative">
           <div className="hidden md:grid md:grid-cols-[1fr_2fr] gap-6 md:gap-10 items-center mb-6 md:mb-10">
-            <div className="-rotate-[1.4deg] text-center md:text-left">
+            <div className="text-center md:text-left">
               <div className="text-primary-500 text-sm font-medium mb-2">Очень просто и доступно каждому</div>
               <h2 className="font-brand text-3xl md:text-4xl font-bold text-primary-900">Этапы нашей работы</h2>
             </div>
@@ -262,11 +256,8 @@ export default function HomePage() {
       </section>
 
       {/* Карта */}
-      <section className="relative -mt-10 overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{ clipPath: "polygon(0 32px, 100% 0, 100% 100%, 0 100%)" }}
-        >
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
           <iframe
             src="https://yandex.ru/map-widget/v1/?ll=44.532207%2C48.764271&z=16&pt=44.532207%2C48.764271%2Cpm2rdm"
             className="absolute inset-0 w-full h-full"

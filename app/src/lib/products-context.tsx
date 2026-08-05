@@ -9,6 +9,7 @@ export interface Product {
   price: number;
   minQty: number;
   height: number | string;
+  budCount: number | string;
   colors: string[];
   img: string;
   images: string[];

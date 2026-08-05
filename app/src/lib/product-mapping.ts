@@ -8,6 +8,7 @@ export interface ProductRow {
   price: number;
   min_qty: number;
   height: string;
+  bud_count: number | null;
   colors: string[];
   img: string;
   images: string[] | null;
@@ -27,6 +28,7 @@ export function rowToProduct(row: ProductRow): Product {
     price: row.price,
     minQty: row.min_qty,
     height: row.height,
+    budCount: row.bud_count ?? "",
     colors: row.colors,
     img: images[0] ?? row.img,
     images,
@@ -47,6 +49,7 @@ export function productToRow(product: Product): ProductRow {
     price: Number(product.price) || 0,
     min_qty: Number(product.minQty) || 0,
     height: String(product.height ?? ""),
+    bud_count: product.budCount === "" || product.budCount === undefined ? null : Number(product.budCount),
     colors: product.colors,
     img: images[0] ?? product.img,
     images,
