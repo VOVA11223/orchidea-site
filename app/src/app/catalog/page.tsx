@@ -267,8 +267,17 @@ function CatalogInner() {
     <div className="max-w-[1320px] mx-auto px-6 py-8">
       {/* Top bar */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
-        <div className="flex-1">
+        <div className="flex-1 flex items-center gap-3 flex-wrap">
           <p className="text-sm text-muted-foreground">{filtered.length} товаров</p>
+          <a
+            href="/api/download-price"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-border text-foreground hover:bg-muted transition-colors"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v12m0 0-4-4m4 4 4-4M5 20h14" />
+            </svg>
+            Скачать прайс-лист (.xlsx)
+          </a>
         </div>
 
         {/* Sort */}
