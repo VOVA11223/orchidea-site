@@ -7,23 +7,41 @@ import { useCategories } from "@/lib/categories-context";
 
 const COLOR_PALETTE = [
   { hex: "#e53e3e", name: "Красный" },
+  { hex: "#9b2c2c", name: "Бордовый" },
   { hex: "#fc8181", name: "Розовый" },
   { hex: "#ed64a6", name: "Малиновый" },
+  { hex: "#d53f8c", name: "Фуксия" },
   { hex: "#d69fb0", name: "Пудровый" },
+  { hex: "#fbb6ce", name: "Персиковый" },
+  { hex: "#ff8a65", name: "Коралловый" },
   { hex: "#f97316", name: "Оранжевый" },
+  { hex: "#dd6b20", name: "Терракотовый" },
   { hex: "#f6e05e", name: "Жёлтый" },
   { hex: "#faf089", name: "Светло-жёлтый" },
+  { hex: "#d4af37", name: "Золотой" },
   { hex: "#fdf6e3", name: "Кремовый" },
   { hex: "#f7fafc", name: "Белый" },
   { hex: "#48bb78", name: "Зелёный" },
-  { hex: "#a0aec0", name: "Серебристый" },
+  { hex: "#276749", name: "Тёмно-зелёный" },
+  { hex: "#68d391", name: "Мятный" },
+  { hex: "#38b2ac", name: "Бирюзовый" },
+  { hex: "#3182ce", name: "Синий" },
+  { hex: "#2c5282", name: "Тёмно-синий" },
+  { hex: "#63b3ed", name: "Голубой" },
+  { hex: "#6b46c1", name: "Фиолетовый" },
   { hex: "#b794f4", name: "Лиловый" },
+  { hex: "#d6bcfa", name: "Сиреневый" },
+  { hex: "#a0aec0", name: "Серебристый" },
+  { hex: "#718096", name: "Серый" },
+  { hex: "#744210", name: "Коричневый" },
+  { hex: "#1a202c", name: "Чёрный" },
 ];
 
 const EMPTY_PRODUCT: Product = {
   id: "",
   name: "",
   article: "",
+  code: "",
   category: "",
   price: 0,
   minQty: 0,
@@ -206,6 +224,18 @@ export default function AdminProductsPage() {
                 </div>
 
                 <div>
+                  <label className={labelClass}>Код</label>
+                  <input
+                    type="text"
+                    name="code"
+                    value={formData.code}
+                    onChange={handleChange}
+                    placeholder="ORH-001"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div>
                   <label className={labelClass}>Название *</label>
                   <input
                     type="text"
@@ -283,7 +313,7 @@ export default function AdminProductsPage() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>Количество бутонов</label>
+                  <label className={labelClass}>Количество голов</label>
                   <input
                     type="number"
                     name="budCount"

@@ -4,6 +4,7 @@ export interface ProductRow {
   id: string;
   name: string;
   article: string;
+  code: string | null;
   category: string;
   price: number;
   min_qty: number;
@@ -24,6 +25,7 @@ export function rowToProduct(row: ProductRow): Product {
     id: row.id,
     name: row.name,
     article: row.article,
+    code: row.code ?? "",
     category: row.category,
     price: row.price,
     minQty: row.min_qty,
@@ -45,6 +47,7 @@ export function productToRow(product: Product): ProductRow {
     id: product.id,
     name: product.name,
     article: product.article,
+    code: product.code?.trim() ? product.code.trim() : null,
     category: product.category,
     price: Number(product.price) || 0,
     min_qty: Number(product.minQty) || 0,

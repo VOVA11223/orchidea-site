@@ -82,7 +82,7 @@ export async function GET() {
     { header: "Наименование", key: "name", width: 40, align: "left" },
     { header: "Высота", key: "height", width: 12, align: "center" },
     { header: "Мин. упаковка", key: "minQty", width: 16, align: "center" },
-    { header: "Количество бутонов", key: "budCount", width: 20, align: "center" },
+    { header: "Количество голов", key: "budCount", width: 20, align: "center" },
     { header: "Наличие", key: "inStock", width: 14, align: "center" },
   ];
 

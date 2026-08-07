@@ -97,7 +97,7 @@ export default function ProductPage() {
             onTouchEnd={handleTouchEnd}
           >
             <div
-              className="w-full h-[320px] md:h-[460px] rounded-2xl bg-cover bg-center"
+              className="w-full h-[480px] md:h-[640px] rounded-2xl bg-cover bg-center"
               style={{ backgroundImage: `url(${images[activeImage] ?? product.img})` }}
             />
             {images.length > 1 && (
@@ -196,9 +196,10 @@ export default function ProductPage() {
             <div className="divide-y divide-neutral-100">
               {[
                 ["Артикул", product.article],
+                ...(product.code ? [["Код", product.code]] : []),
                 ["Категория", categoryLabels.get(product.category) ?? product.category],
                 ["Мин. упаковка", `${product.minQty} шт`],
-                ...(product.budCount ? [["Количество бутонов", `${product.budCount} шт`]] : []),
+                ...(product.budCount ? [["Количество голов", `${product.budCount} шт`]] : []),
               ].map(([k, v]) => (
                 <div key={k} className="flex py-3.5 md:py-2.5 text-base md:text-sm">
                   <span className="w-36 md:w-40 text-neutral-500 flex-shrink-0">{k}</span>

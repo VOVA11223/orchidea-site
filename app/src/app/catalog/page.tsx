@@ -374,7 +374,7 @@ function CatalogInner() {
               {paged.map(p => (
                 <div key={p.id} className="bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
                   <div className="relative">
-                    <ProductCardImage images={p.images} className="h-44" />
+                    <ProductCardImage images={p.images} className="aspect-square" />
                     <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                       {p.isNew && <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">НОВИНКА</span>}
                       {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
@@ -389,6 +389,11 @@ function CatalogInner() {
                     <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                       {p.name}
                     </Link>
+                    <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                      {p.budCount && <div>Количество голов: {p.budCount} шт</div>}
+                      {p.height && <div>Высота: {p.height} см</div>}
+                      <div>Уп. {p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")} ₽</div>
+                    </div>
                     <div className="mt-auto pt-1.5">
                       <div className="h-3.5 mb-2 flex items-center gap-1">
                         {p.colors.map((hex, i) => (
@@ -399,12 +404,11 @@ function CatalogInner() {
                           />
                         ))}
                       </div>
-                      <div className="flex items-baseline gap-2">
+                      <div className="flex items-baseline gap-2 mb-3">
                         <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
                         {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice} ₽</span>}
                         <span className="text-xs text-muted-foreground">/шт</span>
                       </div>
-                      <div className="text-xs text-muted-foreground mb-3">Уп. {p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")} ₽</div>
                       {p.inStock
                         ? <AddToCartButton id={p.id} name={p.name} article={p.article} price={p.price} image={p.img} minQty={p.minQty} />
                         : <div className="w-full py-2 rounded-xl text-sm text-center text-muted-foreground bg-muted border border-border">Нет в наличии</div>

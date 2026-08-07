@@ -53,7 +53,7 @@ export default function AktsiiPage() {
             {saleProducts.map(p => (
               <div key={p.id} className="bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
                 <div className="relative">
-                  <ProductCardImage images={p.images} className="h-44" />
+                  <ProductCardImage images={p.images} className="aspect-square" />
                   <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                     <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
                       −{Math.round((1 - p.price / Number(p.oldPrice)) * 100)}%
