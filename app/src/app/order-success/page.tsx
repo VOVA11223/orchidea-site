@@ -43,14 +43,21 @@ function OrderSuccessInner() {
             </div>
 
             <div className="mb-8">
-              <h2 className="font-semibold text-primary-900 mb-4">Данные для доставки</h2>
+              <h2 className="font-semibold text-primary-900 mb-4">
+                {order.deliveryType === "pickup" ? "Данные для самовывоза" : "Данные для доставки"}
+              </h2>
               <div className="space-y-2 text-sm">
+                <div><span className="text-neutral-500">Способ получения:</span> <span className="font-medium">{order.deliveryType === "pickup" ? "Самовывоз" : "Доставка"}</span></div>
                 <div><span className="text-neutral-500">Имя:</span> <span className="font-medium">{order.clientName}</span></div>
                 <div><span className="text-neutral-500">Телефон:</span> <span className="font-medium">{order.clientPhone}</span></div>
-                <div><span className="text-neutral-500">Адрес:</span> <span className="font-medium">{order.deliveryAddress}</span></div>
+                {order.clientEmail && <div><span className="text-neutral-500">Email:</span> <span className="font-medium">{order.clientEmail}</span></div>}
+                <div>
+                  <span className="text-neutral-500">{order.deliveryType === "pickup" ? "Адрес самовывоза:" : "Адрес доставки:"}</span>{" "}
+                  <span className="font-medium whitespace-pre-line">{order.deliveryAddress}</span>
+                </div>
                 {order.deliveryDateTime && (
                   <div>
-                    <span className="text-neutral-500">Желаемое время доставки:</span>{" "}
+                    <span className="text-neutral-500">{order.deliveryType === "pickup" ? "Желаемое время самовывоза:" : "Желаемое время доставки:"}</span>{" "}
                     <span className="font-medium">{new Date(order.deliveryDateTime).toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
                   </div>
                 )}
@@ -90,7 +97,7 @@ function OrderSuccessInner() {
           <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
             <div className="font-semibold text-blue-900 mb-1">📞 Что дальше?</div>
             <div className="text-sm text-blue-800">
-              Менеджер позвонит вам для подтверждения заказа и уточнения деталей доставки.
+              Менеджер позвонит вам для подтверждения заказа и уточнения деталей {order?.deliveryType === "pickup" ? "самовывоза" : "доставки"}.
             </div>
           </div>
           <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">

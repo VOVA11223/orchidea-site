@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useOrders } from "@/lib/orders-context";
+import { useSettings } from "@/lib/settings-context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatPhoneDigits, parsePhoneInput } from "@/lib/phone";
@@ -9,11 +10,14 @@ import { formatPhoneDigits, parsePhoneInput } from "@/lib/phone";
 export default function CheckoutPage() {
   const { items, total, clear } = useCart();
   const { addOrder } = useOrders();
+  const { settings } = useSettings();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const [deliveryType, setDeliveryType] = useState<"courier" | "pickup">("courier");
   const [formData, setFormData] = useState({
     clientName: "",
+    clientEmail: "",
     deliveryAddress: "",
     notes: "",
   });
@@ -63,8 +67,10 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           clientName: formData.clientName,
+          clientEmail: formData.clientEmail,
           clientPhone: formatPhoneDigits(phoneDigits),
-          deliveryAddress: formData.deliveryAddress,
+          deliveryType,
+          deliveryAddress: deliveryType === "courier" ? formData.deliveryAddress : settings.address,
           deliveryDateTime,
           notes: formData.notes,
           items: items.map(item => ({
@@ -101,7 +107,31 @@ export default function CheckoutPage() {
         <div className="lg:col-span-2">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="bg-white rounded-2xl border border-neutral-200 p-6">
-              <h2 className="font-semibold text-lg text-primary-900 mb-6">Данные для доставки</h2>
+              <h2 className="font-semibold text-lg text-primary-900 mb-4">Способ получения</h2>
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                <button
+                  type="button"
+                  onClick={() => setDeliveryType("courier")}
+                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
+                    deliveryType === "courier" ? "bg-primary-600 text-white border-primary-600" : "bg-white text-neutral-700 border-neutral-200 hover:border-primary-400"
+                  }`}
+                >
+                  🚚 Доставка
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDeliveryType("pickup")}
+                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
+                    deliveryType === "pickup" ? "bg-primary-600 text-white border-primary-600" : "bg-white text-neutral-700 border-neutral-200 hover:border-primary-400"
+                  }`}
+                >
+                  🏬 Самовывоз
+                </button>
+              </div>
+
+              <h2 className="font-semibold text-lg text-primary-900 mb-6">
+                {deliveryType === "courier" ? "Данные для доставки" : "Данные для самовывоза"}
+              </h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1">Имя получателя *</label>
@@ -131,20 +161,40 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Адрес доставки *</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">Email</label>
                   <input
-                    type="text"
-                    name="deliveryAddress"
-                    value={formData.deliveryAddress}
+                    type="email"
+                    name="clientEmail"
+                    value={formData.clientEmail}
                     onChange={handleChange}
-                    placeholder="ул. Ленина, 15, кв. 10"
+                    placeholder="ivan@example.com"
                     className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500"
-                    required
                   />
                 </div>
 
+                {deliveryType === "courier" ? (
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Адрес доставки *</label>
+                    <input
+                      type="text"
+                      name="deliveryAddress"
+                      value={formData.deliveryAddress}
+                      onChange={handleChange}
+                      placeholder="ул. Ленина, 15, кв. 10"
+                      className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:border-primary-500"
+                      required
+                    />
+                  </div>
+                ) : (
+                  <div className="px-4 py-3 rounded-lg bg-primary-50 text-sm text-neutral-700 whitespace-pre-line">
+                    Самовывоз по адресу: {settings.address}
+                  </div>
+                )}
+
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Желаемая дата и время доставки</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
+                    {deliveryType === "courier" ? "Желаемая дата и время доставки" : "Желаемая дата и время самовывоза"}
+                  </label>
                   <div className="flex gap-3">
                     <input
                       type="date"
@@ -193,7 +243,10 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              disabled={loading || phoneDigits.length < 10 || !consent}
+              disabled={
+                loading || phoneDigits.length < 10 || !consent ||
+                (deliveryType === "courier" ? !formData.deliveryAddress.trim() : !settings.address.trim())
+              }
               className="w-full py-3 bg-primary-600 hover:bg-primary-500 disabled:bg-neutral-300 text-white font-semibold rounded-xl transition-colors"
             >
               {loading ? "Оформление..." : "Подтвердить заказ"}

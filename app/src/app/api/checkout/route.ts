@@ -14,7 +14,9 @@ function escapeHtml(value: string): string {
 
 type CheckoutPayload = {
   clientName: string;
+  clientEmail?: string;
   clientPhone: string;
+  deliveryType?: "courier" | "pickup";
   deliveryAddress: string;
   deliveryDateTime?: string;
   notes?: string;
@@ -29,7 +31,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { clientName, clientPhone, deliveryAddress, deliveryDateTime, notes, items } = payload;
+  const { clientName, clientEmail, clientPhone, deliveryAddress, deliveryDateTime, notes, items } = payload;
+  const deliveryType = payload.deliveryType === "pickup" ? "pickup" : "courier";
 
   if (!clientName?.trim() || !clientPhone?.trim() || !deliveryAddress?.trim() || !items?.length) {
     return NextResponse.json({ ok: false, error: "Missing required checkout fields" }, { status: 400 });
@@ -43,13 +46,13 @@ export async function POST(req: NextRequest) {
     createdAt: new Date().toISOString(),
     clientName: clientName.trim(),
     clientPhone: clientPhone.trim(),
-    clientEmail: "",
+    clientEmail: clientEmail?.trim() || "",
     clientCompany: "",
     items: orderItems,
     totalPrice,
     deliveryAddress: deliveryAddress.trim(),
     deliveryDateTime,
-    deliveryType: "courier" as const,
+    deliveryType,
     deliveryPrice: 0,
     paymentStatus: "pending" as const,
     orderStatus: "new" as const,
@@ -65,10 +68,11 @@ export async function POST(req: NextRequest) {
   const emailText = `Новый заказ ${order.id}
 Дата: ${createdAtText}
 
+Способ получения: ${order.deliveryType === "pickup" ? "Самовывоз" : "Доставка"}
 Получатель: ${order.clientName}
 Телефон: ${order.clientPhone}
-Адрес доставки: ${order.deliveryAddress}
-${order.deliveryDateTime ? `Желаемое время доставки: ${order.deliveryDateTime}\n` : ""}${order.notes ? `Комментарий: ${order.notes}\n` : ""}
+${order.clientEmail ? `Email: ${order.clientEmail}\n` : ""}${order.deliveryType === "pickup" ? "Адрес самовывоза" : "Адрес доставки"}: ${order.deliveryAddress}
+${order.deliveryDateTime ? `Желаемое время: ${order.deliveryDateTime}\n` : ""}${order.notes ? `Комментарий: ${order.notes}\n` : ""}
 Товары:
 ${itemsText}
 
@@ -90,9 +94,11 @@ ${itemsText}
     <p style="color:#7A8B80;font-size:13px;margin-top:0;">${createdAtText}</p>
 
     <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;">
-      <tr><td style="padding:4px 0;color:#7A8B80;width:180px;">Имя</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.clientName)}</td></tr>
+      <tr><td style="padding:4px 0;color:#7A8B80;width:180px;">Способ получения</td><td style="padding:4px 0;font-weight:600;">${order.deliveryType === "pickup" ? "Самовывоз" : "Доставка"}</td></tr>
+      <tr><td style="padding:4px 0;color:#7A8B80;">Имя</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.clientName)}</td></tr>
       <tr><td style="padding:4px 0;color:#7A8B80;">Телефон</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.clientPhone)}</td></tr>
-      <tr><td style="padding:4px 0;color:#7A8B80;">Адрес доставки</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.deliveryAddress)}</td></tr>
+      ${order.clientEmail ? `<tr><td style="padding:4px 0;color:#7A8B80;">Email</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.clientEmail)}</td></tr>` : ""}
+      <tr><td style="padding:4px 0;color:#7A8B80;">${order.deliveryType === "pickup" ? "Адрес самовывоза" : "Адрес доставки"}</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.deliveryAddress)}</td></tr>
       ${order.deliveryDateTime ? `<tr><td style="padding:4px 0;color:#7A8B80;">Желаемое время</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.deliveryDateTime)}</td></tr>` : ""}
       ${order.notes ? `<tr><td style="padding:4px 0;color:#7A8B80;">Комментарий</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(order.notes)}</td></tr>` : ""}
     </table>
