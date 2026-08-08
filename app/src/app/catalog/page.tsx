@@ -387,7 +387,7 @@ function CatalogInner() {
                       <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
                       <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                     </div>
-                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.5rem]">
+                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.5rem] lg:min-h-0">
                       {p.name}
                     </Link>
                     <div className="text-xs text-gray-500 space-y-0.5">

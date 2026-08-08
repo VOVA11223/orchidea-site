@@ -22,7 +22,7 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
           <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
           <span className="text-xs text-neutral-400 truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
         </div>
-        <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.5rem]">
+        <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.5rem] lg:min-h-0">
           {p.name}
         </Link>
         <div className="text-xs text-neutral-400 space-y-0.5">
