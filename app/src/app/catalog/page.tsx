@@ -373,7 +373,7 @@ function CatalogInner() {
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {paged.map(p => (
-                <div key={p.id} className="bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
+                <div key={p.id} className="grid grid-rows-subgrid row-span-4 bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
                   <div className="relative">
                     <ProductCardImage images={p.images} className="aspect-square" />
                     <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
@@ -382,14 +382,14 @@ function CatalogInner() {
                       {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
                     </div>
                   </div>
-                  <div className="p-3 flex flex-col flex-1">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
-                      <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
-                    </div>
-                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
-                      {p.name}
-                    </Link>
+                  <div className="px-3 pt-3 flex items-center justify-between gap-2 mb-1">
+                    <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
+                    <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
+                  </div>
+                  <Link href={`/product/${p.id}`} className="px-3 text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+                    {p.name}
+                  </Link>
+                  <div className="px-3 pb-3 flex flex-col">
                     <div className="text-xs text-gray-500 mt-1 space-y-0.5">
                       <div className={p.budCount ? undefined : "invisible"}>Голов: {p.budCount || 0} шт</div>
                       <div className={p.height ? undefined : "invisible"}>Высота: {p.height || 0} см</div>
