@@ -8,7 +8,7 @@ import Link from "next/link";
 
 function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<string, string> }) {
   return (
-    <div className="grid grid-rows-subgrid row-span-4 bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
+    <div className="flex flex-col h-full bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
       <div className="relative">
         <ProductCardImage images={p.images} className="aspect-square" />
         <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
@@ -17,20 +17,20 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
           {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
         </div>
       </div>
-      <div className="px-3 pt-3 flex items-center justify-between gap-2">
-        <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
-        <span className="text-xs text-neutral-400 truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
-      </div>
-      <Link href={`/product/${p.id}`} className="px-3 pt-1 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
-        {p.name}
-      </Link>
-      <div className="px-3 pb-3 pt-1.5 flex flex-col">
+      <div className="flex flex-col gap-1 px-3 pt-3">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
+          <span className="text-xs text-neutral-400 truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
+        </div>
+        <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.5rem]">
+          {p.name}
+        </Link>
         <div className="text-xs text-neutral-400 space-y-0.5">
           <div className={p.budCount ? undefined : "invisible"}>Голов: {p.budCount || 0} шт</div>
           <div className={p.height ? undefined : "invisible"}>Высота: {p.height || 0} см</div>
           <div>Уп.{" "}{p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")}{" "}₽</div>
         </div>
-        <div className="h-3.5 mt-1 flex items-center gap-1">
+        <div className="h-3.5 flex items-center gap-1">
           {p.colors.map((hex, i) => (
             <span
               key={i}
@@ -39,7 +39,9 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
             />
           ))}
         </div>
-        <div className="flex items-baseline gap-2 mb-3 mt-auto pt-1.5">
+      </div>
+      <div className="px-3 pb-3 pt-1.5 mt-auto">
+        <div className="flex items-baseline gap-2 mb-3">
           <span className="text-base font-bold text-primary-700">{p.price}{" ₽"}</span>
           {p.oldPrice && <span className="text-xs text-neutral-400 line-through">{p.oldPrice}{" ₽"}</span>}
           <span className="text-xs text-neutral-400">/шт</span>
