@@ -386,12 +386,12 @@ function CatalogInner() {
                       <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
                       <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                     </div>
-                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">
                       {p.name}
                     </Link>
                     <div className="text-xs text-gray-500 mt-1 space-y-0.5">
-                      {p.budCount && <div>Голов: {p.budCount} шт</div>}
-                      {p.height && <div>Высота: {p.height} см</div>}
+                      <div className={p.budCount ? undefined : "invisible"}>Голов: {p.budCount || 0} шт</div>
+                      <div className={p.height ? undefined : "invisible"}>Высота: {p.height || 0} см</div>
                       <div>Уп.{" "}{p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")}{" "}₽</div>
                     </div>
                     <div className="mt-auto pt-1.5">
