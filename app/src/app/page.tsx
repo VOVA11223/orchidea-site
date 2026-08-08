@@ -119,8 +119,8 @@ export default function HomePage() {
           </div>
           <div className="flex flex-col md:flex-row gap-10 md:items-center justify-center">
             <div className="max-w-xl text-center md:text-left">
-              <h2 className="font-brand text-3xl md:text-4xl font-bold text-primary-900 mb-3 md:mb-4">Несколько слов о нас</h2>
-              <p className="text-neutral-600 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+              <h2 className="font-brand text-xl md:text-4xl font-bold text-primary-900 mb-3 md:mb-4 whitespace-nowrap">Несколько слов о нас</h2>
+              <p className="text-neutral-600 text-base md:text-lg leading-relaxed mb-6 md:mb-8 text-pretty">
                 Наша компания работает с 2011 года и активно развивается, постоянно расширяя и поддерживая ассортимент товаров.
                 Мы рады приветствовать Вас на нашем сайте и надеемся на долгое и взаимовыгодное сотрудничество!
               </p>
