@@ -390,9 +390,9 @@ function CatalogInner() {
                       {p.name}
                     </Link>
                     <div className="text-xs text-gray-500 mt-1 space-y-0.5">
-                      {p.budCount && <div>Количество голов: {p.budCount} шт</div>}
+                      {p.budCount && <div>Голов: {p.budCount} шт</div>}
                       {p.height && <div>Высота: {p.height} см</div>}
-                      <div>Уп. {p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")} ₽</div>
+                      <div>Уп.{" "}{p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")}{" "}₽</div>
                     </div>
                     <div className="mt-auto pt-1.5">
                       <div className="h-3.5 mb-2 flex items-center gap-1">
@@ -405,8 +405,8 @@ function CatalogInner() {
                         ))}
                       </div>
                       <div className="flex items-baseline gap-2 mb-3">
-                        <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
-                        {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice} ₽</span>}
+                        <span className="text-base font-bold text-primary-700">{p.price}{" ₽"}</span>
+                        {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice}{" ₽"}</span>}
                         <span className="text-xs text-muted-foreground">/шт</span>
                       </div>
                       {p.inStock
@@ -422,24 +422,24 @@ function CatalogInner() {
 
           {/* Пагинация */}
           {totalPages > 1 && (
-            <div className="flex justify-center mt-10">
-            <div className="flex items-center justify-center gap-2.5 sm:gap-2 flex-wrap border border-border rounded-full px-3 py-2 bg-card">
+            <div className="flex justify-center mt-10 max-w-full">
+            <div className="flex items-center gap-2.5 sm:gap-2 flex-nowrap overflow-x-auto max-w-full border border-border rounded-full px-3 py-2 bg-card">
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
+                className="shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
                 aria-label="Предыдущая страница"
               >
                 «
               </button>
               {pageNumbers.map((n, i) =>
                 n === "..." ? (
-                  <span key={`dots-${i}`} className="px-2 text-muted-foreground">...</span>
+                  <span key={`dots-${i}`} className="shrink-0 px-2 text-muted-foreground">...</span>
                 ) : (
                   <button
                     key={n}
                     onClick={() => setPage(n as number)}
-                    className={`w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm font-medium transition-colors ${
+                    className={`shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm font-medium transition-colors ${
                       currentPage === n
                         ? "bg-primary-600 text-white"
                         : "text-muted-foreground hover:bg-neutral-100"
@@ -452,7 +452,7 @@ function CatalogInner() {
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
+                className="shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
                 aria-label="Следующая страница"
               >
                 »
