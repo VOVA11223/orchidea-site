@@ -210,7 +210,7 @@ export default function CheckoutPage() {
               {items.map(item => (
                 <div key={item.id} className="flex justify-between text-sm">
                   <span className="text-neutral-600">{item.name.substring(0, 25)}... x{item.qty}</span>
-                  <span className="font-medium">{(item.price * item.qty).toLocaleString("ru")} ₽</span>
+                  <span className="font-medium">{(item.price * item.qty).toLocaleString("ru")} ₽</span>
                 </div>
               ))}
             </div>
@@ -218,13 +218,13 @@ export default function CheckoutPage() {
             <div className="space-y-2 mb-4">
               <div className="flex justify-between text-sm">
                 <span className="text-neutral-600">Товары</span>
-                <span className="font-medium">{total.toLocaleString("ru")} ₽</span>
+                <span className="font-medium">{total.toLocaleString("ru")} ₽</span>
               </div>
             </div>
 
             <div className="border-t border-neutral-200 pt-4 flex justify-between text-lg font-bold">
               <span>Итого</span>
-              <span className="text-primary-600">{total.toLocaleString("ru")} ₽</span>
+              <span className="text-primary-600">{total.toLocaleString("ru")} ₽</span>
             </div>
           </div>
         </div>

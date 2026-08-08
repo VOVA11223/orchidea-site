@@ -8,7 +8,7 @@ import Link from "next/link";
 
 function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<string, string> }) {
   return (
-    <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
+    <div className="flex flex-col h-full bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
       <div className="relative">
         <ProductCardImage images={p.images} className="aspect-square" />
         <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
@@ -17,35 +17,39 @@ function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<st
           {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
         </div>
       </div>
-      <div className="p-3 flex flex-col flex-1">
-        <div className="flex items-center justify-between gap-2 mb-1">
+      <div className="flex flex-col gap-1 px-3 pt-3">
+        <div className="flex items-center justify-between gap-2">
           <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
           <span className="text-xs text-neutral-400 truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
         </div>
         <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
           {p.name}
         </Link>
-        <div className="mt-auto pt-1.5">
-          <div className="h-3.5 mb-2 flex items-center gap-1">
-            {p.colors.map((hex, i) => (
-              <span
-                key={i}
-                className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300"
-                style={{ backgroundColor: hex }}
-              />
-            ))}
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
-            {p.oldPrice && <span className="text-xs text-neutral-400 line-through">{p.oldPrice} ₽</span>}
-            <span className="text-xs text-neutral-400">/шт</span>
-          </div>
-          <div className="text-xs text-neutral-400 mb-3">Уп. {p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")} ₽</div>
-          {p.inStock
-            ? <AddToCartButton id={p.id} name={p.name} article={p.article} price={p.price} image={p.img} minQty={p.minQty} />
-            : <div className="w-full py-2 rounded-xl text-sm text-center text-neutral-400 bg-neutral-50 border border-neutral-200">Нет в наличии</div>
-          }
+        <div className="text-xs text-neutral-400 space-y-0.5">
+          <div className={p.budCount ? undefined : "invisible"}>Голов: {p.budCount || 0} шт</div>
+          <div className={p.height ? undefined : "invisible"}>Высота: {p.height || 0} см</div>
+          <div>Уп.{" "}{p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")}{" "}₽</div>
         </div>
+        <div className="h-3.5 flex items-center gap-1">
+          {p.colors.map((hex, i) => (
+            <span
+              key={i}
+              className="w-3.5 h-3.5 rounded-full border-2 border-neutral-300"
+              style={{ backgroundColor: hex }}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="px-3 pb-3 pt-1.5 mt-auto">
+        <div className="flex items-baseline gap-2 mb-3">
+          <span className="text-base font-bold text-primary-700">{p.price}{" ₽"}</span>
+          {p.oldPrice && <span className="text-xs text-neutral-400 line-through">{p.oldPrice}{" ₽"}</span>}
+          <span className="text-xs text-neutral-400">/шт</span>
+        </div>
+        {p.inStock
+          ? <AddToCartButton id={p.id} name={p.name} article={p.article} price={p.price} image={p.img} minQty={p.minQty} />
+          : <div className="w-full py-2 rounded-xl text-sm text-center text-neutral-400 bg-neutral-50 border border-neutral-200">Нет в наличии</div>
+        }
       </div>
     </div>
   );
@@ -92,7 +96,7 @@ export default function NovinkaPage() {
               <div className="font-medium text-neutral-600">Новинок пока нет</div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
               {newProducts.map(p => <ProductCard key={p.id} p={p} categoryLabels={categoryLabels} />)}
             </div>
           )}
@@ -107,7 +111,7 @@ export default function NovinkaPage() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
             {restProducts.map(p => <ProductCard key={p.id} p={p} categoryLabels={categoryLabels} />)}
           </div>
           <div className="mt-8 text-center">

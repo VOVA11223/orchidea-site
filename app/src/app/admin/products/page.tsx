@@ -201,10 +201,10 @@ export default function AdminProductsPage() {
       </section>
 
       <div className="max-w-[1320px] mx-auto px-6 py-14">
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Form */}
-          <div className="min-w-0 lg:col-span-1">
-            <div className="bg-white rounded-2xl p-8 border border-neutral-200 sticky top-6">
+          <div className="min-w-0">
+            <div className="bg-white rounded-2xl p-8 border border-neutral-200">
               <h2 className="text-xl font-semibold text-primary-900 mb-6">
                 {editingId ? "Редактировать товар" : "Добавить новый товар"}
               </h2>
@@ -278,8 +278,9 @@ export default function AdminProductsPage() {
                   <input
                     type="number"
                     name="price"
-                    value={formData.price}
+                    value={formData.price || ""}
                     onChange={handleChange}
+                    onWheel={e => e.currentTarget.blur()}
                     placeholder="110"
                     step="0.01"
                     className={inputClass}
@@ -292,8 +293,9 @@ export default function AdminProductsPage() {
                   <input
                     type="number"
                     name="minQty"
-                    value={formData.minQty}
+                    value={formData.minQty || ""}
                     onChange={handleChange}
+                    onWheel={e => e.currentTarget.blur()}
                     placeholder="5"
                     className={inputClass}
                     required
@@ -307,6 +309,7 @@ export default function AdminProductsPage() {
                     name="height"
                     value={formData.height}
                     onChange={handleChange}
+                    onWheel={e => e.currentTarget.blur()}
                     placeholder="80"
                     className={inputClass}
                   />
@@ -319,6 +322,7 @@ export default function AdminProductsPage() {
                     name="budCount"
                     value={formData.budCount}
                     onChange={handleChange}
+                    onWheel={e => e.currentTarget.blur()}
                     placeholder="5"
                     className={inputClass}
                   />
@@ -430,7 +434,7 @@ export default function AdminProductsPage() {
                             overIndex === i && dragIndex !== null && dragIndex !== i ? "ring-2 ring-primary-500" : ""
                           }`}
                         >
-                          <img src={src} alt={`Фото ${i + 1}`} className="w-full h-20 object-cover pointer-events-none" draggable={false} />
+                          <img src={src} alt={`Фото ${i + 1}`} className="w-full h-20 object-contain bg-white pointer-events-none" draggable={false} />
                           {i === 0 && (
                             <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-primary-600 text-white text-[10px] rounded">Обложка</span>
                           )}
@@ -459,6 +463,7 @@ export default function AdminProductsPage() {
                     name="oldPrice"
                     value={formData.oldPrice}
                     onChange={handleChange}
+                    onWheel={e => e.currentTarget.blur()}
                     placeholder="0"
                     step="0.01"
                     className={inputClass}
@@ -531,7 +536,7 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Products list */}
-          <div className="min-w-0 lg:col-span-2">
+          <div className="min-w-0">
             <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
               <div className="bg-neutral-50 px-8 py-4 border-b border-neutral-200 flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-lg font-semibold text-primary-900">
@@ -573,12 +578,12 @@ export default function AdminProductsPage() {
                           <img
                             src={product.img}
                             alt={product.name}
-                            className="w-12 h-12 object-cover rounded"
+                            className="w-12 h-12 object-contain bg-white rounded"
                           />
                         </td>
                         <td className="px-6 py-3 text-sm text-neutral-500 font-mono">{product.id}</td>
                         <td className="px-6 py-3 text-sm text-neutral-900">{product.name.substring(0, 40)}...</td>
-                        <td className="px-6 py-3 text-sm text-primary-700 font-semibold">{product.price} ₽</td>
+                        <td className="px-6 py-3 text-sm text-primary-700 font-semibold">{product.price} ₽</td>
                         <td className="px-6 py-3 text-sm text-neutral-500">от {product.minQty} шт</td>
                         <td className="px-6 py-3">
                           <div className="flex gap-1 flex-wrap">

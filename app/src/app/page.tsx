@@ -187,11 +187,11 @@ export default function HomePage() {
                     ))}
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
-                    {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice} ₽</span>}
+                    <span className="text-base font-bold text-primary-700">{p.price} ₽</span>
+                    {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice} ₽</span>}
                     <span className="text-xs text-muted-foreground">/шт</span>
                   </div>
-                  <div className="text-xs text-muted-foreground mb-3">Уп. {p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")} ₽</div>
+                  <div className="text-xs text-muted-foreground mb-3">Уп. {p.minQty} шт · {(p.price * p.minQty).toLocaleString("ru")} ₽</div>
                   {p.inStock
                     ? <AddToCartButton id={p.id} name={p.name} article={p.article} price={p.price} image={p.img} minQty={p.minQty} />
                     : <div className="w-full py-2 rounded-xl text-sm text-center text-muted-foreground bg-muted border border-border">Нет в наличии</div>

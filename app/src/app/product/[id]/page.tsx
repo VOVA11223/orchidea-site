@@ -97,7 +97,7 @@ export default function ProductPage() {
             onTouchEnd={handleTouchEnd}
           >
             <div
-              className="w-full h-[480px] md:h-[640px] rounded-2xl bg-cover bg-center"
+              className="w-full h-[480px] md:h-[640px] rounded-2xl bg-white bg-contain bg-center bg-no-repeat"
               style={{ backgroundImage: `url(${images[activeImage] ?? product.img})` }}
             />
             {images.length > 1 && (
@@ -133,7 +133,7 @@ export default function ProductPage() {
                 type="button"
                 aria-label={`Фото ${i + 1}`}
                 onClick={() => setActiveImage(i)}
-                className={`w-20 h-20 rounded-xl bg-cover bg-center cursor-pointer transition-all ${i === activeImage ? "ring-2 ring-primary-400" : "ring-2 ring-transparent hover:ring-neutral-300"}`}
+                className={`w-20 h-20 rounded-xl bg-white bg-contain bg-center bg-no-repeat cursor-pointer transition-all ${i === activeImage ? "ring-2 ring-primary-400" : "ring-2 ring-transparent hover:ring-neutral-300"}`}
                 style={{ backgroundImage: `url(${src})` }}
               />
             ))}
@@ -163,18 +163,18 @@ export default function ProductPage() {
           {/* Price block */}
           <div className="bg-primary-50 rounded-2xl p-6 mb-5">
             <div className="text-center mb-1">
-              <span className="text-3xl font-bold text-primary-700">{product.price} ₽</span>
+              <span className="text-3xl font-bold text-primary-700">{product.price} ₽</span>
               {oldPrice && (
-                <span className="text-xl text-neutral-400 line-through ml-2">{oldPrice} ₽</span>
+                <span className="text-xl text-neutral-400 line-through ml-2">{oldPrice} ₽</span>
               )}
               <span className="text-lg text-neutral-500 ml-1">/шт</span>
             </div>
             <div className="text-base text-neutral-600 text-center">
-              Упаковка {product.minQty} шт · {(product.price * product.minQty).toLocaleString("ru")} ₽
+              Упаковка {product.minQty} шт · {(product.price * product.minQty).toLocaleString("ru")} ₽
             </div>
             {product.isSale && oldPrice && (
               <div className="mt-2 text-sm text-red-600 font-medium text-center">
-                Экономия {oldPrice - product.price} ₽/шт · {((oldPrice - product.price) * product.minQty).toLocaleString("ru")} ₽/уп
+                Экономия {oldPrice - product.price} ₽/шт · {((oldPrice - product.price) * product.minQty).toLocaleString("ru")} ₽/уп
               </div>
             )}
 
@@ -237,7 +237,7 @@ export default function ProductPage() {
                   <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">{p.name}</Link>
                   <div className="mt-auto pt-2">
                     <div className="flex items-baseline gap-1.5 mb-2">
-                      <span className="font-bold text-primary-700">{p.price} ₽</span>
+                      <span className="font-bold text-primary-700">{p.price} ₽</span>
                       <span className="text-xs text-neutral-400">/шт</span>
                     </div>
                     <AddToCartButton id={p.id} name={p.name} article={p.article} price={p.price} image={p.img} minQty={p.minQty} />

@@ -68,8 +68,8 @@ function OrderSuccessInner() {
                       <div className="text-xs text-neutral-500">x{item.quantity}</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-medium">{(item.price * item.quantity).toLocaleString("ru")} ₽</div>
-                      <div className="text-xs text-neutral-500">{item.price} ₽/шт</div>
+                      <div className="font-medium">{(item.price * item.quantity).toLocaleString("ru")} ₽</div>
+                      <div className="text-xs text-neutral-500">{item.price} ₽/шт</div>
                     </div>
                   </div>
                 ))}
@@ -79,7 +79,7 @@ function OrderSuccessInner() {
             <div className="flex justify-between items-center">
               <span className="text-lg font-semibold text-neutral-900">Сумма к оплате:</span>
               <span className="text-3xl font-bold text-primary-600">
-                {order.totalPrice.toLocaleString("ru")} ₽
+                {order.totalPrice.toLocaleString("ru")} ₽
               </span>
             </div>
           </div>

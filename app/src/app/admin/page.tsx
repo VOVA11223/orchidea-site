@@ -87,7 +87,7 @@ export default function AdminPage() {
           </div>
           <div className="bg-white rounded-xl p-6 border border-neutral-200">
             <div className="text-sm text-neutral-500 mb-2">Выручка (месяц)</div>
-            <div className="text-3xl font-bold text-primary-900">{revenueThisMonth.toLocaleString("ru")} ₽</div>
+            <div className="text-3xl font-bold text-primary-900">{revenueThisMonth.toLocaleString("ru")} ₽</div>
           </div>
         </div>
       </div>

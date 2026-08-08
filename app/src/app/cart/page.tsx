@@ -83,7 +83,7 @@ export default function CartPage() {
             <div key={item.id} className="bg-white rounded-2xl border border-neutral-200 p-4">
               <div className="flex items-start gap-4">
                 <div
-                  className="w-16 h-16 rounded-xl bg-neutral-100 bg-cover bg-center flex-shrink-0"
+                  className="w-16 h-16 rounded-xl bg-neutral-100 bg-contain bg-center bg-no-repeat flex-shrink-0"
                   style={item.image ? { backgroundImage: `url(${item.image})` } : undefined}
                 />
                 <div className="flex-1 min-w-0">
@@ -111,8 +111,8 @@ export default function CartPage() {
                       >+</button>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-primary-700">{(item.price * item.qty).toLocaleString("ru")} ₽</div>
-                      <div className="text-xs text-neutral-400">{item.price} ₽/шт</div>
+                      <div className="font-bold text-primary-700">{(item.price * item.qty).toLocaleString("ru")} ₽</div>
+                      <div className="text-xs text-neutral-400">{item.price} ₽/шт</div>
                     </div>
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export default function CartPage() {
             <div className="flex items-center justify-between text-sm mb-2">
               <span className="font-medium text-neutral-700">Минимальный заказ</span>
               <span className={remaining === 0 ? "text-emerald-600 font-semibold" : "text-neutral-500"}>
-                {remaining === 0 ? "✓ Выполнен" : `ещё ${remaining.toLocaleString("ru")} ₽`}
+                {remaining === 0 ? "✓ Выполнен" : `ещё ${remaining.toLocaleString("ru")} ₽`}
               </span>
             </div>
             <div className="w-full bg-neutral-100 rounded-full h-2 mb-1">
@@ -137,7 +137,7 @@ export default function CartPage() {
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="text-xs text-neutral-400">{total.toLocaleString("ru")} / {MIN_ORDER.toLocaleString("ru")} ₽</div>
+            <div className="text-xs text-neutral-400">{total.toLocaleString("ru")} / {MIN_ORDER.toLocaleString("ru")} ₽</div>
           </div>
 
           {/* Order summary */}
@@ -146,7 +146,7 @@ export default function CartPage() {
             <div className="space-y-2 text-sm mb-4">
               <div className="flex justify-between">
                 <span className="text-neutral-600">Товары ({items.length} поз.)</span>
-                <span className="font-medium">{total.toLocaleString("ru")} ₽</span>
+                <span className="font-medium">{total.toLocaleString("ru")} ₽</span>
               </div>
               <div className="flex justify-between text-neutral-400">
                 <span>Доставка</span>
@@ -155,7 +155,7 @@ export default function CartPage() {
             </div>
             <div className="border-t border-neutral-100 pt-4 flex justify-between font-bold text-base mb-5">
               <span>К оплате</span>
-              <span className="text-primary-700">{total.toLocaleString("ru")} ₽</span>
+              <span className="text-primary-700">{total.toLocaleString("ru")} ₽</span>
             </div>
             <Link
               href={remaining === 0 ? "/checkout" : "#"}
@@ -169,7 +169,7 @@ export default function CartPage() {
             </Link>
             {remaining > 0 && (
               <p className="text-xs text-neutral-400 text-center mt-2">
-                Добавьте ещё на {remaining.toLocaleString("ru")} ₽ для оформления
+                Добавьте ещё на {remaining.toLocaleString("ru")} ₽ для оформления
               </p>
             )}
           </div>

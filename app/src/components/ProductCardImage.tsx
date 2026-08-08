@@ -26,11 +26,11 @@ export default function ProductCardImage({ images, className }: { images: string
   }
 
   return (
-    <div className={`relative overflow-hidden ${className ?? ""}`} onMouseEnter={start} onMouseLeave={stop}>
+    <div className={`relative overflow-hidden bg-white ${className ?? ""}`} onMouseEnter={start} onMouseLeave={stop}>
       {gallery.map((src, i) => (
         <div
           key={i}
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
+          className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-opacity duration-500"
           style={{ backgroundImage: src ? `url(${src})` : undefined, opacity: i === index ? 1 : 0 }}
         />
       ))}

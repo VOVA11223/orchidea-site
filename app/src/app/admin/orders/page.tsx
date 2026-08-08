@@ -74,7 +74,7 @@ export default function AdminOrdersPage() {
                         {order.clientCompany && <div className="text-xs text-neutral-400">{order.clientCompany}</div>}
                       </td>
                       <td className="px-6 py-3 text-sm text-primary-700 font-semibold whitespace-nowrap">
-                        {order.totalPrice.toLocaleString("ru")} ₽
+                        {order.totalPrice.toLocaleString("ru")} ₽
                       </td>
                       <td className="px-6 py-3 text-sm">
                         <select

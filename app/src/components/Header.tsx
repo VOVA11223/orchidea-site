@@ -130,7 +130,7 @@ export default function Header() {
                 )}
               </span>
               <span className="hidden sm:inline text-sm text-foreground">
-                Корзина покупок <strong className="text-red-600">{total.toLocaleString("ru-RU")} ₽</strong>
+                Корзина покупок <strong className="text-red-600">{total.toLocaleString("ru-RU")} ₽</strong>
               </span>
             </Link>
 
