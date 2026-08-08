@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useProducts } from "@/lib/products-context";
 import { useCategories } from "@/lib/categories-context";
 import AddToCartButton from "@/components/AddToCartButton";
@@ -10,6 +10,7 @@ import Link from "next/link";
 
 export default function ProductPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const { products, isLoaded } = useProducts();
   const { categories } = useCategories();
@@ -51,6 +52,23 @@ export default function ProductPage() {
     setTouchStartX(null);
   }
 
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    document.body.style.overflow = "hidden";
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightboxOpen(false);
+      else if (e.key === "ArrowLeft") setActiveImage(i => (i - 1 + images.length) % images.length);
+      else if (e.key === "ArrowRight") setActiveImage(i => (i + 1) % images.length);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [lightboxOpen, images.length]);
+
   const related = product
     ? products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
     : [];
@@ -88,6 +106,16 @@ export default function ProductPage() {
       </section>
 
       <div className="max-w-[1320px] mx-auto px-6 py-10">
+      <button
+        type="button"
+        aria-label="Назад"
+        onClick={() => (window.history.length > 1 ? router.back() : router.push("/catalog"))}
+        className="mb-4 w-10 h-10 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 flex items-center justify-center text-neutral-600 hover:text-neutral-900 shadow-sm transition-colors"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* Image */}
         <div className="min-w-0 space-y-3">
@@ -96,8 +124,11 @@ export default function ProductPage() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <div
-              className="w-full h-[480px] md:h-[640px] rounded-2xl bg-white bg-contain bg-center bg-no-repeat"
+            <button
+              type="button"
+              aria-label="Открыть фото на весь экран"
+              onClick={() => setLightboxOpen(true)}
+              className="w-full h-[480px] md:h-[640px] rounded-2xl bg-white bg-contain bg-center bg-no-repeat cursor-zoom-in"
               style={{ backgroundImage: `url(${images[activeImage] ?? product.img})` }}
             />
             {images.length > 1 && (
@@ -249,6 +280,60 @@ export default function ProductPage() {
         </section>
       )}
       </div>
+
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onClick={() => setLightboxOpen(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <button
+            type="button"
+            aria-label="Закрыть"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+
+          <div
+            className="w-full h-full bg-contain bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${images[activeImage] ?? product.img})` }}
+            onClick={e => e.stopPropagation()}
+          />
+
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                aria-label="Предыдущее фото"
+                onClick={e => { e.stopPropagation(); setActiveImage(i => (i - 1 + images.length) % images.length); }}
+                className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                aria-label="Следующее фото"
+                onClick={e => { e.stopPropagation(); setActiveImage(i => (i + 1) % images.length); }}
+                className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+                {activeImage + 1} / {images.length}
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
