@@ -74,11 +74,12 @@ function CatalogInner() {
   const currentPage = Math.min(page, totalPages);
   const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
+  const PAGE_WINDOW = 3;
   const pageNumbers = useMemo(() => {
-    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
-    const nums = [1, 2, 3, 4, 5, 6];
-    return [...nums, "...", totalPages] as (number | string)[];
-  }, [totalPages]);
+    const start = Math.min(Math.max(currentPage - 1, 1), Math.max(totalPages - PAGE_WINDOW + 1, 1));
+    const end = Math.min(start + PAGE_WINDOW - 1, totalPages);
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  }, [totalPages, currentPage]);
 
   // Метки категорий/подкатегорий из живого дерева — для заголовков, чипов и подписей на карточках
   const categoryLabels = useMemo(() => {
@@ -386,7 +387,7 @@ function CatalogInner() {
                       <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
                       <span className="text-xs text-muted-foreground truncate shrink-0 max-w-[50%]">Арт. {p.article}</span>
                     </div>
-                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug min-h-[2.4rem]">
+                    <Link href={`/product/${p.id}`} className="text-sm font-medium text-foreground hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                       {p.name}
                     </Link>
                     <div className="text-xs text-gray-500 mt-1 space-y-0.5">
@@ -432,23 +433,19 @@ function CatalogInner() {
               >
                 «
               </button>
-              {pageNumbers.map((n, i) =>
-                n === "..." ? (
-                  <span key={`dots-${i}`} className="shrink-0 px-2 text-muted-foreground">...</span>
-                ) : (
-                  <button
-                    key={n}
-                    onClick={() => setPage(n as number)}
-                    className={`shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm font-medium transition-colors ${
-                      currentPage === n
-                        ? "bg-primary-600 text-white"
-                        : "text-muted-foreground hover:bg-neutral-100"
-                    }`}
-                  >
-                    {n}
-                  </button>
-                )
-              )}
+              {pageNumbers.map(n => (
+                <button
+                  key={n}
+                  onClick={() => setPage(n)}
+                  className={`shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm font-medium transition-colors ${
+                    currentPage === n
+                      ? "bg-primary-600 text-white"
+                      : "text-muted-foreground hover:bg-neutral-100"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
