@@ -78,6 +78,7 @@ export async function GET() {
   const COLUMNS: { header: string; key: string; width: number; align: "left" | "center" }[] = [
     { header: "Фото", key: "photo", width: 11, align: "center" },
     { header: "Артикул", key: "article", width: 16, align: "left" },
+    { header: "Код", key: "code", width: 14, align: "left" },
     { header: "Категория", key: "category", width: 22, align: "left" },
     { header: "Наименование", key: "name", width: 40, align: "left" },
     { header: "Высота", key: "height", width: 12, align: "center" },
@@ -108,6 +109,7 @@ export async function GET() {
   rows.forEach((p, i) => {
     const row = sheet.addRow({
       article: p.article,
+      code: p.code ?? "",
       category: categoryLabels.get(p.category) ?? p.category,
       name: p.name,
       height: p.height,
