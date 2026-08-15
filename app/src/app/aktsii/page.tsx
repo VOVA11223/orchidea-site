@@ -52,7 +52,7 @@ export default function AktsiiPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
             {saleProducts.map(p => (
               <div key={p.id} className="flex flex-col h-full bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
-                <div className="relative">
+                <Link href={`/product/${p.id}`} className="relative block">
                   <ProductCardImage images={p.images} className="aspect-square" />
                   <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                     <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
@@ -60,7 +60,7 @@ export default function AktsiiPage() {
                     </span>
                     {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
                   </div>
-                </div>
+                </Link>
                 <div className="flex flex-col gap-1 px-3 pt-3">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>

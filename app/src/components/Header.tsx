@@ -1,9 +1,22 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useSyncExternalStore } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useSettings } from "@/lib/settings-context";
+
+const NARROW_QUERY = "(max-width: 480px)";
+function subscribeNarrow(callback: () => void) {
+  const mq = window.matchMedia(NARROW_QUERY);
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+function getNarrowSnapshot() {
+  return window.matchMedia(NARROW_QUERY).matches;
+}
+function getNarrowServerSnapshot() {
+  return false;
+}
 
 const NAV = [
   { href: "/", label: "Главная" },
@@ -33,6 +46,7 @@ function HeaderInner() {
   const searchParams = useSearchParams();
   const { count, total } = useCart();
   const { settings } = useSettings();
+  const isNarrow = useSyncExternalStore(subscribeNarrow, getNarrowSnapshot, getNarrowServerSnapshot);
   const urlSearch = pathname === "/catalog" ? searchParams.get("q") ?? "" : "";
   const [search, setSearch] = useState(urlSearch);
   const [prevUrlSearch, setPrevUrlSearch] = useState(urlSearch);
@@ -112,10 +126,10 @@ function HeaderInner() {
           <form onSubmit={handleSearch} className="flex flex-1 max-w-xs relative">
             <input
               type="text"
-              placeholder="Введите артикул или часть названия"
+              placeholder={isNarrow ? "Поиск" : "Артикул или название"}
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full h-11 bg-muted text-foreground placeholder-muted-foreground rounded-xl px-4 text-sm border border-border focus:outline-none focus:border-sage-500 pr-16"
+              className={`w-full h-11 bg-muted text-foreground placeholder-muted-foreground rounded-xl px-4 text-sm border border-border focus:outline-none focus:border-sage-500 ${search ? "pr-16" : "pr-10"}`}
             />
             {search && (
               <button

@@ -9,14 +9,14 @@ import Link from "next/link";
 function ProductCard({ p, categoryLabels }: { p: Product; categoryLabels: Map<string, string> }) {
   return (
     <div className="flex flex-col h-full bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
-      <div className="relative">
+      <Link href={`/product/${p.id}`} className="relative block">
         <ProductCardImage images={p.images} className="aspect-square" />
         <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
           {p.isNew && <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">НОВИНКА</span>}
           {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
           {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
         </div>
-      </div>
+      </Link>
       <div className="flex flex-col gap-1 px-3 pt-3">
         <div className="flex items-center justify-between gap-2">
           <span className="text-xs text-neutral-400 truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>

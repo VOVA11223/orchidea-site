@@ -263,7 +263,9 @@ export default function ProductPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {related.map(p => (
               <div key={p.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
-                <ProductCardImage images={p.images} className="h-40" />
+                <Link href={`/product/${p.id}`} className="block">
+                  <ProductCardImage images={p.images} className="h-40" />
+                </Link>
                 <div className="p-3 flex flex-col flex-1">
                   <Link href={`/product/${p.id}`} className="text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2 leading-snug">{p.name}</Link>
                   <div className="mt-auto pt-2">

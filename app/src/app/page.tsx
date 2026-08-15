@@ -160,14 +160,14 @@ export default function HomePage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-10">
           {catalogPreview.map(p => (
             <div key={p.id} className="bg-card rounded-2xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col">
-              <div className="relative">
+              <Link href={`/product/${p.id}`} className="relative block">
                 <ProductCardImage images={p.images} className="h-32 md:h-44" />
                 <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                   {p.isNew && <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">НОВИНКА</span>}
                   {p.isSale && <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">СКИДКА</span>}
                   {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
                 </div>
-              </div>
+              </Link>
               <div className="p-3 flex flex-col flex-1">
                 <div className="flex items-center justify-between gap-2 mb-1">
                   <span className="text-xs text-muted-foreground truncate min-w-0">{categoryLabels.get(p.category) ?? p.category}</span>
