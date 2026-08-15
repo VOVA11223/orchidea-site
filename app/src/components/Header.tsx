@@ -49,6 +49,11 @@ function HeaderInner() {
     if (q) window.location.href = "/catalog?q=" + encodeURIComponent(q);
   }
 
+  function clearSearch() {
+    setSearch("");
+    if (urlSearch) window.location.href = "/catalog";
+  }
+
   return (
     <>
       {/* Top bar: logo + contacts */}
@@ -110,8 +115,21 @@ function HeaderInner() {
               placeholder="Введите артикул или часть названия"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full h-11 bg-muted text-foreground placeholder-muted-foreground rounded-xl px-4 text-sm border border-border focus:outline-none focus:border-sage-500 pr-10"
+              className="w-full h-11 bg-muted text-foreground placeholder-muted-foreground rounded-xl px-4 text-sm border border-border focus:outline-none focus:border-sage-500 pr-16"
             />
+            {search && (
+              <button
+                type="button"
+                onClick={clearSearch}
+                aria-label="Очистить поиск"
+                className="absolute right-9 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <line x1={18} y1={6} x2={6} y2={18} />
+                  <line x1={6} y1={6} x2={18} y2={18} />
+                </svg>
+              </button>
+            )}
             <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2">
               <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <circle cx={11} cy={11} r={8} />
