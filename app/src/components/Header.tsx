@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useSettings } from "@/lib/settings-context";
 
@@ -28,11 +28,18 @@ function mobileNavClass(active: boolean) {
     : `${base} bg-neutral-100 text-foreground active:bg-neutral-200`;
 }
 
-export default function Header() {
+function HeaderInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { count, total } = useCart();
   const { settings } = useSettings();
-  const [search, setSearch] = useState("");
+  const urlSearch = pathname === "/catalog" ? searchParams.get("q") ?? "" : "";
+  const [search, setSearch] = useState(urlSearch);
+  const [prevUrlSearch, setPrevUrlSearch] = useState(urlSearch);
+  if (urlSearch !== prevUrlSearch) {
+    setPrevUrlSearch(urlSearch);
+    setSearch(urlSearch);
+  }
   const [open, setOpen] = useState(false);
   const phoneHref = "tel:" + settings.phone.replace(/[^\d+]/g, "");
 
@@ -183,5 +190,13 @@ export default function Header() {
         )}
       </header>
     </>
+  );
+}
+
+export default function Header() {
+  return (
+    <Suspense fallback={null}>
+      <HeaderInner />
+    </Suspense>
   );
 }
