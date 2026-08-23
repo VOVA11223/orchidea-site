@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function AktsiiPage() {
   const { products } = useProducts();
   const { categories } = useCategories();
-  const saleProducts = products.filter(p => p.isSale && p.oldPrice);
+  const saleProducts = products.filter(p => p.isSale);
 
   const categoryLabels = useMemo(() => {
     const map = new Map<string, string>();
@@ -56,7 +56,7 @@ export default function AktsiiPage() {
                   <ProductCardImage images={p.images} className="aspect-square" />
                   <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
                     <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
-                      −{Math.round((1 - p.price / Number(p.oldPrice)) * 100)}%
+                      {p.oldPrice ? `−${Math.round((1 - p.price / Number(p.oldPrice)) * 100)}%` : "Акция"}
                     </span>
                     {!p.inStock && <span className="px-2 py-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full">Нет в наличии</span>}
                   </div>
@@ -87,7 +87,7 @@ export default function AktsiiPage() {
                 <div className="px-3 pb-3 pt-1.5 mt-auto">
                   <div className="flex items-baseline gap-2 mb-3">
                     <span className="text-base font-bold text-primary-700">{p.price}{" ₽"}</span>
-                    <span className="text-xs text-muted-foreground line-through">{p.oldPrice}{" ₽"}</span>
+                    {p.oldPrice && <span className="text-xs text-muted-foreground line-through">{p.oldPrice}{" ₽"}</span>}
                     <span className="text-xs text-muted-foreground">/шт</span>
                   </div>
                   {p.inStock

@@ -56,9 +56,17 @@ const EMPTY_PRODUCT: Product = {
   oldPrice: "",
 };
 
+const collator = new Intl.Collator("ru");
+
 export default function AdminProductsPage() {
   const { products, addProduct, updateProduct, deleteProduct } = useProducts();
   const { categories } = useCategories();
+  const categoriesAlphabetical = [...categories]
+    .sort((a, b) => collator.compare(a.label, b.label))
+    .map(c => ({
+      ...c,
+      subcategories: [...c.subcategories].sort((a, b) => collator.compare(a.label, b.label)),
+    }));
   const [formData, setFormData] = useState<Product>(EMPTY_PRODUCT);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
@@ -97,9 +105,10 @@ export default function AdminProductsPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
+    const isNumericField = name === "price" || name === "minQty" || name === "height" || name === "oldPrice" || name === "budCount";
     setFormData(prev => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : (name === "price" || name === "minQty" || name === "height" || name === "oldPrice" || name === "budCount" ? parseFloat(value) || "" : value)
+      [name]: type === "checkbox" ? checked : (isNumericField ? (value === "" ? "" : parseFloat(value)) : value)
     }));
   };
 
@@ -258,7 +267,7 @@ export default function AdminProductsPage() {
                     required
                   >
                     <option value="" disabled>Выберите категорию</option>
-                    {categories.map(c =>
+                    {categoriesAlphabetical.map(c =>
                       c.subcategories.length > 0 ? (
                         <optgroup key={c.id} label={c.label}>
                           <option value={c.id}>{c.label}</option>
@@ -468,6 +477,9 @@ export default function AdminProductsPage() {
                     step="0.01"
                     className={inputClass}
                   />
+                  {formData.isSale && !formData.oldPrice && (
+                    <p className="mt-1 text-xs text-neutral-400">Без старой цены на странице «Акции» товар будет просто отмечен как акционный, без зачёркнутой цены.</p>
+                  )}
                 </div>
 
                 <div className="space-y-2 pt-2 border-t border-neutral-200">

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useProducts } from "@/lib/products-context";
 import { useCategories } from "@/lib/categories-context";
@@ -33,6 +33,12 @@ function CatalogInner() {
   const [expandedCat, setExpandedCat] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
+  const topRef = useRef<HTMLDivElement>(null);
+
+  const goToPage = (n: number) => {
+    setPage(n);
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const [priceBoundMin, priceBoundMax] = useMemo(() => {
     if (!products.length) return [0, 0];
@@ -266,6 +272,7 @@ function CatalogInner() {
       </section>
 
     <div className="max-w-[1320px] mx-auto px-6 py-8">
+      <div ref={topRef} />
       {/* Top bar */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
         <div className="flex-1 flex items-center gap-3 flex-wrap">
@@ -426,7 +433,7 @@ function CatalogInner() {
             <div className="flex justify-center mt-10 max-w-full">
             <div className="flex items-center gap-2.5 sm:gap-2 flex-nowrap overflow-x-auto max-w-full border border-border rounded-full px-3 py-2 bg-card">
               <button
-                onClick={() => setPage(p => Math.max(1, p - 1))}
+                onClick={() => goToPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 className="shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
                 aria-label="Предыдущая страница"
@@ -436,7 +443,7 @@ function CatalogInner() {
               {pageNumbers.map(n => (
                 <button
                   key={n}
-                  onClick={() => setPage(n)}
+                  onClick={() => goToPage(n)}
                   className={`shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm font-medium transition-colors ${
                     currentPage === n
                       ? "bg-primary-600 text-white"
@@ -447,7 +454,7 @@ function CatalogInner() {
                 </button>
               ))}
               <button
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                onClick={() => goToPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="shrink-0 w-11 h-11 sm:w-9 sm:h-9 rounded-full text-base sm:text-sm text-muted-foreground hover:bg-neutral-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex items-center justify-center"
                 aria-label="Следующая страница"
